@@ -1,4 +1,4 @@
-\chapter{Theory}
+\chapter{Background}
 %Manual, unstructured merging is time-consuming, and possibly concerned with the wrong abstraction level (i.e., source code) with respect to variants, which could be error-prone \cite{mens2002}, \cite{apel2011}.
 
 This chapter introduces revision control systems, in particular Git and the Github ecosystem, followed by feature-oriented software development concepts and software product lines. We finish with an introduction to projectional editing in the Jetbrains MPS.
@@ -9,34 +9,28 @@ A revision control system is used to manage the revisions and variants of a soft
 Revision control systems can be divided into two classes: \textit{unstructured} revision control systems that operate on plaintext; and \textit{structured} revision control systems that rely on structure and semantics of the document being stored in order to leverage this knowledge for merge conflict resolution \cite{mens2002}, \cite{apel2011}. The former has reached popularity due to being language independent; examples of such revision control systems include Git, Subversion, and CVS, while structured revision control systems are mainly of academic interest, since they are not language independent \cite{apel2011}. Apel et al. \cite{apel2011} introduce the concept of a \textit{semistructured} revision control system, and in particular the \textit{semistructured} merge, which combines the strengths of the two classes, while minimizing their inherent weaknesses.
 
 \subsection{Merging}
-Since separate development tasks are carried out in parallel by different developers concurrently, contemporary revision control systems are \textit{optimistic}, meaning that each developer can work on their own personal copy of a particular artifact \cite{mens2002}. In practice, this means that two different developers can change the same file at the same time. Merging is the process that occurs whenever parallel changes to the same file are reconciled to a new revision, combining the changes. In cases where the merging algorithm cannot infer how to apply the parallel changes because they somehow conflict, the resolution task is delegated to the user. This is a so-called \textit{merge conflict}.
-
-\todo{Explain three-way merging.}
-
-
+Since separate development tasks are carried out in parallel by different developers concurrently, contemporary revision control systems are \textit{optimistic}, meaning that each developer can work on their own personal copy of a particular artifact \cite{mens2002}. In practice, this means that two different developers can change the same file at the same time. Merging is the process that occurs whenever parallel changes to the same file are reconciled to a new revision, combining the changes. In cases where the merging algorithm cannot infer how to apply the parallel changes because they somehow conflict, the resolution task is delegated to the user. This is a so-called \textit{merge conflict}. TODO: Explain three-way merging.
 
 \subsection{Forks}
 % TODO: cite original source for forking negative assoc. 
 Historically, the term \textit{forking} had a negative connotation, signifying a community schism or split causing subsequent independent divergent development efforts \cite{stanciulescu2015}. Today, forks and forking are integral parts of open-source and proprietary projects \cite{stanciulescu2015}. % TODO: Needs more citations
-Forking is an explicit part of modern revision control platforms, such as Github or Bitbucket. Making forks a first-class citizen enables traceability and facilitates forking as a development model, by propagating commits across the ecosystem using \textit{pull requests} \cite{stanciulescu2015}.
-\todo{Explain pull-requests}
+Forking is an explicit part of modern revision control platforms, such as Github or Bitbucket. Making forks a first-class citizen enables traceability and facilitates forking as a development model, by propagating commits across the ecosystem using \textit{pull requests} \cite{stanciulescu2015}. TODO: Explain pull-requests.
 
 \section{Features and variability}
 This section explains the complicated relationship between variants, features, and variability.
 
 \subsection{FOSD and SPLE}
-Feature-Oriented Software Development (FOSD) is a paradigm for constructing large-scale software systems \cite{apel2009overview}. In FOSD, features are first-class citizens of the implementation of a software system \cite{apel2009overview}. As such, a highly configurable system is composed of a set of enabled features, which constitute the resulting system. A software product line (SPL) is the set of software systems that can be derived from a set of features. Both FOSD and Software Product Line Engineering (SPLE) enable systematic reuse of components \cite{apel2009overview}, \cite{antkiewicz2014flexible}.
+Feature-Oriented Software Development (FOSD) is a paradigm for constructing large-scale software systems \cite{apel2009overview}. In FOSD, features are first-class citizens of the implementation of a software system \cite{apel2009overview}. As such, a highly configurable system is composed of a set of enabled features, which constitute the resulting system. A Software Product Line (SPL) is the set of software systems that can be derived from a set of features. Both FOSD and Software Product Line Engineering (SPLE) enable systematic reuse of components \cite{apel2009overview}, \cite{antkiewicz2014flexible}.
 
 \subsection{What is a feature?}
 The definition of what a feature is can be viewed from the problem space or the solution space, as defined by Czarnecki and Eisenecker \cite{czarnecki2000generative}, where the problem space contains domain-specific abstractions that describe the requirements  and intended behavior of a software system, and the solution space contains implementation-oriented abstractions defining how those requirements are met and the behavior is implemented \cite{apel2009overview}. There is a mapping from the problem space onto the solution space. From the problem space viewpoint, a feature is defined as ``a prominent or distinctive user-visible aspect, quality, or characteristic or a software system or systems'' \cite{kang1990feature}, whereas from the solution space, a feature is defined as ``a structure that extends and modifies the structure of a given program in order to satisfy a stakeholder's requirement, to implement and encapsulate a design decision, and to offer a configuration option'' \cite{apel2008algebra}.
 The common denominator of both types is that a feature is always a logical unit of a system, delineated from other parts of it. Additional definitions of \textit{feature} on the spectrum can be found in \cite{apel2009overview} \todo{Cite all definitions like in What is a feature?}.
 
-These theoretical definitions are complemented by contemporary industrial notions on what constitutes a feature in a recent empirical study by Berger et al. \cite{berger2015feature}. This study shows that the meaning of a feature also varies among companies, but underlines that features should be distinct and well-delineated units of the system. Additionally, the origin of features are closely related to the business of the company: TODO.
-
-%A feature is a logical unit of a system, and can represent both functional and non-functional requirements \cite{berger2015feature}, \cite{apel2009overview}. The feature manifests a well-delineated purpose, stemming from concepts that are part of the problem domain or possibly also as some property or attribute required by the market \cite{berger2015feature}, \cite{apel2009overview}. A particular feature could be incompatible with other features, other or it might depend on other features. Such constraints among features can be captured in a feature model, which also defines a set of legal variants that can be derived \cite{kang1990feature}.
+These theoretical definitions are complemented by contemporary industrial notions on what constitutes a feature in a recent empirical study by Berger et al. \cite{berger2015feature}. This study shows that the meaning of a feature also varies among companies, but underlines that features should be distinct and well-delineated units of the system. Additionally, in practitioner settings, the origin of features are closely related to the business of the company, features can be customer-specific changes or arise from a particular market demand \cite{berger2015feature}.
 
 \subsection{Variability modeling}
-Feature models!
+Feature models and feature interaction.
+% A particular feature could be incompatible with other features, other or it might depend on other features. Such constraints among features can be captured in a feature model, which also defines a set of legal variants that can be derived \cite{kang1990feature}.
 
 \subsection{Software variants and variability}
 Variants of software are created to fulfill different requirements in similar products \cite{antkiewicz2014flexible}, \cite{stanciulescu2015}. One or more features can be grouped inside a variant. A common manifestation of variants is forks, which are repository-scale clones of an original codebase, called the \textit{mainline}. This strategy is known as \textit{clone-and-own}, where small-scale changes are made to a large-scale copy in order to create a new variant \cite{stanciulescu2015}. Features are spread though out the array of forks that comprise the system.
@@ -47,7 +41,7 @@ Because of the mental overhead involved in considering multiple variants and the
 
 There is a tradeoff between time effort and maintainability with respect to the two variability strategies. Clone-and-own is an easy and fast method, but does not scale due to the inherent impact on the maintainability of a large number of clones.
 
-\textbf{Forked and integrated variants.} For forked variants, the variability lies in an array of repository clones with minor changes in them. An integrated platform consolidates the features and leverages programming language constructs to manage multiple variants simultaneously \cite{stanciulescu2015}. The former has lower initial costs, but comes with maintainability issues, while the latter requires a significant commitment \cite{antkiewicz2014flexible}. Antkiewicz et al. \cite{antkiewicz2014flexible} propose a strategy for migration from \textit{clone-and-own} with low-risk, step-by-step adaption of an integrated platform through what they call a \textit{virtual platform}. It has also been shown that the two types are used in parallel in the Marlin project \cite{stanciulescu2015}. St\u{a}nciulescu et al. \cite{stanciulescu2016concepts} demonstrate the benefit of a projection-based variation control system to alleviate the complexities of maintaining and evolving code with preprocessor annotations.
+For forked variants, the variability lies in an array of repository clones with minor changes in them. An integrated platform consolidates the features and leverages programming language constructs to manage multiple variants simultaneously \cite{stanciulescu2015}. The former has lower initial costs, but comes with maintainability issues, while the latter requires a significant commitment \cite{antkiewicz2014flexible}. Antkiewicz et al. \cite{antkiewicz2014flexible} propose a strategy for migration from \textit{clone-and-own} with low-risk, step-by-step adaption of an integrated platform through what they call a \textit{virtual platform}. It has also been shown that the two types are used in parallel in the Marlin project \cite{stanciulescu2015}. St\u{a}nciulescu et al. \cite{stanciulescu2016concepts} demonstrate the benefit of a projection-based variation control system to alleviate the complexities of maintaining and evolving code with preprocessor annotations.
 
 \section{Platform re-engineering strategies}
 A recent mapping study on the topic of re-engineering by Assun{\c{c}}{\~a}o et al. identifies 119 papers \cite{assuncao2017mapping}.
@@ -56,12 +50,36 @@ Using the terminology of Buckley et al. \cite{buckley2005}, fork variants repres
 
 Schmorleiz and Lämmel \cite{schmorleiz2016similarity} realize a naïve virtual platform by introducing a tool that analyzes and annotates changes across cloned-and-owned variants. As a way to manage similarity, code fragments are annotated with invariants that propagate to across fragment clones in all variants. Adherence to the invariants is either performed manually or automatically by their tool. Santos and Kulesza \cite{santos} investigate conflicts that arise from integration of evolved clones. In their study of a web-based Java system, the most prominent conflict type is indirect -- changes in the source system are in the call graph of other changes in the target system -- which they find is in line with the motivation for semistructured merging \cite{apel2011}.
 
-\section{SPL Evolution}
-\cite{neves2011evolution} \cite{passos2016coevolution}
+\subsection{SPL evolution patterns}
+Table \ref{tab:safeevo}: Safe evolution templates for SPLs from \cite{neves2011evolution}. Feature Addition and Removal Patterns from \cite{passos2016coevolution}. Also: \cite{stanciulescu2016concepts}.
+\begin{table}[h]
+    \centering
+    \caption{Safe evolution templates for SPLs \cite{neves2011evolution}}
+    \label{tab:safeevo}
+    \begin{tabular}{c|l}
+    \hline
+        \textbf{\#} & \textbf{Name} \\\hline
+        1 & Split Asset \\
+        2 & Refine Asset \\
+        3 & Add New Optional Feature \\
+        4 & Add New Mandatory Feature \\
+        5 & Replace Feature Expression
+    \end{tabular}
+\end{table}
+
+%\begin{table}[h]
+%    \centering
+%    \caption{Feature evolution patterns \cite{passos2016coevolution}}
+%    \label{tab:coevo}
+%    \begin{tabular}{c|l|l}
+%    \hline
+%        \textbf{\#} & \textbf{Addition name} & \textbf{Deletion name} \\\hline
+%        1 & AVOMF & RVOMF \\
+%    \end{tabular}
+%\end{table}
 
 \section{Projectional editing}
-Towards User-Friendly Projectional Editors \cite{voelter2014towards}.
-+ Indentation alignment issues \cite{behringer2017peopl} \todo{Update bibliography once this is published}.
+\cite{voelter2014towards} \cite{behringer2017peopl}\todo{Update bibliography once this is published}.
 
-Berger et al. \cite{berger2016mps} have previously conducted a controlled experiment using students and industrial developers, to determine their editing efficiency in the projectional editor MPS, compared to a traditional, parser-based editor. The participants are given four simple programming tasks to complete by editing a given program, transforming it into the task solution. They find that with training, projectional text editing is more efficient than parser-based text editing.
+Berger et al. \cite{berger2016mps} have previously conducted a controlled experiment using students and industrial developers, to determine their editing efficiency in the projectional editor MPS, compared to a traditional parser-based editor. The participants are given four simple programming tasks to complete by editing a provided program, transforming it into the task solution. They find that with training, projectional text editing is more efficient than parser-based text editing.
 

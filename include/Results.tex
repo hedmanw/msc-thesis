@@ -1,15 +1,89 @@
 \chapter{Results}
-The findings from the internal evaluation, dealing only with completeness, correctness and efficiency is:
+
+Mining results
+Illustrated examples.
+
+In Marlin, we retrieve all 2065 merges, and extract those that were merged with conflicts, yielding 49 merges. We discard one merge that had conflicts only in non-source-code files (documentation), XX that conflicted due to whitespace changes, XX that conflicted due to configuration changes\footnote{While configuration management is indeed an important part of FOSD, in these cases, the developers have mistakenly committed their personal 3D-printer configurations into a configuration template file while committing other relevant changes, cf. Stanciulescu et al. \cite{stanciulescu2015}.}. Another XX merges were discarded because some some related artifact had syntax errors. This is summarized in Table \ref{tab:marlinmerge}.
+
+We choose Marlin because previous work has identified important concepts in the Marlin ecosystem that we build upon, and because of access to the authors \cite{stanciulescu2015}, \cite{stanciulescu2016concepts}.
+
+\begin{table}[h]
+    \centering
+    \caption{Merge commit statistics.}
+    \label{tab:marlinmerge}
+    \begin{tabular}{l l}
+    \hline\hline
+        Commit range: \texttt{99653ff..2ed1331}& \\\hline
+        Nbr. of commits & 7,254\\
+        $\hookrightarrow$ Nbr. of merge commits & 2,065 \\
+        \hspace{1em}$\hookrightarrow$ Nbr. of conflict merge commits & 49 \\
+        \hspace{2em}$\hookrightarrow$ Nbr. of useful/relevant merge commits & - \\
+    \hline\hline
+    \end{tabular}
+\end{table}
+
+
+\section{Internal evaluation}
+The findings from the internal evaluation is:
 
 \begin{itemize}
-    \item The intentions suffice for performing common integration tasks. Often just using \textit{Keep} and \textit{Remove} resolve the task.
+    \item The intentions suffice for performing all integration tasks. Often, just using \textit{Keep} and \textit{Remove} resolves the task.
     \item When intentions are correctly declared, then our proposed resolutions of the intentions and their actual implementations produce a correctly integrated configurable platform.
     \item Substantially fewer operations are required when using intentions, compared to the operations required when using an ordinary merge tool.
 \end{itemize}
 
+\begin{table}[h]
+    \centering
+    \caption{Characteristics}
+    \label{tab:internalchar}
+    \begin{tabular}{lll|lll}
+\hline\hline
+\textbf{Name} & \textbf{Type} & \textbf{Files} & \textbf{$\pm$Blocks} & \textbf{$\pm$\texttt{\#ifdef}s} & \textbf{$\pm$Lines} \\
+%Name & Type & Files& $\pm$ Blocks & $\pm$ \texttt{\#ifdef}s & $\pm$ Lines\\
+\hline
+08856d9      & Conflict     & 1 & 17    & 4     & 263   \\
+17de96a      & Conflict     & 1 & 34    & 18    & 256   \\
+2daa859      & Conflict     & 2 & 141 & 79      & 889   \\
+3116271      & Conflict     & 1 & 6     & 0     & 51    \\
+373f3ec      & Conflict     & 1 & 108 & 60      & 718   \\
+46f80e8      & Conflict     & 1 & 2     & 0     & 4     \\
+47c1ea7      & Conflict     & 1 & 188   & 195   & 2,343 \\
+\hline
+esenapaj     & Fork         & 3 & 98    & 118   & 734   \\
+jcrocholl    & Fork         & 1 & 39    & 27    & 290   \\
+MakerLabMe   & Fork         & 3 & 153   & 26    & 423   \\
+\hline\hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \caption{Results}
+    \label{tab:internalres}
+    \begin{tabular}{l|llll}
+\hline\hline
+\textbf{Name} & \textbf{Err. Regular} & \textbf{Err. BACON?} & \textbf{\#Diff Ops.} & \textbf{\#Intentions}\\
+\hline
+08856d9      & 0     & 0     & 4     & 1     \\
+17de96a      & 1     & 2     & 13    & 5     \\
+2daa859      & 2     & 5     & 14    & 5     \\
+3116271      & 1     & 1     & 15    & 5     \\
+373f3ec      & 4     & 3     & 35    & 7     \\
+46f80e8      & 1     & 0     & 0     & 1     \\
+47c1ea7      & 1     & 1     & 5     & 4     \\
+\hline
+esenapaj     & 5     & 2     & 271   & 185   \\ % 23 -> 2 (column err. integration)
+jcrocholl    & 0     & 2     & 116   & 44    \\
+MakerLabMe   & 1     & 5     & 93    & 122   \\ % 12 -> 5  (column err. integration)
+\hline\hline
+    \end{tabular}
+\end{table}
+
 \section{\RQA}
 
+
 \section{\RQB}
+
 
 \section{\RQC}
 

@@ -1,30 +1,34 @@
 \chapter{Introduction}
-Variability in software systems can be achieved in two ways: clone-and-own and integrated platform. Clone-and-own is a quick and simple way to create new variants of software, simply by copying a project and making the required changes. The integrated platform approach offers systematic reuse, but requires engineering effort to enable, which is costly. When the number of clones in a clone-and-own setting spirals out of control, the cloned variants must be re-engineered into a single integrated platform from which the variants can be derived. At the same time, variants of the same software can coexist in an ecosystem consisting of so-called forks, which are large-scale clones, with some small-scale alterations to change the desired behavior \cite{stanciulescu2015}. By integrating all variability in a single repository, maintainability can be increased, and duplication of effort reduced \cite{schmorleiz2016similarity}, \cite{stanciulescu2015}. In an integrated platform, variability is controlled at compile-time or at runtime.
+Variability in software systems can be achieved in two ways: clone-and-own and integrated platform. Clone-and-own is a quick and simple way to create new variants of software, simply by copying a project and making the required changes. The integrated platform approach offers systematic reuse, but requires significant engineering effort to enable, which is costly. When the number of clones in a clone-and-own setting spirals out of control, the cloned variants must be re-engineered into a single integrated platform from which the variants can be derived. At the same time, variants of the same software can coexist in an ecosystem consisting of so-called forks, which are large-scale clones, with some small-scale alterations to change the desired behavior \cite{stanciulescu2015}. By integrating all variability in a single repository, maintainability can be increased, and duplication of effort reduced \cite{schmorleiz2016similarity}, \cite{stanciulescu2015}. In an integrated platform, variability is controlled at compile-time or at runtime.
 
 When variants are integrated into an integrated platform using a revision control system, this is done by software merging. The developer performing the merge must manually handle both the variability and potential conflicts on a source code level \cite{mens2002}, \cite{apel2011}, while features are an architectural concern. This mismatch of abstraction levels means that feature integration is a complex task, and performing it manually is time-consuming and error-prone \cite{melo2016latin}. Understanding the patterns of such conflict resolution and variability management, and abstracting it away from the source code, considering the \textit{intentions} of the developer allows for development of variability-aware merging tools. The expected benefits of such a variability-aware merging tool is increased work speed and reduced software defects.
 
 This study evaluates a prototype variability-aware variant integration tool based on a novel integration intentions domain specific language.
-The language is validated and refined based on data obtained from mining the open-source 3D-printer firmware \marlin. Following this, the language is implemented in a merge tool, which is evaluated using a controlled experiment, using variant samples from the UNIX utilities distribution \busybox~ and the text editor \vim. This thesis contributes a dataset of merges; an instantiation of the intentions language for all the merges; empirical data on the the use of the language; and a qualitative investigation into the differences between intention-based merging and manual merging.
+The language is validated and refined based on data obtained from mining the open-source 3D-printer firmware \marlin. Following this, the language is implemented in a merge tool, which is evaluated using a controlled experiment, using variant samples from the UNIX utilities distribution \busybox~ and the text editor \vim.
 
-\section{Research questions}
 The following research questions are investigated:
 
 \newcommand{\RQA}{Does the set of intentions suffice for variant integration?}
-\newcommand{\RQB}{Does our tool produce correct results? Is there a benefit over manual integration with a diff tool?}
+\newcommand{\RQB}{Is there a benefit over manual integration with a diff tool?}
 \newcommand{\RQC}{How is the merge process different using the intention-based merge tool?}
 
 \begin{enumerate}[label={Q\arabic*}]
 
         \item\label{rq-a} \textbf{Completeness:} \textit{\RQA}~We perform this verification step in order to assert that the intentions language can be instantiated to capture actual witnessed merges from real scenarios. This seeks to establish the completeness and possibly correctness of the language.
 
-        \item\label{rq-b} \textbf{Correctness and efficiency:} \textit{\RQB}~Our goal is that both code quality and time effort can be improved by a workflow incorporating the intention-based merge tool, which we summarize as the overall beneficence of the tool.
+        \item\label{rq-b} \textbf{Efficiency:} \textit{\RQB}~Our goal is that both code quality and time effort can be improved by a workflow incorporating the intention-based merge tool, which we summarize as the overall beneficence of the tool.
 
         
         \item\label{rq-c} \textbf{Qualitative differences:} \textit{\RQC}~This is an investigation into the perceived and evident qualitative differences of the two integration approaches.
         
 \end{enumerate}
 
-\section{Thesis outline}
+TODO: Paragraph about methodology, about how to answer RQs.
+
+This thesis contributes a dataset of merges; an instantiation of the intentions language for all the merges; empirical data on the the use of the language; and a qualitative investigation into the differences between intention-based merging and manual merging.
+List of contributions, example dataset, improved tool, empirical data on integration
+(data from think-alout)
+
 This thesis is structured as follows: ...
 
 %\item [RQ 1:] \textit{To what extent do the intentions properly model and reflect the intentions as evidenced in actual merges?} 

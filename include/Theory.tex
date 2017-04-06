@@ -1,7 +1,7 @@
 \chapter{Background}
 %Manual, unstructured merging is time-consuming, and possibly concerned with the wrong abstraction level (i.e., source code) with respect to variants, which could be error-prone \cite{mens2002}, \cite{apel2011}.
 
-This chapter introduces revision control systems, in particular Git and the Github ecosystem, followed by feature-oriented software development concepts and software product lines. We finish with an introduction to projectional editing in the Jetbrains MPS.
+This chapter introduces revision control systems, in particular Git and the Github ecosystem, followed by feature-oriented software development concepts and software product lines. After that, an introduction to projectional editing and the projectional language workbench Jetbrains MPS is given. The chapter concludes with a description of the intention language for variant integration, and the prototype variant integration tool using the language.
 
 \section{Revision control systems}
 A revision control system is used to manage the revisions and variants of a software system as it evolves over time. Revisions represent the state of the source code at a particular point in time, and are used as the basis for subsequent revisions. As such, revisions can evolve or develop in isolation or in interaction with other revisions, and any revision might have several different subrevisions. Because sharing some functionality between revisions could be beneficial, they can be merged into a single revision by combining their changesets. A recurring problem is that whenever concurrent divergent changes have occurred, a so called merge conflict arises, meaning that the system cannot infer which changes to apply because both are equally valid \cite{mens2002}, \cite{apel2011}, \cite{buckley2005}. In order to resolve this conflict, the task is delegated to the user.
@@ -14,7 +14,7 @@ Since separate development tasks are carried out in parallel by different develo
 \subsection{Forks}
 % TODO: cite original source for forking negative assoc. 
 Historically, the term \textit{forking} had a negative connotation, signifying a community schism or split causing subsequent independent divergent development efforts \cite{stanciulescu2015}. Today, forks and forking are integral parts of open-source and proprietary projects \cite{stanciulescu2015}. % TODO: Needs more citations
-Forking is an explicit part of modern revision control platforms, such as Github or Bitbucket. Making forks a first-class citizen enables traceability and facilitates forking as a development model, by propagating commits across the ecosystem using \textit{pull requests} \cite{stanciulescu2015}. TODO: Explain pull-requests.
+Forking is an explicit part of modern revision control platforms, such as Github or Bitbucket. Making forks a first-class citizen enables traceability and facilitates forking as a development model, by propagating commits across the ecosystem using \textit{pull requests} \cite{stanciulescu2015}. TODO: Explain pull requests.
 
 \section{Features and variability}
 This section explains the complicated relationship between variants, features, and variability.
@@ -24,7 +24,7 @@ Feature-Oriented Software Development (FOSD) is a paradigm for constructing larg
 
 \subsection{What is a feature?}
 The definition of what a feature is can be viewed from the problem space or the solution space, as defined by Czarnecki and Eisenecker \cite{czarnecki2000generative}, where the problem space contains domain-specific abstractions that describe the requirements  and intended behavior of a software system, and the solution space contains implementation-oriented abstractions defining how those requirements are met and the behavior is implemented \cite{apel2009overview}. There is a mapping from the problem space onto the solution space. From the problem space viewpoint, a feature is defined as ``a prominent or distinctive user-visible aspect, quality, or characteristic or a software system or systems'' \cite{kang1990feature}, whereas from the solution space, a feature is defined as ``a structure that extends and modifies the structure of a given program in order to satisfy a stakeholder's requirement, to implement and encapsulate a design decision, and to offer a configuration option'' \cite{apel2008algebra}.
-The common denominator of both types is that a feature is always a logical unit of a system, delineated from other parts of it. Additional definitions of \textit{feature} on the spectrum can be found in \cite{apel2009overview} \todo{Cite all definitions like in What is a feature?}.
+The common denominator of both types is that a feature is always a logical unit of a system, delineated from other parts of it. Numerous additional definitions of \textit{feature} found in literature on the spectrum from problem space to solution space can be found in \cite{apel2009overview} and \cite{berger2015feature}.
 
 These theoretical definitions are complemented by contemporary industrial notions on what constitutes a feature in a recent empirical study by Berger et al. \cite{berger2015feature}. This study shows that the meaning of a feature also varies among companies, but underlines that features should be distinct and well-delineated units of the system. Additionally, in practitioner settings, the origin of features are closely related to the business of the company, features can be customer-specific changes or arise from a particular market demand \cite{berger2015feature}.
 
@@ -79,7 +79,40 @@ Table \ref{tab:safeevo}: Safe evolution templates for SPLs from \cite{neves2011e
 %\end{table}
 
 \section{Projectional editing}
-\cite{voelter2014towards} \cite{behringer2017peopl}\todo{Update bibliography once this is published}.
+\cite{voelter2014towards} \cite{stanciulescu2016concepts} \cite{behringer2017peopl}\todo{Update bibliography once this is published}.
 
 Berger et al. \cite{berger2016mps} have previously conducted a controlled experiment using students and industrial developers, to determine their editing efficiency in the projectional editor MPS, compared to a traditional parser-based editor. The participants are given four simple programming tasks to complete by editing a provided program, transforming it into the task solution. They find that with training, projectional text editing is more efficient than parser-based text editing.
 
+\section{Intention-based variant integration}
+Today, a developer performing a feature-related merge in a revision control system must make ad-hoc decisions on the final result, with respect to presence conditions over source code \cite{stanciulescu2016concepts}. This means that the concern of the developer is at the source-code level, dealing with fundamental (preprocessor) language constructs defining the presence conditions of particular code blocks. Previous studies show that variability is detrimental for program comprehension \cite{melo2016latin}, \cite{favre1997understanding}, \cite{ernst2002preprocessor}, \cite{abal2014variability}, \cite{medeiros2015preprocessor} \todo{Possibly also cite Ribeiro 2014}. We note that feature integration is a concern on the architectural level, while the merge is performed line-by-line on the source-code level. The mismatch between the architectural concern and the abstraction level on which it is carried out ensures that the integration (or merge) process is time consuming and has a high risk of introducing defects.
+
+We propose to correct the mismatch of abstraction levels by introducing a domain specific language capturing the semantics of the feature integration. In particular, the language describes the outcome that the developer wants to achieve. Examples could be ``keep this functionality'' or ``remove this functionality''. We subsequently refer to these concepts simply as the \textit{intentions} of the developer. Each intention carries a mapping to actual operations that are performed on the source code. The semantics of the intentions language ensures the integrity of the underlying code upon which operations are applied to. This intentions language is the basis for creating a tool to aid the integration process structurally \cite{mens2002}, \cite{apel2011}. With proper tool support, the integration process can become more efficient from time consumption, risk, and quality perspectives. Indeed, tool support has shown to reduce variability errors in previous studies \cite{ribeiro2014emergent}.
+
+The intentions and their underlying transformations can be described using choice calculus, a formal notation for variational software, independent of programming language \cite{erwig2011choice}, \cite{walkingshaw2012choice}. In the implementation, this can be realized as conditional compilation (C preprocessor) or design patterns (object-oriented languages). Intentions could also be mapped to the source-code operations identified by Stanciulescu et al in \cite{stanciulescu2016concepts}
+
+Gousios et al. point out that an important improvement for the merging process is tool support in terms of work prioritization and estimated time for merging \cite{gousios2015}, and a prerequisite for the capability of migrating \textit{clone-and-own} to an integrated platform is having proper merge support \cite{antkiewicz2014flexible}.
+
+We now present the workflow offered by out prototype tool INCLINE/bacon. The work has been carried out jointly between Max Lillack, Ștefan St\u{a}nciulescu, Wilhelm Hedman, Thorsten Berger, and Andrzej W\k{a}sowski in \cite{lillack2017intentions}.
+
+\subsection{Intentions}
+\begin{itemize}
+    \item{Keep}
+    \item{Remove}
+    \item{KeepAsFeature}
+    \item{Exclusive}
+    \item{AssignFeature}
+    \item{Order}
+    \item{Postpone}
+    \item{++ implicit Keep and Remove}
+\end{itemize}
+
+\subsection{Workflow}
+\begin{enumerate}
+    \item Input two variant files, $(v, v')$. 
+    \item Generate XML-based AST of each.
+    \item Create initial/intermediary integrated model by merging ASTs of $(v, v')$.
+    \item Simplify boolean conditions.
+    \item Open in BACONTOOL.
+    \item Apply intentions until satisfied.
+    \item Serialize AST to text.
+\end{enumerate}

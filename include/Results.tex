@@ -1,7 +1,6 @@
 \chapter{Results}
 
-Mining results
-Illustrated examples.
+\section{Data collection}
 
 In Marlin, we retrieve all 2065 merges, and extract those that were merged with conflicts, yielding 49 merges. We discard one merge that had conflicts only in non-source-code files (documentation), XX that conflicted due to whitespace changes, XX that conflicted due to configuration changes\footnote{While configuration management is indeed an important part of FOSD, in these cases, the developers have mistakenly committed their personal 3D-printer configurations into a configuration template file while committing other relevant changes, cf. Stanciulescu et al. \cite{stanciulescu2015}.}. Another XX merges were discarded because some some related artifact had syntax errors. This is summarized in Table \ref{tab:marlinmerge}.
 
@@ -24,6 +23,8 @@ We choose Marlin because previous work has identified important concepts in the 
 
 
 \section{Internal evaluation}
+Three developers perform 3-4 tasks, at least one of each kind.
+
 The findings from the internal evaluation is:
 
 \begin{itemize}
@@ -31,6 +32,13 @@ The findings from the internal evaluation is:
     \item When intentions are correctly declared, then our proposed resolutions of the intentions and their actual implementations produce a correctly integrated configurable platform.
     \item Substantially fewer operations are required when using intentions, compared to the operations required when using an ordinary merge tool.
 \end{itemize}
+
+\subsection{Lessons learned}
+\begin{enumerate}
+    \item Provide expected output source file. Interpreting instructions is not what the experiment is about, it's about editing efficiency.
+    \item Shorten files (6000 lines is too much, Vim even has 26k). 100-200 should be enough.
+    \item Subjects will require training in BACONTOOL.
+\end{enumerate}
 
 \begin{table}[h]
     \centering
@@ -78,6 +86,8 @@ MakerLabMe   & 1     & 5     & 93    & 122   \\ % 12 -> 5  (column err. integrat
 \hline\hline
     \end{tabular}
 \end{table}
+
+%Illustrated examples.
 
 \section{\RQA}
 

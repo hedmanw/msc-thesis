@@ -24,7 +24,7 @@ Feature-Oriented Software Development (FOSD) is a paradigm for constructing larg
 
 \subsection{What is a feature?}
 The definition of what a feature is can be viewed from the problem space or the solution space, as defined by Czarnecki and Eisenecker \cite{czarnecki2000generative}, where the problem space contains domain-specific abstractions that describe the requirements  and intended behavior of a software system, and the solution space contains implementation-oriented abstractions defining how those requirements are met and the behavior is implemented \cite{apel2009overview}. There is a mapping from the problem space onto the solution space. From the problem space viewpoint, a feature is defined as ``a prominent or distinctive user-visible aspect, quality, or characteristic or a software system or systems'' \cite{kang1990feature}, whereas from the solution space, a feature is defined as ``a structure that extends and modifies the structure of a given program in order to satisfy a stakeholder's requirement, to implement and encapsulate a design decision, and to offer a configuration option'' \cite{apel2008algebra}.
-The common denominator of both types is that a feature is always a logical unit of a system, delineated from other parts of it. Numerous additional definitions of \textit{feature} found in literature on the spectrum from problem space to solution space can be found in \cite{apel2009overview} and \cite{berger2015feature}.
+The common denominator of both types is that a feature is always a logical unit of a system, delineated from other parts of it. Numerous additional definitions of \textit{feature} in the literature on the spectrum from problem space to solution space are reported in \cite{apel2009overview} and \cite{berger2015feature}.
 
 These theoretical definitions are complemented by contemporary industrial notions on what constitutes a feature in a recent empirical study by Berger et al. \cite{berger2015feature}. This study shows that the meaning of a feature also varies among companies, but underlines that features should be distinct and well-delineated units of the system. Additionally, in practitioner settings, the origin of features are closely related to the business of the company, features can be customer-specific changes or arise from a particular market demand \cite{berger2015feature}.
 
@@ -33,6 +33,8 @@ Feature models and feature interaction.
 % A particular feature could be incompatible with other features, other or it might depend on other features. Such constraints among features can be captured in a feature model, which also defines a set of legal variants that can be derived \cite{kang1990feature}.
 
 \subsection{Software variants and variability}
+TODO: Döda hela jävla stycket.
+
 Variants of software are created to fulfill different requirements in similar products \cite{antkiewicz2014flexible}, \cite{stanciulescu2015}. One or more features can be grouped inside a variant. A common manifestation of variants is forks, which are repository-scale clones of an original codebase, called the \textit{mainline}. This strategy is known as \textit{clone-and-own}, where small-scale changes are made to a large-scale copy in order to create a new variant \cite{stanciulescu2015}. Features are spread though out the array of forks that comprise the system.
 
 Orthogonal to variability through clones, stands integrated variability. By gathering all features in one common repository, variants are created by composing features. This is realized by source code-level constructs (such as the C preprocessor \texttt{\#ifdef} statement) guarding the feature code, meaning that behavior can be enabled or disabled at compile-time or runtime.
@@ -50,8 +52,8 @@ Using the terminology of Buckley et al. \cite{buckley2005}, fork variants repres
 
 Schmorleiz and Lämmel \cite{schmorleiz2016similarity} realize a naïve virtual platform by introducing a tool that analyzes and annotates changes across cloned-and-owned variants. As a way to manage similarity, code fragments are annotated with invariants that propagate to across fragment clones in all variants. Adherence to the invariants is either performed manually or automatically by their tool. Santos and Kulesza \cite{santos} investigate conflicts that arise from integration of evolved clones. In their study of a web-based Java system, the most prominent conflict type is indirect -- changes in the source system are in the call graph of other changes in the target system -- which they find is in line with the motivation for semistructured merging \cite{apel2011}.
 
-\subsection{SPL evolution patterns}
-Table \ref{tab:safeevo}: Safe evolution templates for SPLs from \cite{neves2011evolution}. Feature Addition and Removal Patterns from \cite{passos2016coevolution}. Also: \cite{stanciulescu2016concepts}.
+\subsection{(SPL evolution patterns)}
+Table \ref{tab:safeevo}: Safe evolution templates for SPLs from \cite{neves2011evolution}. Feature addition and removal patterns from \cite{passos2016coevolution}. Also: \cite{stanciulescu2016concepts}.
 \begin{table}[h]
     \centering
     \caption{Safe evolution templates for SPLs \cite{neves2011evolution}}
@@ -79,7 +81,7 @@ Table \ref{tab:safeevo}: Safe evolution templates for SPLs from \cite{neves2011e
 %\end{table}
 
 \section{Projectional editing}
-\cite{voelter2014towards} \cite{stanciulescu2016concepts} \cite{behringer2017peopl}\todo{Update bibliography once this is published}.
+\cite{voelter2014towards} \cite{stanciulescu2016concepts} \cite{behringer2017peopl}.
 
 Berger et al. \cite{berger2016mps} have previously conducted a controlled experiment using students and industrial developers, to determine their editing efficiency in the projectional editor MPS, compared to a traditional parser-based editor. The participants are given four simple programming tasks to complete by editing a provided program, transforming it into the task solution. They find that with training, projectional text editing is more efficient than parser-based text editing.
 

@@ -4,7 +4,7 @@ Variability in software systems can be achieved in two ways: clone-and-own and i
 When variants are integrated into an integrated platform using a revision control system, this is done by software merging. The developer performing the merge must manually handle both the variability and potential conflicts on a source code level \cite{mens2002}, \cite{apel2011}, while features are an architectural concern. This mismatch of abstraction levels means that feature integration is a complex task, and performing it manually is time-consuming and error-prone \cite{melo2016latin}. Understanding the patterns of such conflict resolution and variability management, and abstracting it away from the source code, considering the \textit{intentions} of the developer allows for development of variability-aware merging tools. The expected benefits of such a variability-aware merging tool is increased work speed and reduced software defects.
 
 This study evaluates a prototype variability-aware variant integration tool based on a novel integration intentions domain specific language.
-The language is validated and refined based on data obtained from mining the open-source 3D-printer firmware \marlin. Following this, the language is implemented in a merge tool, which is evaluated using a controlled experiment, using variant samples from the UNIX utilities distribution \busybox~ and the text editor \vim.
+The language is validated and refined based on data obtained from mining the open-source 3D-printer firmware \marlin. Following this, the language is implemented in a merge tool, which is evaluated using a controlled experiment, using variant samples from the UNIX utilities distribution \busybox~and the text editor \vim.
 
 The following research questions are investigated:
 
@@ -14,7 +14,7 @@ The following research questions are investigated:
 
 \begin{enumerate}[label={Q\arabic*}]
 
-        \item\label{rq-a} \textbf{Completeness:} \textit{\RQA}~We perform this verification step in order to assert that the intentions language can be instantiated to capture actual witnessed merges from real scenarios. This seeks to establish the completeness and possibly correctness of the language.
+        \item\label{rq-a} \textbf{Completeness:} \textit{\RQA}~We perform this verification step in order to assert that the intentions language can be instantiated to capture actual witnessed merges from real scenarios. This seeks to establish the completeness of the language.
 
         \item\label{rq-b} \textbf{Efficiency:} \textit{\RQB}~Our goal is that both code quality and time effort can be improved by a workflow incorporating the intention-based merge tool, which we summarize as the overall beneficence of the tool.
 
@@ -23,7 +23,7 @@ The following research questions are investigated:
         
 \end{enumerate}
 
-TODO: Paragraph about method, connecting to how to answer RQs.
+To answer the research questions, we first mine highly-configurable open source systems for variant integration merges, and analyze them to show that the intentions are capable of this ground truth, meaning that they are complete (Q1). We then perform a controlled experiment using students, measuring their editing efficiency when integrating variants in Eclipse CDT and BACONTOOL (Q2). The qualitative differences between unstructured integration and intention-based integration are elicited from participants in the controlled experiment using semi-structured interviews and questionnaires (Q3).
 
 This thesis contributes:
 \begin{itemize}

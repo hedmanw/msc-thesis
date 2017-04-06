@@ -1,76 +1,39 @@
 \chapter{Results}
 
 \section{Data collection}
-
-In Marlin, we retrieve all 2065 merges, and extract those that were merged with conflicts, yielding 49 merges. We discard one merge that had conflicts only in non-source-code files (documentation), XX that conflicted due to whitespace changes, XX that conflicted due to configuration changes\footnote{While configuration management is indeed an important part of FOSD, in these cases, the developers have mistakenly committed their personal 3D-printer configurations into a configuration template file while committing other relevant changes, cf. Stanciulescu et al. \cite{stanciulescu2015}.}. Another XX merges were discarded because some some related artifact had syntax errors. This is summarized in Table \ref{tab:marlinmerge}.
-
-We choose Marlin because previous work has identified important concepts in the Marlin ecosystem that we build upon, and because of access to the authors \cite{stanciulescu2015}, \cite{stanciulescu2016concepts}.
+We choose Marlin as our initial source of merge examples, because previous work has identified important concepts in the Marlin ecosystem that we build upon, and because of access to the authors \cite{stanciulescu2015}, \cite{stanciulescu2016concepts}. In Marlin, we retrieve all 2065 merges, and extract those that were merged with conflicts, yielding 49 merges. We discard 2 merges that had conflicts only in non-source-code files (documentation), 2 that conflicted due to whitespace changes, 3 that conflicted due to configuration changes\footnote{While configuration management is indeed an important part of FOSD, in these cases, the developers have mistakenly committed their personal 3D-printer configurations into a configuration template file while committing other relevant changes, cf. Stanciulescu et al. \cite{stanciulescu2015}.}. Another 3 merges are discarded because some some related artifact had syntax errors and could not be compiled. Additionally, 4 merges are discarded because they simply accept the mainline changes as evolution, i.e. empty changeset, and are therefore uninteresting. This is summarized in Table \ref{tab:marlinmerge}. The remaining 35 merge commits are used for subsequent analysis of integration scenarios and a subset are used for replaying in our internal tool evaluation.
 
 \begin{table}[h]
     \centering
     \caption{Merge commit statistics.}
     \label{tab:marlinmerge}
-    \begin{tabular}{l l}
+    \begin{tabular}{l r}
     \hline\hline
         Commit range: \texttt{99653ff..2ed1331}& \\\hline
         Nbr. of commits & 7,254\\
         $\hookrightarrow$ Nbr. of merge commits & 2,065 \\
         \hspace{1em}$\hookrightarrow$ Nbr. of conflict merge commits & 49 \\
-        \hspace{2em}$\hookrightarrow$ Nbr. of useful/relevant merge commits & - \\
+        \hspace{1em}Documentation conflicts & --2\\
+        \hspace{1em}Whitespace changes only & --2\\
+        \hspace{1em}Configuration changes & --3\\
+        \hspace{1em}Syntax errors & --3\\
+        \hspace{1em}No merge & --4\\
+        \hspace{2em}$\hookrightarrow$ Nbr. of useful/relevant merge commits & 35\\
     \hline\hline
     \end{tabular}
 \end{table}
 
 
 \section{Internal evaluation}
-Three developers perform 3-4 tasks, at least one of each kind.
-
-The findings from the internal evaluation is:
-
-\begin{itemize}
-    \item The intentions suffice for performing all integration tasks. Often, just using \textit{Keep} and \textit{Remove} resolves the task.
-    \item When intentions are correctly declared, then our proposed resolutions of the intentions and their actual implementations produce a correctly integrated configurable platform.
-    \item Substantially fewer operations are required when using intentions, compared to the operations required when using an ordinary merge tool.
-\end{itemize}
-
-\subsection{Lessons learned}
-\begin{enumerate}
-    \item Provide expected output source file. Interpreting instructions is not what the experiment is about, it's about editing efficiency.
-    \item Shorten files (6000 lines is too much, Vim even has 26k). 100-200 should be enough.
-    \item Subjects will require training in BACONTOOL.
-\end{enumerate}
+The results from the internal evaluation are shown in Table \ref{tab:internalres}. We report the number of bugs introduced by the developer in the merge in both tools, and the number of required editing operations for both tools, denoted \textit{Diff operations} and \textit{Intentions}, respectively. 
 
 \begin{table}[h]
     \centering
-    \caption{Characteristics}
-    \label{tab:internalchar}
-    \begin{tabular}{lll|lll}
-\hline\hline
-\textbf{Name} & \textbf{Type} & \textbf{Files} & \textbf{$\pm$Blocks} & \textbf{$\pm$\texttt{\#ifdef}s} & \textbf{$\pm$Lines} \\
-%Name & Type & Files& $\pm$ Blocks & $\pm$ \texttt{\#ifdef}s & $\pm$ Lines\\
-\hline
-08856d9      & Conflict     & 1 & 17    & 4     & 263   \\
-17de96a      & Conflict     & 1 & 34    & 18    & 256   \\
-2daa859      & Conflict     & 2 & 141 & 79      & 889   \\
-3116271      & Conflict     & 1 & 6     & 0     & 51    \\
-373f3ec      & Conflict     & 1 & 108 & 60      & 718   \\
-46f80e8      & Conflict     & 1 & 2     & 0     & 4     \\
-47c1ea7      & Conflict     & 1 & 188   & 195   & 2,343 \\
-\hline
-esenapaj     & Fork         & 3 & 98    & 118   & 734   \\
-jcrocholl    & Fork         & 1 & 39    & 27    & 290   \\
-MakerLabMe   & Fork         & 3 & 153   & 26    & 423   \\
-\hline\hline
-    \end{tabular}
-\end{table}
-
-\begin{table}[h]
-    \centering
-    \caption{Results}
+    \caption{Internal evaluation results}
     \label{tab:internalres}
     \begin{tabular}{l|llll}
 \hline\hline
-\textbf{Name} & \textbf{Err. Regular} & \textbf{Err. BACON?} & \textbf{\#Diff Ops.} & \textbf{\#Intentions}\\
+\textbf{Name} & \textbf{Bugs Manual} & \textbf{Bugs IBIT} & \textbf{\#Diff Ops.} & \textbf{\#Intentions}\\
 \hline
 08856d9      & 0     & 0     & 4     & 1     \\
 17de96a      & 1     & 2     & 13    & 5     \\
@@ -87,10 +50,25 @@ MakerLabMe   & 1     & 5     & 93    & 122   \\ % 12 -> 5  (column err. integrat
     \end{tabular}
 \end{table}
 
+The findings from the internal evaluation is:
+
+\begin{itemize}
+    \item The intentions suffice for performing all integration tasks. Often, just using \textit{Keep} and \textit{Remove} resolves the task.
+    \item When intentions are correctly declared, then our proposed resolutions of the intentions and their actual implementations produce a correctly integrated configurable platform.
+    \item Substantially fewer operations are required when using intentions, compared to the operations required when using an ordinary merge tool.
+\end{itemize}
+
+\textbf{Lessons learned:}
+\begin{enumerate}
+    \item Provide expected output source file. Interpreting instructions is not what the experiment is about, it's about editing efficiency.
+    \item Shorten files (6000 lines is too much, Vim even has 26k). 100-200 should be enough.
+    \item Subjects will require training in BACONTOOL.
+\end{enumerate}
+
 %Illustrated examples.
 
 \section{\RQA}
-
+Both \cite{neves2011evolution} and \cite{passos2016coevolution} are compatible with our intentions.
 
 \section{\RQB}
 

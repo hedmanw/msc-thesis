@@ -2,12 +2,12 @@
 This chapter describes the data collection of merge samples, and the empirical evaluation of the intentions language and intention-based variant integration tool BACONTOOL.
 
 \section{Data collection}
-Two methods for collecting data from open-source ecosystems have been used, one for gathering a ground truth for how variant integration is achieved through merging, and one for procuring variants for hypothetical but realistic \todo{realistic or authentic?} integration scenarios. We denote the output of the former method \textit{merge examples} and the output of the latter method \textit{integration scenarios}. The merge examples are used for understanding the context and execution of the variant-integrating merge. They can also be replayed for validation, since they represent the ground truth outcome of the two merge parents. As such, the merge examples serve as an important validation tool. However, since the merge examples are extracted from a three-way merging tool, they are disadvantageous for replaying in BACONTOOL, since three-way information is not available in that environment. To this end, we use the integration scenarios, which are free from three-way contamination, but are instead taken out of their context.
+Two methods for collecting data from open-source ecosystems have been used, one for gathering a ground truth for how variant integration is achieved through merging, and one for procuring smaller scale authentic integration candidates scenarios. We denote the output of the former method \textit{merge examples} and the output of the latter method \textit{integration scenarios}. The merge examples are used for understanding the context and execution of the variant-integrating merge. They can also be replayed for validation, since they represent the ground truth outcome of the two merge parents. As such, the merge examples serve as an important validation tool. However, since the merge examples are extracted from a three-way merging tool, they are disadvantageous for replaying in BACONTOOL, since three-way information is not available in that environment. To this end, we use the integration scenarios, which are free from three-way contamination, but are instead lacking in the sense that they are taken out of their context and are scaled down.
 
 \subsection{Collecting ground truth merge examples}
 To identify and validate the integration intentions we analyze variant-related merges and extract common patterns. We begin by retrieving all merges, and discard those that merged cleanly, thereby retaining those that merged with conflicts. Merged with conflicts signifies a syntactic conflict which is an indicator of potential feature integration. In order to investigate further, for each of these merges, we save the entire source tree as it was 
 a) after the merge, i.e. the \textit{result},
-b) in the first parent, i.e. the \textit{base}\todo{Change terminology to avoid confusion with git merge-base}, and
+b) in the first parent, i.e. the \textit{base}\footnote{This terminology will be changed for the final version to avoid confusion with \texttt{git merge-base}.}, and
 c) in the second parent, the \textit{remote}. We call this triple of source trees the \textit{related artifacts} of the merge, the relationship between its parts is shown in Figure \ref{intentions:mergespace}. Retaining and inspecting the source trees of the parents allows for insights to be gathered, and in particular the ability to replay the merge in order to reach the known result. Note that the search space, the entire set of merges encompasses \textit{all} merges, that is, merges that occurred in a fork but were subsequently merged into the mainline are also included. We do \textit{not} use the \texttt{-{}-first-parent} option to Git, which would discard such further merges residing in recursive parents, and instead use only the first parent when finding merges. The merges that are included by this broader search scope originate either from ordinary feature merging or from pull requests where the branch of the requester is out of date.%\todo{Figure showing ABL feature integration and Deltabot feature integration.}
 
 When the related artifacts from each merge have been collected, we inspect them and discard merges with any of the following properties: 
@@ -43,13 +43,41 @@ a) all conflicts occurred in non-source-code artifacts, b) at least one artifact
     \label{intentions:mergespace}
 \end{figure}
 
-\subsection{Creating authentic merging tasks}
+\subsection{Creating authentic integration scenarios}
+TODO: Döda hela jävla stycket.
+
 We select a number of forks that have some \textit{interesting} changes \cite{stanciulescu2015}. It does not matter whether they are still actively maintained or not, because we set the scenario at the \head of the fork, and then compare with either a) the latest common ancestor commit \texttt{\#ancestor} in fork and mainline, or b) an arbitrary number of commits after \texttt{\#ancestor} in the mainline. We create scenarios by partially replaying conflict merges, based on their variability-related diffs.
 
-Done on Marlin + BusyBox + Vim.
+Done on \busybox~+ \vim.
 
 \section{Internal evaluation}
-We both replay merge examples and merge authentic scenarios. Each participant receives a task, and performs it in both Eclipse CDT and BACONTOOL. The number of actions for each task in each editor is saved for analysis, as is the resulting output file. Each tasks consists of a number of input files from the two variants being integrated, together with a textual description of what the integration goal is.
+For the proof-of-concept internal evaluation using the three tool developers, we use code from Marlin. There are two types of tasks: to replay merge examples, and to merge forks with the mainline. The characteristics of these tasks are shown in Table \ref{tab:internalchar}, where Blocks denotes the number of changed chunks according to \texttt{diff}. The merge tasks are chosen from the set of merge tasks in Marlin, and the forks are chosen based on insights from Stanciulescu et al. \cite{stanciulescu2015}.
+
+Each developer performs 3-4 tasks, at least one of each kind. The integration task is performed in the manual, unstructured Eclipse CDT and BACONTOOL. The number of edit operations required per task in each editor is saved for analysis, as is the resulting output file. Each task consists of a number of input files from the two variants being integrated, together with a textual description of what the integration goal is. The output files are checked for syntax errors and bugs introduced.
+
+\begin{table}[h]
+    \centering
+    \caption{Characteristics}
+    \label{tab:internalchar}
+    \begin{tabular}{lll|lll}
+\hline\hline
+\textbf{Name} & \textbf{Type} & \textbf{Files} & \textbf{$\pm$ Blocks} & \textbf{$\pm$ \texttt{\#ifdef}s} & \textbf{$\pm$ Lines} \\
+%Name & Type & Files& $\pm$ Blocks & $\pm$ \texttt{\#ifdef}s & $\pm$ Lines\\
+\hline
+08856d9      & Merge     & 1 & 17    & 4     & 263   \\
+17de96a      & Merge     & 1 & 34    & 18    & 256   \\
+2daa859      & Merge     & 2 & 141 & 79      & 889   \\
+3116271      & Merge     & 1 & 6     & 0     & 51    \\
+373f3ec      & Merge     & 1 & 108 & 60      & 718   \\
+46f80e8      & Merge     & 1 & 2     & 0     & 4     \\
+47c1ea7      & Merge     & 1 & 188   & 195   & 2,343 \\
+\hline
+esenapaj     & Fork         & 3 & 98    & 118   & 734   \\
+jcrocholl    & Fork         & 1 & 39    & 27    & 290   \\
+MakerLabMe   & Fork         & 3 & 153   & 26    & 423   \\
+\hline\hline
+    \end{tabular}
+\end{table}
 
 \section{Controlled experiment}
 This sections desrcibes the experimental design and setup.
@@ -64,12 +92,10 @@ To establish the beneficence of of the intention-based approach in general, and 
 \end{enumerate}
 
 \subsection{Treatments}
-In order to study the beneficence of our intention-based approach, we let each participant solve one task using an ordinary unstructured merge tool, and one task using BACONTOOL. The two treatment levels are thus \textit{unstructured merging tool} \texttt{UNS} and \textit{Incline-bacon} \texttt{MPS}.
+In order to study the beneficence of our intention-based approach, we let each participant solve one task using an ordinary unstructured merge tool, and one task using BACONTOOL. The two treatment levels are thus \textit{unstructured merging tool} \texttt{UNS} and \textit{BACONTOOL} \texttt{MPS}.
 
 \subsection{Subjects}
 We prepare two programs to be used in the experiment, using the process for collecting authentic variant integration scenarios, \po, based on \busybox, and \pt, based on \vim. These two programs are created as condensed versions of the changeset of a particular fork variant, for brevity and comprehension during the experiment. Table \ref{method:charac} lists the characteristics of the subject programs. \textit{Chunks and excluded chunks} shows the number of selected chunks from the full changeset to be in the program, and the excluded count. \textit{Average Included (Excluded) Chunk Length} (AICL/AECL) is the average length of each included chunk and excluded chunk. This should be understood as selecting the most suited changes across the files, and placing them in a single file, in order to not waste valuable time for the participants on long blocks without any changes, as to keep the programs brief.
-
-(LOC might not be applicable, since we have two input files)
 
 We choose \busybox~ and \vim~ as representative subjects because they are highly-configurable open source systems, and have been subjects in previous studies \cite{berger2013study}, \cite{liebig2010preprocessor}, \cite{liebig2011discipline}.
 

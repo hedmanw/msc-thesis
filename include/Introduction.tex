@@ -1,9 +1,10 @@
 \chapter{Introduction}
+\todo{Introduce with HCS, definition and motivation, link to variability.}
 Variability in software systems can be achieved in two ways: clone-and-own and integrated platform. Clone-and-own is a quick and simple way to create new variants of software, simply by copying a project and making the required changes. The integrated platform approach offers systematic reuse, but requires significant engineering effort to enable, which is costly. When the number of clones in a clone-and-own setting spirals out of control, the cloned variants must be re-engineered into a single integrated platform from which the variants can be derived. At the same time, variants of the same software can coexist in an ecosystem consisting of so-called forks, which are large-scale clones, with some small-scale alterations to change the desired behavior \cite{stanciulescu2015}. By integrating all variability in a single repository, maintainability can be increased, and duplication of effort reduced \cite{schmorleiz2016similarity}, \cite{stanciulescu2015}. In an integrated platform, variability is controlled at compile-time or at runtime.
 
 When variants are integrated into an integrated platform using a revision control system, this is done by software merging. The developer performing the merge must manually handle both the variability and potential conflicts on a source code level \cite{mens2002}, \cite{apel2011}, while features are an architectural concern. This mismatch of abstraction levels means that feature integration is a complex task, and performing it manually is time-consuming and error-prone \cite{melo2016latin}. Understanding the patterns of such conflict resolution and variability management, and abstracting it away from the source code, considering the \textit{intentions} of the developer allows for development of variability-aware merging tools. The expected benefits of such a variability-aware merging tool is increased work speed and reduced software defects.
 
-This study evaluates a prototype variability-aware variant integration tool based on a novel integration intentions domain specific language.
+This study evaluates a prototype variability-aware variant integration tool, called \tooln, based on a novel integration intentions domain specific language.
 The language is validated and refined based on data obtained from mining the open-source 3D-printer firmware \marlin. Following this, the language is implemented in a merge tool, which is evaluated using a controlled experiment, using variant samples from the UNIX utilities distribution \busybox~and the text editor \vim.
 
 The following research questions are investigated:
@@ -23,7 +24,7 @@ The following research questions are investigated:
         
 \end{enumerate}
 
-To answer the research questions, we first mine highly-configurable open source systems for variant integration merges, and analyze them to show that the intentions are capable of this ground truth, meaning that they are complete (Q1). We then perform a controlled experiment using students, measuring their editing efficiency when integrating variants in Eclipse CDT and BACONTOOL (Q2). The qualitative differences between unstructured integration and intention-based integration are elicited from participants in the controlled experiment using semi-structured interviews and questionnaires (Q3).
+To answer the research questions, we first mine highly-configurable open source systems for variant integration merges, and analyze them to show that the intentions are capable of this ground truth, meaning that they are complete (Q1). We then perform a controlled experiment using students, measuring their editing efficiency when integrating variants in Eclipse CDT and \tooln~(Q2). The qualitative differences between unstructured integration and intention-based integration are elicited from participants in the controlled experiment using semi-structured interviews and questionnaires (Q3).
 
 This thesis contributes:
 \begin{itemize}

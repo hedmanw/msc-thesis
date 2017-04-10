@@ -1,8 +1,8 @@
 \chapter{Methodology}
-This chapter describes the data collection of merge samples, and the empirical evaluation of the intentions language and intention-based variant integration tool BACONTOOL.
+This chapter describes the data collection of merge samples, and the empirical evaluation of the intentions language and intention-based variant integration tool \tooln.
 
 \section{Data collection}
-Two methods for collecting data from open-source ecosystems have been used, one for gathering a ground truth for how variant integration is achieved through merging, and one for procuring smaller scale authentic integration candidates scenarios. We denote the output of the former method \textit{merge examples} and the output of the latter method \textit{integration scenarios}. The merge examples are used for understanding the context and execution of the variant-integrating merge. They can also be replayed for validation, since they represent the ground truth outcome of the two merge parents. As such, the merge examples serve as an important validation tool. However, since the merge examples are extracted from a three-way merging tool, they are disadvantageous for replaying in BACONTOOL, since three-way information is not available in that environment. To this end, we use the integration scenarios, which are free from three-way contamination, but are instead lacking in the sense that they are taken out of their context and are scaled down.
+Two methods for collecting data from open-source ecosystems have been used, one for gathering a ground truth for how variant integration is achieved through merging, and one for procuring smaller scale authentic integration candidates scenarios. We denote the output of the former method \textit{merge examples} and the output of the latter method \textit{integration scenarios}. The merge examples are used for understanding the context and execution of the variant-integrating merge. They can also be replayed for validation, since they represent the ground truth outcome of the two merge parents. As such, the merge examples serve as an important validation tool. However, since the merge examples are extracted from a three-way merging tool, they are disadvantageous for replaying in \tooln, since three-way information is not available in that environment. To this end, we use the integration scenarios, which are free from three-way contamination, but are instead lacking in the sense that they are taken out of their context and are scaled down.
 
 \subsection{Collecting ground truth merge examples}
 To identify and validate the integration intentions we analyze variant-related merges and extract common patterns. We begin by retrieving all merges, and discard those that merged cleanly, thereby retaining those that merged with conflicts. Merged with conflicts signifies a syntactic conflict which is an indicator of potential feature integration. In order to investigate further, for each of these merges, we save the entire source tree as it was 
@@ -44,20 +44,18 @@ a) all conflicts occurred in non-source-code artifacts, b) at least one artifact
 \end{figure}
 
 \subsection{Creating authentic integration scenarios}
-TODO: Döda hela jävla stycket.
-
-We select a number of forks that have some \textit{interesting} changes \cite{stanciulescu2015}. It does not matter whether they are still actively maintained or not, because we set the scenario at the \head of the fork, and then compare with either a) the latest common ancestor commit \texttt{\#ancestor} in fork and mainline, or b) an arbitrary number of commits after \texttt{\#ancestor} in the mainline. We create scenarios by partially replaying conflict merges, based on their variability-related diffs.
+Since the merge examples discussed in the previous section would be replayed without three-way information, and are potentially very large, we want to have a neutral and concentrated basis for task creation, the \textit{integration scenarios}. The contents of integration scenarios are based on variant merges from the ecosystem (mainline + forks), with the diff chunks consolidated so that there is not an abundance of code with no changes. Additionally, changes may originate from several different source files, and can have syntax and semantics changed. The structure of the source chunks, and the conflict resolution ground truth is however left intact.
 
 Done on \busybox~+ \vim.
 
 \section{Internal evaluation}
-For the proof-of-concept internal evaluation using the three tool developers, we use code from Marlin. There are two types of tasks: to replay merge examples, and to merge forks with the mainline. The characteristics of these tasks are shown in Table \ref{tab:internalchar}, where Blocks denotes the number of changed chunks according to \texttt{diff}. The merge tasks are chosen from the set of merge tasks in Marlin, and the forks are chosen based on insights from Stanciulescu et al. \cite{stanciulescu2015}.
+For the proof-of-concept internal evaluation using the three tool developers, we use code from Marlin. There are two types of tasks: to replay merge examples, and to merge forks with the mainline. The characteristics of these tasks are shown in Table \ref{tab:internalchar}, where Blocks denotes the number of changed chunks according to \texttt{diff}. The merge tasks are chosen from the set of merge tasks in Marlin, and the forks are chosen based on the findings of St\u{a}nciulescu et al. \cite{stanciulescu2015}. It does not matter whether they are still actively maintained or not, because we set the task at the \head of the fork, and then compare with either the latest common ancestor commit \texttt{\#ancestor} between fork and mainline, and a devise a resolution strategy for the task.
 
-Each developer performs 3-4 tasks, at least one of each kind. The integration task is performed in the manual, unstructured Eclipse CDT and BACONTOOL. The number of edit operations required per task in each editor is saved for analysis, as is the resulting output file. Each task consists of a number of input files from the two variants being integrated, together with a textual description of what the integration goal is. The output files are checked for syntax errors and bugs introduced.
+Each developer performs 3-4 tasks, at least one of each kind. The integration task is performed in the manual, unstructured Eclipse CDT and \tooln. The number of edit operations required per task in each editor is saved for analysis, as is the resulting output file. Each task consists of a number of input files from the two variants being integrated, together with a textual description of what the integration goal is. The output files are checked for syntax errors and bugs introduced.
 
 \begin{table}[h]
     \centering
-    \caption{Characteristics}
+    \caption{Internal evaluation task characteristics}
     \label{tab:internalchar}
     \begin{tabular}{lll|lll}
 \hline\hline
@@ -80,7 +78,7 @@ MakerLabMe   & Fork         & 3 & 153   & 26    & 423   \\
 \end{table}
 
 \section{Controlled experiment}
-This sections desrcibes the experimental design and setup.
+This sections describes the experimental design and setup.
 %Designed based on Melo et al \cite{melo2016latin} (also the subsequent paper from 2017). % -- it has really good related work that can be used to show that the preprocessor (and configurations) are often erroneous.
 
 \subsection{Objective}
@@ -92,7 +90,7 @@ To establish the beneficence of of the intention-based approach in general, and 
 \end{enumerate}
 
 \subsection{Treatments}
-In order to study the beneficence of our intention-based approach, we let each participant solve one task using an ordinary unstructured merge tool, and one task using BACONTOOL. The two treatment levels are thus \textit{unstructured merging tool} \texttt{UNS} and \textit{BACONTOOL} \texttt{MPS}.
+In order to study the beneficence of our intention-based approach, we let each participant solve one task using the ordinary unstructured merge tool inside Eclipse CDT, and one task using \tooln. The two treatment levels are thus \textit{Eclipse CDT} \texttt{Ecl} and \textit{\tooln} \texttt{MPS}.
 
 \subsection{Subjects}
 We prepare two programs to be used in the experiment, using the process for collecting authentic variant integration scenarios, \po, based on \busybox, and \pt, based on \vim. These two programs are created as condensed versions of the changeset of a particular fork variant, for brevity and comprehension during the experiment. Table \ref{method:charac} lists the characteristics of the subject programs. \textit{Chunks and excluded chunks} shows the number of selected chunks from the full changeset to be in the program, and the excluded count. \textit{Average Included (Excluded) Chunk Length} (AICL/AECL) is the average length of each included chunk and excluded chunk. This should be understood as selecting the most suited changes across the files, and placing them in a single file, in order to not waste valuable time for the participants on long blocks without any changes, as to keep the programs brief.
@@ -120,12 +118,12 @@ Since developers are assigned at random, no further permutation of the treatment
 
 \begin{table}[h]
 \centering
-\caption{Latin Square (2$\times$2).}
+\caption{Latin Square (2$\times$2)}
 \label{method:ls1}
 \begin{tikzpicture}
     \node[minimum size=1cm,draw=black] (sba) at (0,0) {\texttt{MPS}};
-    \node[minimum size=1cm,draw=black] (sbb) at (1,0) {\texttt{UNS}};
-    \node[minimum size=1cm,draw=black] (saa) at (0,1) {\texttt{UNS}};
+    \node[minimum size=1cm,draw=black] (sbb) at (1,0) {\texttt{Ecl}};
+    \node[minimum size=1cm,draw=black] (saa) at (0,1) {\texttt{Ecl}};
     \node[minimum size=1cm,draw=black] (sab) at (1,1) {\texttt{MPS}};
     \node[minimum size=1cm] (ld1) at (-1,1) {\texttt{D1}};
     \node[minimum size=1cm] (ld2) at (-1,0) {\texttt{D2}};

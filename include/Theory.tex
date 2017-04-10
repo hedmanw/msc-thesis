@@ -33,26 +33,25 @@ Feature models and feature interaction.
 % A particular feature could be incompatible with other features, other or it might depend on other features. Such constraints among features can be captured in a feature model, which also defines a set of legal variants that can be derived \cite{kang1990feature}.
 
 \subsection{Software variants and variability}
-TODO: Döda hela jävla stycket.
+Variants of software are created to fulfill different requirements in similar products \cite{antkiewicz2014flexible}, \cite{stanciulescu2015}. Conceptually, the source code is altered in some way, to achieve different behavior. From a feature-oriented perspective, one or more features can be grouped inside a variant, and in FOSD and SPLE, any product defined in terms of the features it is composed of \cite{apel2009overview}. The fastest way to create a variant of a software system is to copy the entire source code, and make the required changes. This strategy is known as \textit{clone-and-own}, where small-scale changes are made to a large-scale copy in order to create a new variant \cite{stanciulescu2015}.
 
-Variants of software are created to fulfill different requirements in similar products \cite{antkiewicz2014flexible}, \cite{stanciulescu2015}. One or more features can be grouped inside a variant. A common manifestation of variants is forks, which are repository-scale clones of an original codebase, called the \textit{mainline}. This strategy is known as \textit{clone-and-own}, where small-scale changes are made to a large-scale copy in order to create a new variant \cite{stanciulescu2015}. Features are spread though out the array of forks that comprise the system.
+Orthogonal to variability through clones, stands integrated variability. By gathering all variant code in one common repository, variants are created by composing features. This is realized by source code-level constructs (such as the C preprocessor \texttt{\#ifdef} statement) guarding the feature code, meaning that behavior can be enabled or disabled at compile-time or runtime. This also enables the possibility to compose variants with arbitrary features.
 
-Orthogonal to variability through clones, stands integrated variability. By gathering all features in one common repository, variants are created by composing features. This is realized by source code-level constructs (such as the C preprocessor \texttt{\#ifdef} statement) guarding the feature code, meaning that behavior can be enabled or disabled at compile-time or runtime.
+There is a tradeoff between time effort and maintainability with respect to the two variability strategies. Clone-and-own has low initial costs, but does not scale due to the inherent impact on the maintainability of a large number of clones, since each new variant requires a new clone \cite{antkiewicz2014flexible}. An integrated platform, on the other hand, requires significant up-front commitment and investment in systematic reuse \cite{antkiewicz2014flexible}.
 
-Because of the mental overhead involved in considering multiple variants and their control flow, variability-related code is more defect-prone \cite{medeiros2013syntaxerrors}, \cite{melo2016latin}.
+In the context of software ecosystems, a common manifestation of variants is forks, which are repository-scale clones of an original codebase, called the \textit{mainline}. For forked variants, the variability lies in an array of repository clones with minor changes in them. Using pull requests, the features can be propagated across the ecosystem, integrated or adapted by others or become part of the mainline \cite{stanciulescu2015}.
 
-There is a tradeoff between time effort and maintainability with respect to the two variability strategies. Clone-and-own is an easy and fast method, but does not scale due to the inherent impact on the maintainability of a large number of clones.
+\subsection{Platform re-engineering}
+A recent mapping study on the topic of re-engineering legacy applications into SPLs by Assun{\c{c}}{\~a}o et al. identifies 119 publications in the field \cite{assuncao2017mapping}. Most of these focus on variant detection and analysis to facilitate feature identification and location within systems, which is a prerequisite for moving from clone-and-own to an integrated platform. Antkiewicz et al. \cite{antkiewicz2014flexible} propose a strategy for migration from \textit{clone-and-own} with low-risk, step-by-step adaption of an integrated platform through what they call a \textit{virtual platform}. 
 
-For forked variants, the variability lies in an array of repository clones with minor changes in them. An integrated platform consolidates the features and leverages programming language constructs to manage multiple variants simultaneously \cite{stanciulescu2015}. The former has lower initial costs, but comes with maintainability issues, while the latter requires a significant commitment \cite{antkiewicz2014flexible}. Antkiewicz et al. \cite{antkiewicz2014flexible} propose a strategy for migration from \textit{clone-and-own} with low-risk, step-by-step adaption of an integrated platform through what they call a \textit{virtual platform}. It has also been shown that the two types are used in parallel in the Marlin project \cite{stanciulescu2015}. St\u{a}nciulescu et al. \cite{stanciulescu2016concepts} demonstrate the benefit of a projection-based variation control system to alleviate the complexities of maintaining and evolving code with preprocessor annotations.
+The open-source 3D-printer firmware project Marlin uses both forks (clone-and-own) and integrated variability (features using \texttt{\#ifdef}s) in parallel \cite{stanciulescu2015}.
 
-\section{Platform re-engineering strategies}
-A recent mapping study on the topic of re-engineering by Assun{\c{c}}{\~a}o et al. identifies 119 papers \cite{assuncao2017mapping}.
+Using the terminology of Buckley et al. \cite{buckley2005}, cloned variants represent divergent changes being developed asynchronously in parallel \cite{mens2002}, \cite{stanciulescu2015}. Integrating forked variants back into an integrated mainline platform (analogue to migrating from clone-and-own to integrated platform) has the advantages of increased maintainability; features and bug-fixes being consolidated; and reducing unintentional code duplications \cite{schmorleiz2016similarity}, \cite{stanciulescu2015}. Since forks are inherently decentralized with respect to both organization and actual code base, knowledge and effort can be lost if they are not circulated back into the ecosystem \cite{stanciulescu2015}, \cite{gousios2015}.
+Currently, the process of integrating variants is based on manual unstructured merging, relying fully on the developer to create a semantically correct merge \cite{mens2002}, \cite{apel2011}. An open-source proxy for this is merging forks back into the mainline. In order to resolve an integration, the ambitions of the involved code must interpreted and leveraged. Since the ambition is not always explicit, there is significant mental overhead involved in the activity.
 
-Using the terminology of Buckley et al. \cite{buckley2005}, fork variants represent divergent changes being developed asynchronously in parallel \cite{mens2002}, \cite{stanciulescu2015}. Merging variants back into an integrated mainline platform (analogue to migrating from clone-and-own to integrated platform) has the advantages of increased maintainability; features and bug-fixes being consolidated; and reducing unintentional code duplications \cite{schmorleiz2016similarity}, \cite{stanciulescu2015}. Since forks are inherently decentralized with respect to both organization and actual code base, knowledge and effort can be lost if they are not circulated back into the ecosystem \cite{stanciulescu2015}, \cite{gousios2015}. Currently, the process of merging a fork into the mainline is based on manual unstructured merging, relying fully on the developer to create a semantically correct merge \cite{mens2002}, \cite{apel2011}. In order to resolve a merge, the ambitions of the involved code must interpreted and leveraged. Since the ambition is not always explicit, there is significant mental overhead involved in the activity.
+%Schmorleiz and Lämmel \cite{schmorleiz2016similarity} realize a naïve virtual platform by introducing a tool that analyzes and annotates changes across cloned-and-owned variants. As a way to manage similarity, code fragments are annotated with invariants that propagate to across fragment clones in all variants. Adherence to the invariants is either performed manually or automatically by their tool. Santos and Kulesza \cite{santos} investigate conflicts that arise from integration of evolved clones. In their study of a web-based Java system, the most prominent conflict type is indirect -- changes in the source system are in the call graph of other changes in the target system -- which they find is in line with the motivation for semistructured merging \cite{apel2011}.
 
-Schmorleiz and Lämmel \cite{schmorleiz2016similarity} realize a naïve virtual platform by introducing a tool that analyzes and annotates changes across cloned-and-owned variants. As a way to manage similarity, code fragments are annotated with invariants that propagate to across fragment clones in all variants. Adherence to the invariants is either performed manually or automatically by their tool. Santos and Kulesza \cite{santos} investigate conflicts that arise from integration of evolved clones. In their study of a web-based Java system, the most prominent conflict type is indirect -- changes in the source system are in the call graph of other changes in the target system -- which they find is in line with the motivation for semistructured merging \cite{apel2011}.
-
-\subsection{(SPL evolution patterns)}
+\subsection{SPL evolution patterns}
 Table \ref{tab:safeevo}: Safe evolution templates for SPLs from \cite{neves2011evolution}. Feature addition and removal patterns from \cite{passos2016coevolution}. Also: \cite{stanciulescu2016concepts}.
 \begin{table}[h]
     \centering
@@ -81,22 +80,25 @@ Table \ref{tab:safeevo}: Safe evolution templates for SPLs from \cite{neves2011e
 %\end{table}
 
 \section{Projectional editing}
-\cite{voelter2014towards} \cite{stanciulescu2016concepts} \cite{behringer2017peopl}.
+\cite{voelter2014towards} \cite{behringer2017peopl}.
+
+St\u{a}nciulescu et al. \cite{stanciulescu2016concepts} demonstrate the benefit of a projection-based variation control system to alleviate the complexities of maintaining and evolving code with preprocessor annotations.
 
 Berger et al. \cite{berger2016mps} have previously conducted a controlled experiment using students and industrial developers, to determine their editing efficiency in the projectional editor MPS, compared to a traditional parser-based editor. The participants are given four simple programming tasks to complete by editing a provided program, transforming it into the task solution. They find that with training, projectional text editing is more efficient than parser-based text editing.
 
 \section{Intention-based variant integration}
-Today, a developer performing a feature-related merge in a revision control system must make ad-hoc decisions on the final result, with respect to presence conditions over source code \cite{stanciulescu2016concepts}. This means that the concern of the developer is at the source-code level, dealing with fundamental (preprocessor) language constructs defining the presence conditions of particular code blocks. Previous studies show that variability is detrimental for program comprehension \cite{melo2016latin}, \cite{favre1997understanding}, \cite{ernst2002preprocessor}, \cite{abal2014variability}, \cite{medeiros2015preprocessor} \todo{Possibly also cite Ribeiro 2014}. We note that feature integration is a concern on the architectural level, while the merge is performed line-by-line on the source-code level. The mismatch between the architectural concern and the abstraction level on which it is carried out ensures that the integration (or merge) process is time consuming and has a high risk of introducing defects.
+Today, a developer performing a feature-related merge in a revision control system must make ad-hoc decisions on the final result, with respect to presence conditions over source code \cite{stanciulescu2016concepts}. This means that the concern of the developer is at the source-code level, dealing with fundamental (preprocessor) language constructs defining the presence conditions of particular code blocks. We note that feature integration is a concern on the architectural level, while the merge is performed line-by-line on the source-code level. The mismatch between the architectural concern and the abstraction level on which it is carried out ensures that the integration (or merge) process is time consuming and has a high risk of introducing defects. Because of the mental overhead involved in considering multiple variants and their control flow, variability-related code is more defect-prone. Previous studies show that variability is detrimental for program comprehension \cite{melo2016latin}, \cite{favre1997understanding}, \cite{ernst2002preprocessor}, \cite{abal2014variability}, \cite{medeiros2015preprocessor}, \cite{medeiros2013syntaxerrors}.
 
 We propose to correct the mismatch of abstraction levels by introducing a domain specific language capturing the semantics of the feature integration. In particular, the language describes the outcome that the developer wants to achieve. Examples could be ``keep this functionality'' or ``remove this functionality''. We subsequently refer to these concepts simply as the \textit{intentions} of the developer. Each intention carries a mapping to actual operations that are performed on the source code. The semantics of the intentions language ensures the integrity of the underlying code upon which operations are applied to. This intentions language is the basis for creating a tool to aid the integration process structurally \cite{mens2002}, \cite{apel2011}. With proper tool support, the integration process can become more efficient from time consumption, risk, and quality perspectives. Indeed, tool support has shown to reduce variability errors in previous studies \cite{ribeiro2014emergent}.
 
-The intentions and their underlying transformations can be described using choice calculus, a formal notation for variational software, independent of programming language \cite{erwig2011choice}, \cite{walkingshaw2012choice}. In the implementation, this can be realized as conditional compilation (C preprocessor) or design patterns (object-oriented languages). Intentions could also be mapped to the source-code operations identified by Stanciulescu et al in \cite{stanciulescu2016concepts}
+The intentions and their underlying transformations can be described using choice calculus, a formal notation for variational software, independent of programming language \cite{erwig2011choice}, \cite{walkingshaw2012choice}. In the implementation, this can be realized as conditional compilation (C preprocessor) or design patterns (object-oriented languages). Intentions could also be mapped to the source-code operations identified by Stanciulescu et al. in \cite{stanciulescu2016concepts}
 
 Gousios et al. point out that an important improvement for the merging process is tool support in terms of work prioritization and estimated time for merging \cite{gousios2015}, and a prerequisite for the capability of migrating \textit{clone-and-own} to an integrated platform is having proper merge support \cite{antkiewicz2014flexible}.
 
-We now present the workflow offered by out prototype tool INCLINE/bacon. The work has been carried out jointly between Max Lillack, Ștefan St\u{a}nciulescu, Wilhelm Hedman, Thorsten Berger, and Andrzej W\k{a}sowski in \cite{lillack2017intentions}.
+We now present the workflow offered by out prototype tool \tooln. The work has been carried out jointly between Max Lillack, Ștefan St\u{a}nciulescu, Wilhelm Hedman, Thorsten Berger, and Andrzej W\k{a}sowski in \cite{lillack2017intentions}.
 
 \subsection{Intentions}
+From \cite{lillack2017intentions}:
 \begin{itemize}
     \item{Keep}
     \item{Remove}
@@ -105,7 +107,7 @@ We now present the workflow offered by out prototype tool INCLINE/bacon. The wor
     \item{AssignFeature}
     \item{Order}
     \item{Postpone}
-    \item{++ implicit Keep and Remove}
+    \item{+ implicit Keep and Remove}
 \end{itemize}
 
 \subsection{Workflow}
@@ -114,7 +116,7 @@ We now present the workflow offered by out prototype tool INCLINE/bacon. The wor
     \item Generate XML-based AST of each.
     \item Create initial/intermediary integrated model by merging ASTs of $(v, v')$.
     \item Simplify boolean conditions.
-    \item Open in BACONTOOL.
+    \item Open in \tooln.
     \item Apply intentions until satisfied.
     \item Serialize AST to text.
 \end{enumerate}

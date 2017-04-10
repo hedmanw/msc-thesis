@@ -5,7 +5,7 @@ We choose Marlin as our initial source of merge examples, because previous work 
 
 \begin{table}[h]
     \centering
-    \caption{Merge commit statistics.}
+    \caption{Marlin merge commit statistics}
     \label{tab:marlinmerge}
     \begin{tabular}{l r}
     \hline\hline
@@ -17,7 +17,7 @@ We choose Marlin as our initial source of merge examples, because previous work 
         \hspace{1em}Whitespace changes only & --2\\
         \hspace{1em}Configuration changes & --3\\
         \hspace{1em}Syntax errors & --3\\
-        \hspace{1em}No merge & --4\\
+        \hspace{1em}Evolution -- no merge & --4\\
         \hspace{2em}$\hookrightarrow$ Nbr. of useful/relevant merge commits & 35\\
     \hline\hline
     \end{tabular}
@@ -33,7 +33,7 @@ The results from the internal evaluation are shown in Table \ref{tab:internalres
     \label{tab:internalres}
     \begin{tabular}{l|llll}
 \hline\hline
-\textbf{Name} & \textbf{Bugs Manual} & \textbf{Bugs IBIT} & \textbf{\#Diff Ops.} & \textbf{\#Intentions}\\
+\textbf{Name} & \textbf{Bugs Manual} & \textbf{Bugs INCLINE} & \textbf{\#Diff Ops.} & \textbf{\#Intentions}\\
 \hline
 08856d9      & 0     & 0     & 4     & 1     \\
 17de96a      & 1     & 2     & 13    & 5     \\
@@ -45,7 +45,7 @@ The results from the internal evaluation are shown in Table \ref{tab:internalres
 \hline
 esenapaj     & 5     & 2     & 271   & 185   \\ % 23 -> 2 (column err. integration)
 jcrocholl    & 0     & 2     & 116   & 44    \\
-MakerLabMe   & 1     & 5     & 93    & 122   \\ % 12 -> 5  (column err. integration)
+STM32   & 1     & 5     & 93    & 122   \\ % 12 -> 5  (column err. integration)
 \hline\hline
     \end{tabular}
 \end{table}
@@ -61,8 +61,8 @@ The findings from the internal evaluation is:
 \textbf{Lessons learned:}
 \begin{enumerate}
     \item Provide expected output source file. Interpreting instructions is not what the experiment is about, it's about editing efficiency.
-    \item Shorten files (6000 lines is too much, Vim even has 26k). 100-200 should be enough.
-    \item Subjects will require training in BACONTOOL.
+    \item Shorten files (6000 lines in Marlin is too much, Vim even has 26k). 100-200 should be enough.
+    \item Subjects will require training in \tooln.
 \end{enumerate}
 
 %Illustrated examples.
@@ -71,7 +71,7 @@ The findings from the internal evaluation is:
 Both \cite{neves2011evolution} and \cite{passos2016coevolution} are compatible with our intentions.
 
 \section{\RQB}
-
+% ANOVA cf \cite{melo2016latin} \cite{ribeiro2014emergent}
 
 \section{\RQC}
 

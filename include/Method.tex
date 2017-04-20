@@ -2,16 +2,16 @@
 This chapter describes the data collection of merge samples, and the empirical evaluation of the intentions language and intention-based variant integration tool \tooln.
 
 \section{Data collection}
-Two methods for collecting data from open-source ecosystems have been used, one for gathering a ground truth for how variant integration is achieved through merging, and one for procuring smaller scale authentic integration candidates scenarios. We denote the output of the former method \textit{merge examples} and the output of the latter method \textit{integration scenarios}. The merge examples are used for understanding the context and execution of the variant-integrating merge. They can also be replayed for validation, since they represent the ground truth outcome of the two merge parents. As such, the merge examples serve as an important validation tool. However, since the merge examples are extracted from a three-way merging tool, they are disadvantageous for replaying in \tooln, since three-way information is not available in that environment. To this end, we use the integration scenarios, which are free from three-way contamination, but are instead lacking in the sense that they are taken out of their context and are scaled down.
+Two methods for collecting data from open-source ecosystems have been used, one for gathering a ground truth for how variant integration is achieved through merging, and one for procuring smaller scale authentic integration candidates scenarios. We denote the output of the former method \textit{merge examples} and the output of the latter method \textit{integration scenarios}. The merge examples are used for understanding the context and execution of the variant-integrating merge. They can also be replayed for validation, since they represent the ground truth outcome of the two merge parents. As such, the merge examples serve as an important validation tool. However, since the merge examples are extracted from a three-way merging tool, they are disadvantageous for replaying in \tooln, since three-way information is not available in that environment. To this end, we use the integration scenarios, which are free from three-way contamination, but are instead taken out of their context and are scaled down.
 
 \subsection{Collecting ground truth merge examples}
 To identify and validate the integration intentions we analyze variant-related merges and extract common patterns. We begin by retrieving all merges, and discard those that merged cleanly, thereby retaining those that merged with conflicts. Merged with conflicts signifies a syntactic conflict which is an indicator of potential feature integration. In order to investigate further, for each of these merges, we save the entire source tree as it was 
 a) after the merge, i.e. the \textit{result},
-b) in the first parent, i.e. the \textit{base}\footnote{This terminology will be changed for the final version to avoid confusion with \texttt{git merge-base}.}, and
-c) in the second parent, the \textit{remote}. We call this triple of source trees the \textit{related artifacts} of the merge, the relationship between its parts is shown in Figure \ref{intentions:mergespace}. Retaining and inspecting the source trees of the parents allows for insights to be gathered, and in particular the ability to replay the merge in order to reach the known result. Note that the search space, the entire set of merges encompasses \textit{all} merges, that is, merges that occurred in a fork but were subsequently merged into the mainline are also included. We do \textit{not} use the \texttt{-{}-first-parent} option to Git, which would discard such further merges residing in recursive parents, and instead use only the first parent when finding merges. The merges that are included by this broader search scope originate either from ordinary feature merging or from pull requests where the branch of the requester is out of date.%\todo{Figure showing ABL feature integration and Deltabot feature integration.}
+b) in the first parent, i.e. the \textit{head}, and
+c) in the second parent, the \textit{merge head}. We call this triple of source trees the \textit{related artifacts} of the merge, the relationship between its parts is shown in Figure \ref{intentions:mergespace}. Retaining and inspecting the source trees of the parents allows for insights to be gathered, and in particular the ability to replay the merge in order to reach the known result. Note that the search space, the entire set of merges encompasses \textit{all} merges, that is, merges that occurred in a fork but were subsequently merged into the mainline are also included. We do \textit{not} use the \texttt{-{}-first-parent} option to Git, which would discard such further merges residing in recursive parents, and instead use only the first parent when finding merges. The merges that are included by this broader search scope originate either from ordinary feature merging or from pull requests where the branch of the requester is out of date.%\todo{Figure showing ABL feature integration and Deltabot feature integration.}
 
 When the related artifacts from each merge have been collected, we inspect them and discard merges with any of the following properties: 
-a) all conflicts occurred in non-source-code artifacts, b) at least one artifact cannot be compiled, c) there are only whitespace changes between the merge parents, or d) contain some project-specific uninteresting changes (see Results for examples of uninteresting in practice).
+a) all conflicts occurred in non-source-code artifacts, b) at least one artifact cannot be compiled, c) there are only whitespace changes between the merge parents, or d) contain some project-specific uninteresting changes (see Results \todo{reference} for examples of uninteresting in practice).
 
 \begin{figure}[h]
     \centering
@@ -24,9 +24,9 @@ a) all conflicts occurred in non-source-code artifacts, b) at least one artifact
         \tikzstyle{messagel} = [xshift=-1cm, yshift=-0.6cm, anchor=east]
     
         \node[commit, double, label={[messager]Result}] (res) at (0,0) {$m$};
-        \node[commit, label={[messager]Base}] (ba) at (0,2) {$p_1$};
-        \node[commit, label={[messagel]Remote}] (re) at (-2,2) {$p_2$};
-        \node[commit, ancestor, label={[messager, color=gray]Common ancestor}] (an) at (0,4) {};
+        \node[commit, label={[messager]Head}] (ba) at (0,2) {$p_1$};
+        \node[commit, label={[messagel]Merge head}] (re) at (-2,2) {$p_2$};
+        \node[commit, ancestor, label={[messager, color=gray]Merge base}] (an) at (0,4) {};
         
         \draw[thick, decoration={brace,mirror,raise=5pt},decorate] (3,-0.5) -- node[right=6pt] {Related artifacts} (3, 2.5);
         
@@ -39,11 +39,12 @@ a) all conflicts occurred in non-source-code artifacts, b) at least one artifact
         % NOTE: There is a bug in tikz with -latex arrows and colors. The arrows should therefore be drawn last, otherwise the colors of the arrowheads can mess up.
         
     \end{tikzpicture}
-    \caption{Merge commit context. The merge commit $m$ has two parents, $p_1$ and $p_2$. The entire state of the source tree is gathered, as they appear in these commits, denoted \textit{result}, \textit{base}, and \textit{remote}. This triple of source tree sets constitute the \textit{related artifacts} of the commit $m$.}
+    \caption{Merge commit context. The merge commit $m$ has two parents, $p_1$ and $p_2$. The entire state of the source tree is gathered, in these three commits. These source sets are denoted \textit{result}, \textit{head}, and \textit{merge head}. This triple of source tree sets constitute the \textit{related artifacts} of the commit $m$.}
     \label{intentions:mergespace}
 \end{figure}
 
 \subsection{Creating authentic integration scenarios}
+\todo{Redo}
 Since the merge examples discussed in the previous section would be replayed without three-way information, and are potentially very large, we want to have a neutral and concentrated basis for task creation, the \textit{integration scenarios}. The contents of integration scenarios are based on variant merges from the ecosystem (mainline + forks), with the diff chunks consolidated so that there is not an abundance of code with no changes. Additionally, changes may originate from several different source files, and can have syntax and semantics changed. The structure of the source chunks, and the conflict resolution ground truth is however left intact.
 
 Done on \busybox~+ \vim.
@@ -72,7 +73,7 @@ Each developer performs 3-4 tasks, at least one of each kind. The integration ta
 \hline
 esenapaj     & Fork         & 3 & 98    & 118   & 734   \\
 jcrocholl    & Fork         & 1 & 39    & 27    & 290   \\
-MakerLabMe   & Fork         & 3 & 153   & 26    & 423   \\
+STM32        & Fork         & 3 & 153   & 26    & 423   \\
 \hline\hline
     \end{tabular}
 \end{table}
@@ -82,7 +83,7 @@ This sections describes the experimental design and setup.
 %Designed based on Melo et al \cite{melo2016latin} (also the subsequent paper from 2017). % -- it has really good related work that can be used to show that the preprocessor (and configurations) are often erroneous.
 
 \subsection{Objective}
-To establish the beneficence of of the intention-based approach in general, and the intention-based integration tool in particular, we evaluate the tool using subject programs from other sources than Marlin, since Marlin was used to elicit the intentions. The purpose of this controlled experiment is to answer the following research questions:
+To establish the beneficence of the intention-based approach in general, and the intention-based integration tool in particular, we evaluate the tool using subject programs from other sources than Marlin, since Marlin was used to elicit the intentions. The purpose of this controlled experiment is to answer the following research questions:
 \begin{enumerate}[label={Q\arabic*}]
     \setcounter{enumi}{1}
     \item \RQB
@@ -101,12 +102,12 @@ We choose \busybox~ and \vim~ as representative subjects because they are highly
     \centering
     \caption{Characteristics of the tasks \po~and \pt.}
     \label{method:charac}
-    \begin{tabular}{c l c c c c c}
+    \begin{tabular}{c l l l l l l}
     \hline
     \hline
-        \textbf{Prg} & \textbf{Origin} & \textbf{LOC} & \textbf{\#chunks} & \textbf{AICL} & \textbf{\#excl. chunks} & \textbf{AECL} \\\hline
-        \po & \busybox & - & - & - & - & -\\\hline
-        \pt & \vim & - & - & - & - & - \\
+        \textbf{Prg} & \textbf{Origin} & \textbf{Res. LOC} & \textbf{\#chunks} & \textbf{AICL} & \textbf{\#excl. chunks} & \textbf{AECL} \\\hline
+        \po & \busybox  & 50 & - & - & - & -\\\hline
+        \pt & \vim      & 50 & - & - & - & - \\
         \hline
         \hline
     \end{tabular}

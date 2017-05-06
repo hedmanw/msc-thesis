@@ -1,0 +1,127 @@
+\chapter{Intentions language}
+\section{Intentions examples}
+\cite{lillack2017intentions}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifndef FORK
+!\colorbox{shadecolor}{ int servo\_e1[]  = SE}!
+!\colorbox{shadecolor}{ int servo\_e2[] = SEA}!
+#else
+ int16_t servo_e1 = SE
+ int16_t servo_e2[] = SEA
+#endif
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Unwrapped code,escapechar=!]{Name}
+int servo_e1[] = SE
+int servo_e2[] = SEA
+#ifdef FORK
+ int16_t servo_e1 = SE
+ int16_t servo_e2 = SEA
+#endif
+\end{lstlisting}
+    \end{minipage}
+    \caption{Keep intention (left) and result (right). Note condition rewriting.}
+    \label{fig:keep}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifndef FORK
+!\colorbox{shadecolor}{ int servo\_e1[]  = SE}!
+!\colorbox{shadecolor}{ int servo\_e2[] = SEA}!
+#else
+ int16_t servo_e1 = SE
+ int16_t servo_e2[] = SEA
+#endif
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Unwrapped code,escapechar=!]{Name}
+#ifdef FORK
+ int16_t servo_e1 = SE
+ int16_t servo_e2 = SEA
+#endif
+\end{lstlisting}
+    \end{minipage}
+    \caption{Remove intention (left) and result (right). Note condition rewriting.}
+    \label{fig:remove}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.40\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifdef FORK
+!\colorbox{shadecolor}{ card.pauseSDPrint();}!
+ serial.writeln("Aborted");
+#endif
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.40\textwidth}
+\begin{lstlisting}[caption=Unwrapped code,escapechar=!]{Name}
+#ifdef SDSUPPORT
+ card.pauseSDPrint();
+#endif
+#ifdef FORK
+ serial.writeln("Aborted");
+#endif
+\end{lstlisting}
+    \end{minipage}
+    \caption{Keep as Feature intention (left) and result (right).}
+    \label{fig:keepasfeature}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.50\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifndef FORK
+// block_1
+!\colorbox{shadecolor}{ set\_pos(curr\_pos[X], curr\_pos[Y]);}!
+#else
+// block_2
+!\colorbox{shadecolor}{ calculate\_delta(current\_pos);}!
+!\colorbox{shadecolor}{ set\_pos(delta[X], delta[Y]);}!
+#endif
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.50\textwidth}
+\begin{lstlisting}[caption=Unwrapped code,escapechar=!]{Name}
+#ifndef DELTA
+ set_pos(curr_pos[X], curr_pos[Y]);
+#else
+ calculate_delta(current_pos);
+ set_pos(delta[X], delta[Y]);
+#endif
+\end{lstlisting}
+    \end{minipage}
+    \caption{Exclusive intention (left) and result (right).}
+    \label{fig:exclusive}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifdef !\colorbox{shadecolor}{FORK}!
+ card.pauseSDprint();
+#endif
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Unwrapped code,escapechar=!]{Name}
+#ifdef SDSUPPORT
+ card.pauseSDprint();
+#endif
+\end{lstlisting}
+    \end{minipage}
+    \caption{Assign Feature intention (left) and result (right).}
+    \label{fig:assignfeature}
+\end{figure}

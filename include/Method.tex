@@ -5,13 +5,13 @@ This chapter describes the data collection of merge samples, and the empirical e
 Two methods for collecting data from open-source ecosystems have been used, one for gathering a ground truth for how variant integration is achieved through merging, and one for procuring smaller scale authentic integration candidates scenarios. We denote the output of the former method \textit{merge examples} and the output of the latter method \textit{integration scenarios}. The merge examples are used for understanding the context and execution of the variant-integrating merge. They can also be replayed for validation, since they represent the ground truth outcome of the two merge parents. As such, the merge examples serve as an important validation tool. However, since the merge examples are extracted from a three-way merging tool, they are disadvantageous for replaying in \tooln, since three-way information is not available in that environment. To this end, we use the integration scenarios, which are free from three-way contamination, but are instead taken out of their context and are scaled down.
 
 \subsection{Collecting ground truth merge examples}
-To identify and validate the integration intentions we analyze variant-related merges and extract common patterns. We begin by retrieving all merges, and discard those that merged cleanly, thereby retaining those that merged with conflicts. Merged with conflicts signifies a syntactic conflict which is an indicator of potential feature integration. In order to investigate further, for each of these merges, we save the entire source tree as it was 
+To identify and validate the integration intentions we analyze variant-related merges and extract common patterns. We begin by retrieving all merges, and discard those that merged without conflicts. Merge instances with conflicts signify a syntactic conflict which is an indicator of potential feature integration. In order to investigate further, for each of these merges, we save the state of the entire source tree at thee following revisions:  
 a) after the merge, i.e. the \textit{result},
 b) in the first parent, i.e. the \textit{head}, and
 c) in the second parent, the \textit{merge head}. We call this triple of source trees the \textit{related artifacts} of the merge, the relationship between its parts is shown in Figure \ref{intentions:mergespace}. Retaining and inspecting the source trees of the parents allows for insights to be gathered, and in particular the ability to replay the merge in order to reach the known result. Note that the search space, the entire set of merges encompasses \textit{all} merges, that is, merges that occurred in a fork but were subsequently merged into the mainline are also included. We do \textit{not} use the \texttt{-{}-first-parent} option to Git, which would discard such further merges residing in recursive parents, and instead use only the first parent when finding merges. The merges that are included by this broader search scope originate either from ordinary feature merging or from pull requests where the branch of the requester is out of date.%\todo{Figure showing ABL feature integration and Deltabot feature integration.}
 
 When the related artifacts from each merge have been collected, we inspect them and discard merges with any of the following properties: 
-a) all conflicts occurred in non-source-code artifacts, b) at least one artifact cannot be compiled, c) there are only whitespace changes between the merge parents, or d) contain some project-specific uninteresting changes (see Results \todo{reference} for examples of uninteresting in practice).
+a) all conflicts occurred in non-source-code artifacts, b) at least one artifact cannot be compiled, c) there are only whitespace changes between the merge parents, or d) contain some project-specific uninteresting changes (see Results \todo{reference} for examples of what uninteresting entails in practice).
 
 \begin{figure}[h]
     \centering
@@ -22,7 +22,7 @@ a) all conflicts occurred in non-source-code artifacts, b) at least one artifact
         \tikzstyle{ancestor} = [draw=gray, dashed]
         \tikzstyle{messager} = [xshift=1cm, yshift=-0.6cm, anchor=west]
         \tikzstyle{messagel} = [xshift=-1cm, yshift=-0.6cm, anchor=east]
-    
+
         \node[commit, double, label={[messager]Result}] (res) at (0,0) {$m$};
         \node[commit, label={[messager]Head}] (ba) at (0,2) {$p_1$};
         \node[commit, label={[messagel]Merge head}] (re) at (-2,2) {$p_2$};
@@ -94,20 +94,20 @@ To establish the beneficence of the intention-based approach in general, and the
 In order to study the beneficence of our intention-based approach, we let each participant solve one task using the ordinary unstructured merge tool inside Eclipse CDT, and one task using \tooln. The two treatment levels are thus \textit{Eclipse CDT} \texttt{Ecl} and \textit{\tooln} \texttt{MPS}.
 
 \subsection{Subjects}
-We prepare two programs to be used in the experiment, using the process for collecting authentic variant integration scenarios, \po, based on \busybox, and \pt, based on \vim. These two programs are created as condensed versions of the changeset of a particular fork variant, for brevity and comprehension during the experiment. Table \ref{method:charac} lists the characteristics of the subject programs. \textit{Chunks and excluded chunks} shows the number of selected chunks from the full changeset to be in the program, and the excluded count. \textit{Average Included (Excluded) Chunk Length} (AICL/AECL) is the average length of each included chunk and excluded chunk. This should be understood as selecting the most suited changes across the files, and placing them in a single file, in order to not waste valuable time for the participants on long blocks without any changes, as to keep the programs brief.
+We prepare two programs to be used in the experiment, using the process for collecting authentic variant integration scenarios, \po, based on \busybox, and \pt, based on \vim. These two programs are created as condensed versions of the changeset of a particular fork variant, for brevity and comprehension during the experiment. This should be understood as selecting the most suited changes across the files, and placing them in a single file, in order to not waste valuable time for the participants on long blocks without any changes, as to keep the programs brief. Table \ref{method:charac} lists the characteristics of the subject programs. All measurements relate to the integrated model of the programs, with \textit{Integrated LOC} signifying the LOC. \textit{Chunks and excluded chunks} shows the number of selected variation points from the full changeset to be in the program, and the excluded count. \textit{Variable LOC} (VLOC) is LOC count of lines under a presence condition containing the literal \texttt{FORK} -- i.e. the LOC count in variant branches in the integrated model -- in particular, these are the lines that must be manipulated by the participants.
 
 We choose \busybox~ and \vim~ as representative subjects because they are highly-configurable open source systems, and have been subjects in previous studies \cite{berger2013study}, \cite{liebig2010preprocessor}, \cite{liebig2011discipline}.
 
 \begin{table}[h]
     \centering
-    \caption{Characteristics of the tasks \po~and \pt.}
+    \caption{Characteristics of the programs \po~and \pt.}
     \label{method:charac}
-    \begin{tabular}{c l l l l l l}
+    \begin{tabular}{c l l l l l}
     \hline
     \hline
-        \textbf{Prg} & \textbf{Origin} & \textbf{Res. LOC} & \textbf{\#chunks} & \textbf{AICL} & \textbf{\#excl. chunks} & \textbf{AECL} \\\hline
-        \po & \busybox  & 50 & - & - & - & -\\\hline
-        \pt & \vim      & 50 & - & - & - & - \\
+        \textbf{Prg} & \textbf{Origin} & \textbf{Integ. LOC} & \textbf{\#chunks} & \textbf{\#excl. chunks} & \textbf{VLOC}\\\hline
+        \po & \busybox  & 73 & 8 & - & 36\\\hline
+        \pt & \vim      & 49 & 5 & - & 29\\
         \hline
         \hline
     \end{tabular}
@@ -138,13 +138,11 @@ Since developers are assigned at random, no further permutation of the treatment
 \end{table}
 
 \subsection{Execution}
-Before running the actual experiment, we executed a pilot study with the authors of \cite{lillack2017intentions}, in order to assess the presentation of the tasks and the distribution of our tooling.
+%Before running the actual experiment, we executed a pilot study with the authors of \cite{lillack2017intentions}, in order to assess the presentation of the tasks and the distribution of our tooling.
+Before the experiment, the backgrounds of the participants are elicited through a questionnaire. The questions are likert-scale about how familiar they are with certain programming languages and merging techniques.
 
-Planned execution with subjects:
-\begin{itemize}
-    \item Introduction/tutorial to both tools
-    \item Small warm-up example
-    \item Distribution of tasks
-    \item Execution
-    \item Debriefing interview + questionnaire
-\end{itemize}
+Introductions to each task are done by screen cast, to ensure that all participants receive the same introduction, regardless of which session they attend.
+
+After the tasks are completed, participants fill in an exit questionaire with closed and open questions about their perceptions of INCLINE and intention-based integration contra regular, unstructured integration in a merge tool.
+
+Debriefing interviews with participants ask about benefits, challenges, and improvements.

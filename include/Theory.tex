@@ -9,15 +9,14 @@ A revision control system is used to manage the revisions and variants of a soft
 Revision control systems can be divided into two classes: \textit{unstructured} revision control systems that operate on plaintext; and \textit{structured} revision control systems that rely on structure and semantics of the document being stored in order to leverage this knowledge for merge conflict resolution \cite{mens2002}, \cite{apel2011}. The former has reached popularity due to being language independent; examples of such revision control systems include Git, Subversion, and CVS, while structured revision control systems are mainly of academic interest, since they are not language independent \cite{apel2011}. Apel et al. \cite{apel2011} introduce the concept of a \textit{semistructured} revision control system, and in particular the \textit{semistructured} merge, which combines the strengths of the two classes, while minimizing their inherent weaknesses.
 
 \subsection{Merging}
-Since separate development tasks are carried out in parallel by different developers concurrently, contemporary revision control systems are \textit{optimistic}, meaning that each developer can work on their own personal copy of a particular artifact \cite{mens2002}. In practice, this means that two different developers can change the same file at the same time. Merging is the process that occurs whenever parallel changes to the same file are reconciled to a new revision, combining the changes. In cases where the merging algorithm cannot infer how to apply the parallel changes because they somehow conflict, the resolution task is delegated to the user. This is a so-called \textit{merge conflict}. TODO: Explain three-way merging.
+Since separate development tasks are carried out in parallel by different developers concurrently, contemporary revision control systems are \textit{optimistic}, meaning that each developer can work on their own personal copy of a particular artifact \cite{mens2002}. In practice, this means that two different developers can change the same file at the same time. Merging is the process that occurs whenever parallel changes to the same file are reconciled to a new revision, combining the changes. In cases where the merging algorithm cannot infer how to apply the parallel changes because they somehow conflict, the resolution task is delegated to the user. This is a so-called \textit{merge conflict}. Contemporary revision control systems use three-way merging, which minimizes the number of conflicts that must be delegated because evolution can be inferred \cite{mens2002}. The name three-way merge comes from its input of three revisions: the two revisions of the software artifact to be merged; and their common ancestor revision \cite{mens2002}. A two-way merge takes only the two revisions to be merged as input, meaning that all differences between the two artifacts must be reconciled manually by the user.
 
 \subsection{Forks}
-\todo{TODO: cite original source for forking negative assoc.}
-Historically, the term \textit{forking} had a negative connotation, signifying a community schism or split causing subsequent independent divergent development efforts \cite{stanciulescu2015}. Today, forks and forking are integral parts of open-source and proprietary projects \cite{stanciulescu2015}. % TODO: Needs more citations
-Forking is an explicit part of modern revision control platforms, such as Github or Bitbucket. Making forks a first-class citizen enables traceability and facilitates forking as a development model, by propagating commits across the ecosystem using \textit{pull requests} \cite{stanciulescu2015}. TODO: Explain pull requests.
+Historically, the term \textit{forking} had a negative connotation, signifying a community schism or split causing subsequent independent divergent development efforts \cite{stanciulescu2015}. Today, forking (creating a \textit{fork}, a clone or duplicate of an entire project) is an integral part of open-source software communities \cite{gousios2014pullreq}, \cite{stanciulescu2015}.
+Forking is an explicit part of modern social revision control platforms, such as Github or Bitbucket \cite{gousios2015}. Making forks a first-class citizen enables traceability and facilitates forking as a part of a pull-based development model \cite{stanciulescu2015}. In this model, changes are propagated across the ecosystem dynamically, using \textit{pull requests} \cite{gousios2014pullreq}, \cite{gousios2015}, \cite{stanciulescu2015}. In projects that employ a pull-based development model, any individual can create a fork and apply their desired changes, locally and decentralized. To spread their changes, possibly back into the mainline, they submit a pull request, indicating to the mainline developers that they should consider pulling and integrating the fork, should the quality be sufficient. During the lifetime of the pull request, it is possible that evolution occurs on the mainline -- it is then up to the requester to maintain their changes compatible with the evolved mainline.
 
 \section{Features and variability}
-This section explains the complicated relationship between variants, features, and variability.
+This section explains the complicated relationship between variants, features, and variability. 
 
 \subsection{FOSD and SPLE}
 Feature-Oriented Software Development (FOSD) is a paradigm for constructing large-scale software systems \cite{apel2009overview}. In FOSD, features are first-class citizens of the implementation of a software system \cite{apel2009overview}. As such, a highly configurable system is composed of a set of enabled features, which constitute the resulting system. A Software Product Line (SPL) is the set of software systems that can be derived from a set of features. Both FOSD and Software Product Line Engineering (SPLE) enable systematic reuse of components \cite{apel2009overview}, \cite{antkiewicz2014flexible}, meaning that they alleviate the negative aspects of clone-and-own by consolidating features.
@@ -53,7 +52,7 @@ Currently, the process of integrating variants is based on manual unstructured m
 
 \subsection{SPL evolution patterns}
 Table \ref{tab:safeevo}: Safe evolution templates for SPLs from \cite{neves2011evolution}. Feature addition and removal patterns from \cite{passos2016coevolution}. Also: \cite{stanciulescu2016concepts}.
-\begin{table}[h]
+\begin{table}[ht]
     \centering
     \caption{Safe evolution templates for SPLs \cite{neves2011evolution}}
     \label{tab:safeevo}
@@ -80,11 +79,14 @@ Table \ref{tab:safeevo}: Safe evolution templates for SPLs from \cite{neves2011e
 %\end{table}
 
 \section{Projectional editing}
-\cite{voelter2014towards} \cite{behringer2017peopl}.
+A projectional editor behaves \cite{voelter2014towards} 
+
 
 St\u{a}nciulescu et al. \cite{stanciulescu2016concepts} demonstrate the benefit of a projection-based variation control system to alleviate the complexities of maintaining and evolving code with preprocessor annotations.
 
-Berger et al. \cite{berger2016mps} have previously conducted a controlled experiment using students and industrial developers, to determine their editing efficiency in the projectional editor MPS, compared to a traditional parser-based editor. The participants are given four simple programming tasks to complete by editing a provided program, transforming it into the task solution. They find that with training, projectional text editing is more efficient than parser-based text editing.
+A recurring problem with annotation-based variation control systems is that source code chunks are shown with misaligned indenting \cite{behringer2017peopl}. This is caused by the fact that such variation control systems hide code blocks based on annotations, without compensating in the indentation structure of dependent code blocks. Projectional editing solves this alignment issue, since AST nodes are indented based on context rather than whitespace characters in a text buffer.
+
+Berger et al. \cite{berger2016mps} have previously conducted a controlled experiment using students and industrial developers, to determine their editing efficiency in the projectional editor MPS, compared to a traditional parser-based editor. The participants are given four simple programming tasks to complete by editing a provided program, transforming it into a solution. They find that with training, projectional text editing is more efficient than parser-based text editing.
 
 \section{Intention-based variant integration}
 Today, a developer performing a feature-related merge in a revision control system must make ad-hoc decisions on the final result, with respect to presence conditions over source code \cite{stanciulescu2016concepts}. This means that the concern of the developer is at the source-code level, dealing with fundamental language constructs defining the presence conditions of particular code blocks. We note that feature integration is a concern on the architectural level, while the merge is performed line-by-line on the source-code level. The mismatch between the architectural concern and the abstraction level on which it is carried out ensures that the integration (or merge) process is time consuming and has a high risk of introducing defects. Because of the mental overhead involved in considering multiple variants and their control flow, variability-related code is more defect-prone. Previous studies show that variability is detrimental for program comprehension \cite{melo2016latin}, \cite{favre1997understanding}, \cite{ernst2002preprocessor}, \cite{abal2014variability}, \cite{medeiros2015preprocessor}, \cite{medeiros2013syntaxerrors}.
@@ -111,11 +113,14 @@ From \cite{lillack2017intentions}:
     \item{+ implicit Keep and Remove}
 \end{itemize}
 
+Examples of the intentions are given in Appendix A.
+
+
 \subsection{Workflow}
 \begin{enumerate}
     \item Input two variant files, $(v, v')$. 
     \item Generate XML-based AST of each.
-    \item Create initial/intermediary integrated model by merging ASTs of $(v, v')$.
+    \item Create initial/intermediary integrated model by merging ASTs of $(v, v')$. (Two-way merge respecting ifdefs)
     \item Simplify boolean conditions.
     \item Open in \tooln.
     \item Apply intentions until satisfied.

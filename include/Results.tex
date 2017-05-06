@@ -1,7 +1,8 @@
 \chapter{Results}
+Results from gathering data, and experiments and stuff.
 
 \section{Data collection}
-We choose Marlin as our initial source of merge examples, because previous work has identified important concepts in the Marlin ecosystem that we build upon, and because of access to the authors \cite{stanciulescu2015}, \cite{stanciulescu2016concepts}. In Marlin, we retrieve all 2065 merges, and extract those that were merged with conflicts, yielding 49 merges. We discard 2 merges that had conflicts only in non-source-code files (documentation), 2 that conflicted due to whitespace changes, 3 that conflicted due to configuration changes\footnote{While configuration management is indeed an important part of FOSD, in these cases, the developers have mistakenly committed their personal 3D-printer configurations into a configuration template file while committing other relevant changes, cf. Stanciulescu et al. \cite{stanciulescu2015}.}. Another 3 merges are discarded because some some related artifact had syntax errors and could not be compiled. Additionally, 4 merges are discarded because they simply accept the mainline changes as evolution, i.e. empty changeset, and are therefore uninteresting. This is summarized in Table \ref{tab:marlinmerge}. The remaining 35 merge commits are used for subsequent analysis of integration scenarios and a subset are used for replaying in our internal tool evaluation.
+We choose Marlin as our initial source of merge examples, because previous work has identified important concepts in the Marlin ecosystem that we build upon, and because of access to the authors of \cite{stanciulescu2015}, \cite{stanciulescu2016concepts}. In Marlin, we retrieve all 2065 merges, and extract those that were merged with conflicts, yielding 49 merges. We discard 2 merges that had conflicts only in non-source-code files (documentation), 2 that conflicted due to whitespace changes, 3 that conflicted due to configuration changes\footnote{While configuration management is indeed an important part of FOSD, in these cases, the developers have mistakenly committed their personal 3D-printer configurations into a configuration template file while committing other relevant changes, cf. Stanciulescu et al. \cite{stanciulescu2015}.}. Another 3 merges are discarded because some some related artifact had syntax errors and could not be compiled. Additionally, 4 merges are discarded because they simply accept the mainline changes as evolution, i.e. empty changeset, and are therefore uninteresting. This is summarized in Table \ref{tab:marlinmerge}. The remaining 35 merge commits are used for subsequent analysis of integration scenarios and a subset are used for replaying in our internal tool evaluation.
 
 \begin{table}[h]
     \centering
@@ -53,7 +54,7 @@ STM32   & 1     & 5     & 93    & 122   \\ % 12 -> 5  (column err. integration)
 The findings from the internal evaluation is:
 
 \begin{itemize}
-    \item The intentions suffice for performing all integration tasks. Often, just using \textit{Keep} and \textit{Remove} resolves the task.
+    \item The intentions suffice for performing all integration tasks.
     \item When intentions are correctly declared, then our proposed resolutions of the intentions and their actual implementations produce a correctly integrated configurable platform.
     \item Substantially fewer operations are required when using intentions, compared to the operations required when using an ordinary merge tool.
 \end{itemize}
@@ -65,7 +66,17 @@ The findings from the internal evaluation is:
     \item Subjects will require training in \tooln.
 \end{enumerate}
 
-%Illustrated examples.
+
+\section{Controlled experiment}
+Illustrated examples of the involved tasks.
+
+Background questionnaire.
+
+Experiment results.
+
+Exit questionnaire.
+
+Debriefing interviews.
 
 \section{\RQA}
 Both \cite{neves2011evolution} and \cite{passos2016coevolution} are compatible with our intentions.

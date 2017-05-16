@@ -1,7 +1,32 @@
 \chapter{Discussion}
-%Schulze et al. show that the discipline of preprocessor annotations have no effect on program comprehension \cite{schulze2013discipline}.
 
 \section{Threats to validity}
 % Shitty selection from BusyBox and Vim, but no traceability because they don't use pull requests.
+This section reports on the threats to validity regarding the controlled experiment.
 
-% Marlin insights
+\subsection{Internal validity}
+\textbf{Choice of programs.} We chose BusyBox and Vim for the subject programs because of XXXX. 
+%Schulze et al. show that the discipline of preprocessor annotations have no effect on program comprehension \cite{schulze2013discipline}.
+Since no domain knowledge was required for conducting the integration tasks, having no previous knowledge of the projects or domains is not a disadvantage.
+
+\textbf{Selection bias.} The participants are randomly assigned to programs and treatments in the Latin square, minimizing selection bias. Additionally, each participant is exposed to both programs, and both treatments.
+
+\textbf{Carryover effects.} Since two tasks are performed, it is possible that carryover effects influence the outcome of the second task, in particular the positive carryover effect of learning. To mitigate any carryover effects, we used a counterbalanced design, where the order of the two tasks are randomized.
+
+\subsection{Conclusion validity}
+\textbf{Statistical tests.} \anova~compares group means, meaning that subject incompetence is reduced.
+
+\textbf{Carryover effects.} There could be asymmetric skill transfer occurring in a counterbalanced experiment design. But the internet doesn't know how to calculate it, so neither do I.
+
+\subsection{Construct validity}
+\textbf{Do participants know what to do?} All participants are shown the same introductory screen recordings that introduce the experiment, and explain each tool.
+
+\textbf{Timeboxing!?} Well, what about it?
+
+\subsection{External validity}
+Larger programs?
+Real programs?
+
+
+\section{Tracability impacts}
+The pull-based development model employed by the Marlin project provides significant traceability benefits \cite{gousios2014pullreq}. With the available information, it is possible to automate the data mining and analysis of variant forking and re-integrating, which has been leveraged in previous works \cite{stanciulescu2015}, \cite{stanciulescu2016concepts}.

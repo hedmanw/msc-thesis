@@ -10,27 +10,27 @@ The following research questions are investigated:
 
 \newcommand{\RQA}{Does the set of intentions suffice for variant integration?}
 \newcommand{\RQB}{Is there a benefit over manual integration with a diff tool?}
-\newcommand{\RQC}{How is the merge process different using the intention-based integration tool?}
+\newcommand{\RQC}{How is the integration process different using the intention-based integration tool?}
 
 \begin{enumerate}[label={Q\arabic*}]
 
         \item\label{rq-a} \textbf{Completeness:} \textit{\RQA}~We perform this verification step in order to assert that the intentions language can be instantiated to capture actual witnessed merges from real scenarios. This seeks to establish the completeness of the language.
 
         \item\label{rq-b} \textbf{Efficiency:} \textit{\RQB}~Our goal is that time effort, required edit operations, and code quality can be improved by a workflow incorporating the intention-based integration tool, which we summarize as the overall beneficence of the tool.\\
-        TODO: List hyptotheses?!
-
+        We conjecture that a workflow with \tooln~is more efficient than a manual workflow.
         
         \item\label{rq-c} \textbf{Qualitative differences:} \textit{\RQC}~This is an investigation into the perceived and evident qualitative differences of the two integration approaches.
         
 \end{enumerate}
 
-To answer the research questions, we first mine highly configurable open source systems for variant integration merges, and analyze them to show that the intentions are capable expressing the witnessed merges, meaning that they are complete (Q1). We then perform a controlled experiment using students, measuring their editing efficiency when integrating variants in Eclipse CDT and \tooln~(Q2). The qualitative differences between unstructured integration and intention-based integration are elicited from participants in the controlled experiment using semi-structured interviews and questionnaires (Q3).
+To answer the research questions, we first mine highly configurable open source systems for variant integration merges, and analyze them to show that the intentions are capable expressing the witnessed merges, meaning that they are complete (Q1). We then perform a controlled experiment using students, measuring their editing efficiency and defects introduced when integrating variants in Eclipse CDT and \tooln~(Q2). The qualitative differences between unstructured integration and intention-based integration are elicited from participants in the controlled experiment using semi-structured interviews and questionnaires (Q3).
 
 This thesis contributes:
 \begin{itemize}
-    \item a dataset of variability-related merges,
-    \item empirical data on the variant integration using our prototype intention-based variant integration tool,
-    \item a qualitative investigation into the differences between intention-based and manual variant integration
+    \item a dataset of variability-related merges from \marlin,
+    \item data from a preliminary evaluation with three participants,
+    \item empirical data on the variant integration using our prototype intention-based variant integration tool, with 16 participants, and
+    \item a qualitative investigation into the differences between intention-based and manual variant integration, using professional developers
 \end{itemize}
 
 The thesis is structured as follows: Chapter 2 outlines the background and rationale of variant integration. The methodology for data collection and experiments is presented in Chapter 3. Chapter 4 reports the results of the data collection and evaluation, and answers the research questions. Chapter 5 contains a discussion on method, execution, and validity threats. Chapter 6 concludes with an outlook on future work.

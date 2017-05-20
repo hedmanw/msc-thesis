@@ -2,7 +2,7 @@
 This chapter reports on the data collection from Marlin, demonstrates replayed integrations using intentions, and reports the completeness of the intentions language.
 
 \section{Variability-related Merges from Marlin}\label{data-coll-res}
-TODO: change headline in method also, and make the data available in appendix
+TODO: make the data available in appendix
 In Marlin, we retrieve all 2065 merges, and extract those that were merged with conflicts, yielding 49 merges. We discard 2 merges that had conflicts only in non-source-code files (documentation), 2 that conflicted due to whitespace changes, 3 that conflicted due to configuration changes\footnote{While configuration management is indeed an important part of FOSD, in these cases, the developers have mistakenly committed their personal 3D-printer configurations into a configuration template file while committing other relevant changes, cf. Stanciulescu et al. \cite{stanciulescu2015}.}. Another 3 merges are discarded because some related artifact had syntax errors and could not be compiled. Additionally, 4 merges are discarded because they simply accept the mainline changes as evolution, i.e. empty changeset, and are therefore uninteresting. This is summarized in Table \ref{tab:marlinmerge}. The remaining 35 merge commits are used for subsequent analysis of integration scenarios and a subset are used for replaying in our internal tool evaluation.
 
 \begin{table}[h]
@@ -26,9 +26,9 @@ In Marlin, we retrieve all 2065 merges, and extract those that were merged with 
 \end{table}
 
 \section{Replaying Merges with Intentions}
-TODO: inline examples from mining
+
 
 \section{\RQA}
-We have shown in the internal evaluation that all the selection of integrations works fine. Hooray.
+The intentions language can be used to replay all variability-related merges in the Marlin mainline.
 
-Additionally, the safe evolution templates for software product lines presented by Neves et al \cite{neves2011evolution} are analogous to the intentions.
+%Additionally, the safe evolution templates for software product lines presented by Neves et al \cite{neves2011evolution} are analogous to the intentions.

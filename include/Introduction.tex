@@ -3,7 +3,7 @@ Highly configurable software systems stem from the need of adapting software to 
 
 The re-engineering process of variant integration, going from clone-and-own to integrated platform, is typically performed using revision control systems and diff tools, meaning that practitioners undertake the task similar to the task of software merging. The developer performing the merge must manually handle both the variability and potential conflicts on a source code level \cite{mens2002}, \cite{apel2011}, while features are in fact an architectural concern. This mismatch of abstraction levels means that feature integration is a complex task, and performing it manually is time-consuming and error-prone \cite{melo2016latin}. Understanding the patterns of such conflict resolution and variability management, and abstracting it away from the source code, considering the \textit{intentions} of the developer, allows for development of variability-aware integration tools. We show that the benefits of such a variability-aware integration tool is increased work speed and a reduced number variability-related defects.
 
-This study evaluates a prototype variability-aware variant integration tool, called \tooln, based on a novel domain specific language for specifying the integration goal in terms of so-called intentions.
+This study evaluates a prototype variability-aware variant integration tool, called \tooln, based on a novel domain specific language (DSL) for specifying the integration goal in terms of so-called intentions.
 The domain specific language is validated based on data obtained from mining the open-source 3D-printer firmware \marlin. Based on this, the tool prototype is extended and refined. Using a controlled experiment, the prototype tool is evaluated comparing it to an unstructured two-way diff tool, using variant integration tasks sampled from the UNIX utilities distribution \busybox~and the text editor \vim.
 
 The following research questions are investigated:
@@ -28,12 +28,12 @@ To answer the research questions, we first mine highly configurable open source 
 This thesis contributes:
 \begin{itemize}
     \item a dataset of variability-related merges from \marlin,
-    \item data from a preliminary evaluation with three participants,
-    \item empirical data on the variant integration using our prototype intention-based variant integration tool, with 16 participants, and
-    \item a qualitative investigation into the differences between intention-based and manual variant integration, using professional developers
+    \item data from a preliminary tool evaluation with three participants,
+    \item empirical data on the variant integration using our prototype intention-based variant integration tool, with 16 student participants, and
+    \item a qualitative investigation into the differences between intention-based and manual variant integration
 \end{itemize}
 
-The thesis is structured as follows: Chapter 2 outlines the background and rationale of variant integration. The methodology for data collection and experiments is presented in Chapter 3. Chapter 4 reports the results of the data collection and evaluation, and answers the research questions. Chapter 5 contains a discussion on method, execution, and validity threats. Chapter 6 concludes with an outlook on future work.
+The thesis is structured as follows: Chapter 2 outlines the background and rationale of variant integration. The methodology for data collection and experiments is presented in Chapter 3. Chapter 4 contains the results from the data collection of variant integration examples. The results of the empirical evaluation is reported in Chapter 5. Chapter 6 contains a discussion on inferences and validity threats to the study. Chapter 7 concludes with an outlook on future work.
 
 %\item [RQ 1:] \textit{To what extent do the intentions properly model and reflect the intentions as evidenced in actual merges?} 
 

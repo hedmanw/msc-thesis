@@ -79,30 +79,4 @@ The intentions and their underlying transformations can be described using choic
 
 Gousios et al. point out that an important improvement for the merging process is tool support in terms of work prioritization and estimated time for merging \cite{gousios2015}. Tool support for proper variant-aware integration is also a prerequisite for the capability of migrating clone-and-own to an integrated platform through the virtual platform \cite{antkiewicz2014flexible}.
 
-We now present the intentions and workflow offered by our prototype tool \tooln, built on top of Jetbrains MPS. The work has been carried out jointly between Max Lillack, Ștefan St\u{a}nciulescu, Wilhelm Hedman, Thorsten Berger, and Andrzej W\k{a}sowski in \cite{lillack2017intentions}.
-
-\subsection{Intentions}
-The intentions language is designed as a DSL for variant integration, the key concept of which is intentions. Intentions are inplace transformations on a variational AST. A complete formal definition of the intentions language is given in \cite{lillack2017intentions}, a recapitulation with visual examples of the intentions and the effect of their associated AST transformation are given in Appendix \ref{a:intentions}.
-\begin{itemize}
-    \item{Keep}
-    \item{Remove}
-    \item{KeepAsFeature}
-    \item{Exclusive}
-    \item{AssignFeature}
-    \item{Order}
-    \item{Postpone}
-    \item{+ implicit Keep and Remove}
-\end{itemize}
-
-%\subsection{Workflow}
-%The workflow inside \tooln~is 
-
-%\begin{enumerate}
-%    \item (Input two variant files, $(v, v')$.)
-%    \item (Generate XML-based AST of each.)
-%    \item (Create initial/intermediary integrated model by merging ASTs of $(v, v')$. (Two-way merge respecting ifdefs))
-%    \item (Simplify boolean conditions.)
-%    \item Open in \tooln.
-%    \item Apply intentions until satisfied.
-%    \item Serialize AST to text.
-%\end{enumerate}
+The work on the intentions language and the prototype tool \tooln, built on top of Jetbrains MPS, has been carried out jointly between Max Lillack, Ștefan St\u{a}nciulescu, Wilhelm Hedman, Thorsten Berger, and Andrzej W\k{a}sowski, and is described in \cite{lillack2017intentions}. The intentions language is designed as a DSL for variant integration, the key concept of which is intentions. Intentions are inplace transformations on a variational AST. The complete formal definition of the intentions language is given in \cite{lillack2017intentions}. A recapitulation with visual examples of the intentions and the effect of their associated AST transformation is given in Appendix \ref{a:intentions}.

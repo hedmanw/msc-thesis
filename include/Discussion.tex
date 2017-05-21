@@ -2,19 +2,17 @@
 TODO: provide an intution of the results and some cool highlights
 
 \section{Inferences}
-Interestingly, no participant identifies the projectional editing node selection as a disadvantage of \tooln, and no participant struggles with it. This is in line with the findings of Berger et al. \cite{berger2016mps}, showing that users are proficient inside a projectional editor after a short training session.
+\textbf{Editing efficiency.} Interestingly, no participant identifies the projectional editing node selection as a disadvantage of \tooln, and no participant struggles with it. This is in line with the findings of Berger et al. \cite{berger2016mps}, showing that users are proficient inside a projectional editor after a short training session.
 
-Completion times for tasks are , Since a research prototype cannot compete with the user interface design capacities of a large project such as Eclipse, we argue that the required edit operations is a more interesting metric for comparison. With a better interface design, the completion times in \tooln~should decrease. 
+Completion times for tasks are categorically in favor of Eclipse CDT. Since a research prototype cannot compete with the user interface design capacities of a large project such as Eclipse, we argue that the required edit operations is a more interesting metric for comparison. However, all variability is made explicit in \tooln, meaning that actions such removing a chunk requires an explicit editing operation, whereas in an unstructured editor, it incurs no additional edit operation -- since the particular chunk is not copied over to the result at all. The two approaches are therefore not immediately comparable. To be sure, with better interface design, the completion times in \tooln~should decrease.
 
-(Even though the experiment is inconclusive,)
-With respect to defects, respondents still regard manual integration as more error prone -- therefore preferring \tooln.
+\textbf{Defects.} Even though the experiment is inconclusive, integration in \tooln~is seen as less error-prone, and the preview makes it possible to notice and correct any potential defects (cf. Figure \ref{fig:maturity}).
 
-All variability is made explicit in \tooln, meaning that actions such removing a chunk requires an explicit editing operation, whereas in an unstructured editor, it incurs no additional edit operation -- since the particular chunk is not copied over to the result.
 
 
 \section{Threats to Validity}
 % Shitty selection from BusyBox and Vim, but no traceability because they don't use pull requests.
-This section reports on the threats to validity regarding the controlled experiment.
+This section reports on the threats to validity in the study. In general, we recommend that replication studies should be carried out at a larger scale. 
 
 \subsection{Internal Validity}
 \textbf{Choice of programs.} 
@@ -25,7 +23,7 @@ Since no domain knowledge was required for conducting the integration tasks, hav
 
 \textbf{Carryover effects.} Since two tasks are performed consecutively, it is possible that carryover effects influence the outcome of the second task, in particular the positive carryover effect of learning. To mitigate any carryover effects, we used a counterbalanced design, where the order of the two tasks are randomized.
 
-\textbf{Social desirability bias.} Students participating in the experiment may have been overly positive in their post-experiment questionnaire responses, since they want to encourage and commend the author. The possibility has however been decreased by making the questionnaire anonymous.
+\textbf{Social desirability bias.} Students participating in the experiment may have been overly positive in their post-experiment questionnaire responses, since they want to encourage and commend the author. The possibility has however been decreased by making the questionnaire completely anonymous.
 
 %\textbf{Statistical tests.} In the experiment, \anova~is used to determine the statistical significance of the test groups. The impact of the competence of specific subjects is reduced, since \anova~compares group means. TODO: get back to
 
@@ -34,7 +32,10 @@ Since no domain knowledge was required for conducting the integration tasks, hav
 \textbf{Carryover effects.} A counterbalanced design is used to diminish carryover effects -- but, there could still be effects of asymmetric skill transfer occurring in such a design -- meaning that a particular order of tasks or treatments yield carryover effects, while the other does not. This has not been taken into account in the statistical analysis.
 
 \subsection{External Validity}
+TODO: Finish writing paragraph
+
 Larger programs?
 Real programs?
-We chose BusyBox and Vim for the subject programs because they are well-known, highly configurable systems, and representative of industrial counterparts \cite{hunsen2016}.
-More merging samples. The intentions language is validated on a small number of commits with variant integrations, specifically in the Marlin project. It could be beneficial to sample other suitable candidates that use integrated variability and a pull-based development model. In an effort to make the results more generalizable, we use samples from \vim~and \busybox~in the controlled experiment, with success.
+Real programmers?
+
+\textbf{Choice of subject programs.} We chose Marlin, \busybox, and \vim~for the subject programs because they are well-known, highly configurable systems, and representative of industrial counterparts \cite{hunsen2016}. To increase the generalizability of the completeness of the intentions language, which is validated on 35 commits in a single ecosystem, it could be beneficial to sample other suitable candidates that use integrated variability and a pull-based development model.

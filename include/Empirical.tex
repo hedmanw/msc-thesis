@@ -33,10 +33,7 @@ Based on the experiences from this round of evaluation, we draw three conclusion
 
 
 \section{Controlled Experiment}
-TODO:
-\begin{itemize}
-    \item 4.2: Opinions/impressions about the intentions and tool from questionnaire, cf. Berger f. 4
-\end{itemize}
+TODO: introductory text.
 
 \subsection{Editing Efficiency}
 Figure \ref{fig:completion-times} shows the distributions of the \ctimes, with Table \ref{tab:completion-time} showing the average \ctimes, the significance tests, and effect sizes. In analogue to this, the distributions of the \eops~ is shown in Figure \ref{fig:edit-ops}, and the average \eops, significance tests, and effect sizes shown in Table \ref{tab:edit-ops}.
@@ -59,8 +56,8 @@ For \eops, the \busybox~task shows a significant difference, while no significan
     \hline
     \hline
         \textbf{Prg} & \textbf{\inc} & \textbf{\ecl} & \textbf{Significance} & \textbf{Effect size} \\\hline
-        \po & 711 & 433 & Mann-Whitney: $W=7, p=.007$ & $d=0.78$\\
-        \pt & 733 & 302 & Mann-Whitney: $W=7, p=.001$ & $d=1$\\\hline
+        \busybox & 711 & 433 & Mann-Whitney: $W=7, p=.007$ & Cliff's delta: $d=0.78$\\
+        \vim & 733 & 302 & Mann-Whitney: $W=7, p=.001$ & Cliff's delta: $d=1$\\\hline
     \hline
     \end{tabular}
     \label{tab:completion-time}
@@ -81,8 +78,8 @@ For \eops, the \busybox~task shows a significant difference, while no significan
     \hline
     \hline
         \textbf{Prg} & \textbf{\inc} & \textbf{\ecl} & \textbf{Significance} & \textbf{Effect size} \\\hline
-        \po & 15 & 43 & Mann-Whitney: $W=0, p= .001$ & $d=-1$\\
-        \pt & 17 & 23 & Mann-Whitney: $W=23, p= .37$ & $d=-0.28$\\\hline
+        \busybox & 15 & 43 & Mann-Whitney: $W=0, p= .001$ & Cliff's delta: $d=-1$\\
+        \vim & 17 & 23 & Mann-Whitney: $W=23, p= .37$ & Cliff's delta: $d=-0.28$\\\hline
     \hline
     \end{tabular}
     \label{tab:edit-ops}
@@ -90,13 +87,14 @@ For \eops, the \busybox~task shows a significant difference, while no significan
 
 \begin{figure}[ht]
     \centering
-    %\includegraphics{}
-    \caption{TODO: generate figure. Impressions of INCLINE. Intentions are intuitive, tool is mature, intention based not complex.}
+    \includegraphics{figure/incl-exit-quantitative.pdf}
+    1: strongly disagree, 2: disagree, 3: neutral, 4: agree, 5: strongly agree
+    \caption{Post-experiment questionnaire opinions. Refer to Appendix \ref{a:questionnaires} for the full questions.}
     \label{fig:maturity}
 \end{figure}
 
 \subsection{Defects}
-The number of completetely defect-free integrations is reported per program and editor in Figure \ref{fig:correct-ans}, corresponding to the 0-bin in the histogram of number of defects, shown in Figure \ref{fig:defects-hist}. \todo{Thorsten: statistical tests on number of defects, or argue from graphs that INCLINE is not worse than Eclipse?} Possibly negate hypothesis?!? H3: \textit{\HC}.
+The number of completetely defect-free integrations is reported per program and editor in Figure \ref{fig:correct-ans}, corresponding to the zero bin in the histogram of number of defects of Figure \ref{fig:defects-hist}. For defects, we do not provide any statistical tests for significant difference between the two treatments, because of the many zero samples. Instead, we provide a graph of errors per participant in Figure \ref{fig:paricipant-errors}. \todo{Thorsten: statistical tests on number of defects, or argue from graphs that INCLINE is not worse than Eclipse?} Possibly negate hypothesis such that H3: \textit{\HC} becomes \bc Integration does NOT lead to more defects\ec.
 
 \begin{figure}
     \centering
@@ -110,6 +108,13 @@ The number of completetely defect-free integrations is reported per program and 
     \includegraphics{figure/incl-correct-histo.pdf}
     \caption{Histogram of count of defects introduced.}
     \label{fig:defects-hist}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics{figure/incl-par-errors.pdf}
+    \caption{Defects per participant.}
+    \label{fig:paricipant-errors}
 \end{figure}
 
 
@@ -133,7 +138,7 @@ A repeated criticism (or encouragement) is to create keyboard shortcuts for inte
 
 
 \subsection{Intentions Semantics}
-There is a noticeable preference among participants to overselect, selecting an entire ifdef-structure, rather than the nodes inside them when applying intentions. Note that this is related to the semantics of the intentions, as opposed to editing.
+There is a noticeable tendency among participants to overselect, selecting an entire ifdef-structure, rather than the nodes inside them when applying intentions. Note that this is related to the semantics of the intentions, as opposed to editing.
 
 Since the intentions are applied in a particular order, certain combinations of intentions will cancel out the effect completely, which leads to confusion: (eg., \textit{\bc hard to grasp how multiple conflicting intentions are prioritized\ec} [r3]). A recurring pattern is that developers apply both the \keep~and \keepasf~intentions on nodes, without any result, as the \keep~intention is an identity of the \keepasf~intention.
 

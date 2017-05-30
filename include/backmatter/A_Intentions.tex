@@ -1,6 +1,5 @@
 \chapter{Intention Language Examples}\label{a:intentions}
-Adapted from the examples in \cite{lillack2017intentions}.
-TODO: Add implicit keep/remove.
+Adapted from the examples in \cite{lillack2017intentions}. The left hand side of the figures shows AST projection with nodes with applied intentions \colorbox{shadecolor}{highlighted}. The right hand side of the figures shows AST projection after application and transformation.
 
 \begin{figure}[ht]
     \centering
@@ -56,6 +55,52 @@ int servo_e2[] = SEA
 
 \begin{figure}[ht]
     \centering
+    \begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifndef FORK
+!\colorbox{shadecolor}{ int servo\_e1[]  = SE}!
+!\colorbox{shadecolor}{ int servo\_e2[] = SEA}!
+#else
+!\colorbox{implcolor}{ int16\_t servo\_e1 = SE}!
+!\colorbox{implcolor}{ int16\_t servo\_e2[] = SEA}!
+#endif
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Unwrapped code,escapechar=!]{Name}
+ int servo_e1[] = SE
+ int servo_e2[] = SEA
+\end{lstlisting}
+    \end{minipage}
+    \caption{\colorbox{shadecolor}{\keep}~intention with \textit{implicit} \colorbox{implcolor}{\remove}~intention (left) and result (right).}
+    \label{fig:keep-impl}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifndef FORK
+!\colorbox{implcolor}{ int servo\_e1[]  = SE}!
+!\colorbox{implcolor}{ int servo\_e2[] = SEA}!
+#else
+!\colorbox{shadecolor}{ int16\_t servo\_e1 = SE}!
+!\colorbox{shadecolor}{ int16\_t servo\_e2[] = SEA}!
+#endif
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Unwrapped code,escapechar=!]{Name}
+ int servo_e1[] = SE
+ int servo_e2[] = SEA
+\end{lstlisting}
+    \end{minipage}
+    \caption{\colorbox{shadecolor}{\remove}~intention with \textit{implicit} \colorbox{implcolor}{\keep}~intention (left) and result (right).}
+    \label{fig:remove-impl}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
     \begin{minipage}{.40\textwidth}
 \begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
 #ifdef FORK
@@ -74,37 +119,37 @@ int servo_e2[] = SEA
 #endif
 \end{lstlisting}
     \end{minipage}
-    \caption{\keepasf~intention (left) and result (right).}
+    \caption{\keepasf~intention applied with argument \texttt{SDSUPPORT} (left) and result (right).}
     \label{fig:keepasfeature}
 \end{figure}
 
-\begin{figure}[ht]
-    \centering
-    \begin{minipage}{.50\textwidth}
-\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
-#ifndef FORK
-// block_1
-!\colorbox{shadecolor}{ set\_pos(curr\_pos[X], curr\_pos[Y]);}!
-#else
-// block_2
-!\colorbox{shadecolor}{ calculate\_delta(current\_pos);}!
-!\colorbox{shadecolor}{ set\_pos(delta[X], delta[Y]);}!
-#endif
-\end{lstlisting}
-\end{minipage}\qquad
-\begin{minipage}{.50\textwidth}
-\begin{lstlisting}[caption=Unwrapped code,escapechar=!]{Name}
-#ifndef DELTA
- set_pos(curr_pos[X], curr_pos[Y]);
-#else
- calculate_delta(current_pos);
- set_pos(delta[X], delta[Y]);
-#endif
-\end{lstlisting}
-    \end{minipage}
-    \caption{\excl~intention (left) and result (right).}
-    \label{fig:exclusive}
-\end{figure}
+%\begin{figure}[ht]
+%    \centering
+%    \begin{minipage}{.50\textwidth}
+%\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+%#ifndef FORK
+%// block_1
+%!\colorbox{shadecolor}{ set\_pos(curr\_pos[X], curr\_pos[Y]);}!
+%#else
+%// block_2
+%!\colorbox{shadecolor}{ calculate\_delta(current\_pos);}!
+%!\colorbox{shadecolor}{ set\_pos(delta[X], delta[Y]);}!
+%#endif
+%\end{lstlisting}
+%\end{minipage}\qquad
+%\begin{minipage}{.50\textwidth}
+%\begin{lstlisting}[caption=Unwrapped code,escapechar=!]{Name}
+%#ifndef DELTA
+% set_pos(curr_pos[X], curr_pos[Y]);
+%#else
+% calculate_delta(current_pos);
+% set_pos(delta[X], delta[Y]);
+%#endif
+%\end{lstlisting}
+%    \end{minipage}
+%    \caption{\excl~intention applied with argument \texttt{DELTA} (left) and %result (right).}
+%    \label{fig:exclusive}
+%\end{figure}
 
 \begin{figure}[ht]
     \centering
@@ -122,6 +167,6 @@ int servo_e2[] = SEA
 #endif
 \end{lstlisting}
     \end{minipage}
-    \caption{\changepc~intention (left) and result (right).}
+    \caption{\changepc~intention applied with argument \texttt{SDSUPPORT} (left) and result (right).}
     \label{fig:assignfeature}
 \end{figure}

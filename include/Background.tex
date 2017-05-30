@@ -73,11 +73,79 @@ The usability of projectional editors has long been questioned. Berger et al. \c
 \section{Intention-based Variant Integration}
 Today, a developer performing a feature-related merge in a revision control system must make ad hoc decisions on the final result, with respect to presence conditions over source code \cite{stanciulescu2016concepts}. This means that the concern of the developer is at the source-code level, dealing with fundamental language constructs defining the presence conditions of particular code blocks. We note that feature integration is a concern on the architectural level, while the merge is performed line-by-line on the source-code level. The mismatch between the architectural concern and the abstraction level on which it is carried out ensures that the integration (or merge) process is time consuming and has a high risk of introducing defects. Because of the mental overhead involved in considering multiple variants and their control flow, variability-related code is more defect-prone. Previous studies show that variability is detrimental for program comprehension \cite{melo2016latin}, \cite{favre1997understanding}, \cite{ernst2002preprocessor}, \cite{abal2014variability}, \cite{medeiros2015preprocessor}, \cite{medeiros2013syntaxerrors}.
 
-We propose to address the mismatch of abstraction levels by introducing a domain specific language capturing the semantics of the feature integration. In particular, the language describes the outcome that the developer wants to achieve. Examples include ``keep this functionality'' or ``remove this functionality''. We subsequently refer to these concepts simply as the \textit{intentions} of the developer. Each intention carries a mapping to actual operations that are performed on the source code. The semantics of the intentions language ensures the integrity of the underlying code upon which operations are applied to. This intentions language is the basis for creating a tool to aid the integration process structurally \cite{mens2002}, \cite{apel2011}. With proper tool support, the integration process can become more efficient from time consumption, risk, and quality perspectives. Indeed, tool support has shown to reduce variability errors in previous studies \cite{ribeiro2014emergent}.
+We propose to address the mismatch of abstraction levels by introducing a domain specific language (DSL) capturing the semantics of the feature integration. In particular, the language describes the outcome that the developer wants to achieve. Examples include ``keep this functionality'' or ``remove this functionality''. We subsequently refer to these concepts simply as the \textit{intentions} of the developer. Each intention carries a mapping to actual operations that are performed on the source code. The semantics of the intentions language ensures the integrity of the underlying code upon which operations are applied to. This intentions language is the basis for creating a tool to aid the integration process structurally \cite{mens2002}, \cite{apel2011}. With proper tool support, the integration process can become more efficient from time consumption, risk, and quality perspectives. Indeed, tool support has shown to reduce variability errors in previous studies \cite{ribeiro2014emergent}.
 
-The intentions and their underlying transformations can be described using choice calculus, a formal notation for variational software, independent of programming language \cite{erwig2011choice}, \cite{walkingshaw2012choice}. In the implementation, this can be realized as conditional compilation (C preprocessor) or design patterns (object-oriented languages). Intentions could also be mapped to the source-code operations identified by Stanciulescu et al. in \cite{stanciulescu2016concepts}
+The intentions and their underlying transformations can be described using choice calculus, a formal notation for variational software, independent of programming language \cite{erwig2011choice}, \cite{walkingshaw2012choice}. In the implementation, this can be realized as conditional compilation (C preprocessor) or design patterns (object-oriented languages). Intentions could also be mapped to the source-code operations identified by Stanciulescu et al. in \cite{stanciulescu2016concepts}.
 
 Gousios et al. point out that an important improvement for the merging process is tool support in terms of work prioritization and estimated time for merging \cite{gousios2015}. Tool support for proper variant-aware integration is also a prerequisite for the capability of migrating clone-and-own to an integrated platform through the virtual platform \cite{antkiewicz2014flexible}.
 
-The work on the intentions language and the prototype tool \tooln, built on top of Jetbrains MPS, has been carried out jointly between Max Lillack, Ștefan St\u{a}nciulescu, Wilhelm Hedman, Thorsten Berger, and Andrzej W\k{a}sowski, and is described in \cite{lillack2017intentions}. The intentions language is designed as a DSL for variant integration, the key concept of which is intentions. Intentions are inplace transformations on a variational AST. The complete formal definition of the intentions language is given in \cite{lillack2017intentions}. A recapitulation with visual examples of the intentions and the effect of their associated AST transformation is given in Appendix \ref{a:intentions}.
+The work on the intentions language and the prototype tool \tooln, built on top of Jetbrains MPS, has been carried out jointly between Max Lillack, Ștefan St\u{a}nciulescu, Wilhelm Hedman, Thorsten Berger, and Andrzej W\k{a}sowski, and is described in \cite{lillack2017intentions}. The intentions language is designed as a DSL for variant integration, the key concept of which is intentions. Intentions are inplace transformations on a variational AST. The complete formal definition of the intentions language is given in \cite{lillack2017intentions}. A recapitulation with visual examples of the intentions and the effect of their associated AST transformation is given in Appendix \ref{a:intentions}. In \tooln, the two variants being integrated are inlined into a single variational AST, with the differences between them wrapped in the presence condition \texttt{FORK}. An example is shown in Figure \ref{fig:incline-ast}. Subsequently, this inlined notation is used.
 
+
+\colorlet{greencolor}{green!30}
+\colorlet{bluecolor}{blue!30}
+\colorlet{lyellow}{yellow!10}
+\begin{figure}[t]%
+\centering
+\noindent\begin{minipage}{.40\textwidth}
+\begin{lstlisting}[escapechar=!]{Name}
+Variant: Mainline
+#ifdef ULTIPANEL
+  uint8_t lastEncoderBits;
+  uint32_t encoderPosition;
+  #if !\colorbox{bluecolor}{PIN\_EXISTS(SD\_DETECT)}!
+    !\colorbox{bluecolor}{uint8\_t lcd\_sd\_status;}!
+  #endif
+#endif!\colorbox{bluecolor}{ // ULTIPANEL}!
+
+menu_t cM = lcd_status_scrn;
+!\colorbox{bluecolor}{bool ignore\_click = false;}!
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.40\textwidth}
+\begin{lstlisting}[escapechar=!]{Name}
+Variant: Fork
+#ifdef ULTIPANEL
+ uint8_t lastEncoderBits;
+!\colorbox{bluecolor}{ int8\_t encoderDiff;}!
+ uint32_t encoderPosition;
+ #if !\colorbox{bluecolor}{(SDCARDDETECT > 0)}!
+!\colorbox{bluecolor}{  bool lcd\_oldcardstatus;}!
+ #endif
+#endif!\colorbox{bluecolor}{//ULTIPANEL}!
+
+menu_t cM = lcd_status_scrn;
+\end{lstlisting}
+\end{minipage}
+\vspace{5mm}
+
+\begin{minipage}{.40\textwidth}
+\begin{lstlisting}[escapechar=!]
+Variations inlined:
+#ifdef ULTIPANEL
+  uint8_t lastEncoderBits;
+  #ifdef FORK
+    int8_t encoderDiff;
+  #endif
+  uint32_t encoderPosition;
+  #ifdef FORK
+    #if SDCARDDETECT > 0
+      bool lcd_oldcardstatus;
+    #endif
+  #else
+    #if PIN_EXISTS(SD_DETECT)
+      uint8_t lcd_sd_status;
+    #endif
+  #endif
+#endif
+
+menu_t cM = lcd_status_scrn;
+#ifndef FORK
+ bool ignore_click = false;
+#endif
+\end{lstlisting}
+\end{minipage}
+
+    \caption{Upper row: variant sources with differences highlighted. Lower row: inlined variational AST of the same variants in \tooln, with presence condition \texttt{FORK}. Example adapted from \cite{lillack2017intentions}.}
+    \label{fig:incline-ast}
+\end{figure}

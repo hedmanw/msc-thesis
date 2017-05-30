@@ -25,9 +25,145 @@ In Marlin, we retrieve all 2065 merges, and extract those that were merged with 
 \end{table}
 
 \section{Replaying Merges with Intentions}
-TODO: Inline samples from Marlin.
+This section demonstrates the replaying of selected chunks from Marlin. We present examples of differences from both evolution and features being reconciled. Refer to Appendix \ref{a:intentions} for the recapitulation on the intentions DSL.
 
-\section{\RQA}
-The intentions language can be used to replay all 35 variability-related merges in the Marlin mainline.
+Figure \ref{fig:ex-keep} shows how a change from the mainline is accepted as evolution. Figure \ref{fig:ex-remove} shows how a change from the mainline is discarded as evolution. The snippet in Figure \ref{fig:keep-as-feature} accepts a change from the fork as a feature. In Figure \ref{fig:change-pc}, two mutually exclusive changes from the mainline and fork are integrated as a feature. Last, we show the composition of intentions in \ref{fig:keep-remove}.
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.35\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#include "watchdog.h"
+#ifndef FORK
+  !\ibox{\#include "language.h"}!
+#endif
+#include "Sd2PinMap.h"
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.35\textwidth}
+\begin{lstlisting}
+#include "watchdog.h"
+#include "language.h"
+#include "Sd2PinMap.h"
+\end{lstlisting}
+
+    \end{minipage}
+    \caption{\keep~intention applied (left) to replay a change from \texttt{47c1ea7 ::temperature.cpp}, ground truth and outcome (right).}
+    \label{fig:ex-keep}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.45\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifndef FORK
+  !\ibox{unsigned long ms = millis();}!
+#endif
+if (temp_meas_ready == true) {
+  [...]
+}
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.45\textwidth}
+\begin{lstlisting}
+if (temp_meas_ready == true) {
+  [...]
+}
+\end{lstlisting}
+
+    \end{minipage}
+    \caption{\remove~intention applied (left) to replay a change from \texttt{47c1ea7 ::temperature.cpp}, ground truth and outcome (right).}
+    \label{fig:ex-remove}
+\end{figure}
+
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.57\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifdef FORK
+  !\ibox{static float delta[3] = {0.0, 0.0, 0.0};}!
+#endif
+static float offset[3] = {0.0, 0.0, 0.0};
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.57\textwidth}
+\begin{lstlisting}
+#ifdef DELTA
+  static float delta[3] = {0.0, 0.0, 0.0};
+#endif
+static float offset[3] = {0.0, 0.0, 0.0};
+\end{lstlisting}
+
+    \end{minipage}
+    \caption{\keepasf(\texttt{DELTA})~intention applied (left) to replay a change from \texttt{373f3ec::Marlin\_main.cpp}, ground truth and outcome (right).}
+    \label{fig:keep-as-feature}
+\end{figure}
+
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.59\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifndef !\ibox{FORK}!
+  if([...]) {
+    plan_buffer_line([...]);
+  }
+#else
+  float difference[NUM_AXIS];
+  for (int8_t i=0; i < NUM_AXIS; i++) {
+    difference[i] = destination[i] -
+      current_position[i];
+  }
+#endif
+
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.59\textwidth}
+\begin{lstlisting}
+#ifndef DELTA
+  if([...]) {
+    plan_buffer_line([...]);
+  }
+#else
+  float difference[NUM_AXIS];
+  for (int8_t i=0; i < NUM_AXIS; i++) {
+    difference[i] = destination[i] -
+      current_position[i];
+  }
+#endif
+\end{lstlisting}
+
+    \end{minipage}
+    \caption{\changepc(\texttt{DELTA})~intention applied (left) to replay a change from \texttt{373f3ec::Marlin\_main.cpp}, ground truth and outcome (right).}
+    \label{fig:change-pc}
+\end{figure}
+
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}{.50\textwidth}
+\begin{lstlisting}[caption=Wrapped code by PC,escapechar=!]{Name}
+#ifndef FORK
+  !\ibox{SERIAL\_ECHOLN(MSG\_PID\_AUTOTUNE\_START);}!
+#else
+  !\colorbox{implcolor}{SERIAL\_ECHOLN("PID Autotune start");}!
+#endif
+\end{lstlisting}
+\end{minipage}\qquad
+\begin{minipage}{.55\textwidth}
+\begin{lstlisting}
+SERIAL_ECHOLN(MSG_PID_AUTOTUNE_START);
+\end{lstlisting}
+
+    \end{minipage}
+    \caption{\colorbox{shadecolor}{\keep}~and \colorbox{implcolor}{\remove}~intentions applied (left) to replay a change from \texttt{47c1ea7::temperature.cpp}, ground truth and outcome (right).}
+    \label{fig:keep-remove}
+\end{figure}
+
+\section{RQ1: \RQA}
+The intentions language can be used to replay all 35 variability-related merges in the Marlin mainline. From these, certain chunks were listed above to illustrate the use of intentions in real scenarios.
+
+\rqans{\textbf{RQ1.} The proposed set of intentions indeed suffice for variant integration.}
 
 %Additionally, the safe evolution templates for software product lines presented by Neves et al \cite{neves2011evolution} are analogous to the intentions.

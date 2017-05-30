@@ -27,31 +27,31 @@ STM32   & 1     & 5     & 93    & 122   \\ % 12 -> 5  (column err. integration)
     \end{tabular}
 \end{table}
 
-Note that substantially fewer operations are required when using intentions, compared to the operations required when using an ordinary merge tool.
+Note that substantially fewer operations are required when using intentions, compared to the operations required when using an ordinary merge tool, and that there is no particular difference in number of defects between editors.
 
 Based on the experiences from this round of evaluation, we draw three conclusions that are incorporated into the experiment design for the controlled experiment: the integration goal should be provided verbatim, rather than being described in abstract terms, cf. \cite{berger2016mps}; the tasks must be smaller so that they can be performed in a reasonable time for participants; and, subjects will require training in \tooln.
 
 
 \section{Controlled Experiment}
-TODO: introductory text.
+This section first reports the quantitative data from the metrics and statistical tests from the controlled experiment, followed by quantitative data from the post-experiment questionnaire. We recorded more than 8 hours of screen recordings, and collected questionnaire responses from all 16 participants.
 
 \subsection{Editing Efficiency}
 Figure \ref{fig:completion-times} shows the distributions of the \ctimes, with Table \ref{tab:completion-time} showing the average \ctimes, the significance tests, and effect sizes. In analogue to this, the distributions of the \eops~ is shown in Figure \ref{fig:edit-ops}, and the average \eops, significance tests, and effect sizes shown in Table \ref{tab:edit-ops}.
 
-For \ctimes, the Mann-Whitney U-test shows a significant difference across both subject programs, with large effect sizes. We must therefore reject H1: \textit{\HA}.
+For \ctimes, the Mann-Whitney U-test shows a significant difference across both subject programs, with large effect sizes. We thus find no support for H1: \textit{\HA}, in fact observing the opposite.
 
-For \eops, the \busybox~task shows a significant difference, while no significant difference is shown for \vim. TODO: Implications for H2: \textit{\HB}??? \todo{Thorsten: What to do about H2?}
+For \eops, \tooln~requries fewer median operations, but only the \busybox~task shows a significant difference, while no significant difference can be observed for \vim. There is thus support for H2: \textit{\HB}.
 
 \begin{figure}[ht]
     \centering
     \includegraphics{figure/incl-violin-all.pdf}
-    \caption{Task completion times in seconds.}
+    \caption{Task completion times in seconds. (Violin plot, dot denoting median.)}
     \label{fig:completion-times}
 \end{figure}
 
 \begin{table}[ht]
     \centering
-    \caption{Completion times, significance tests, and effect sizes.}
+    \caption{Average \ctimes, significance tests, and effect sizes.}
     \begin{tabular}{l | l l|l l}
     \hline
     \hline
@@ -73,7 +73,7 @@ For \eops, the \busybox~task shows a significant difference, while no significan
 
 \begin{table}[ht]
     \centering
-    \caption{Edit operations, significance tests, and effect sizes.}
+    \caption{Average \eops, significance tests, and effect sizes.}
     \begin{tabular}{l | l l|l l}
     \hline
     \hline
@@ -85,16 +85,8 @@ For \eops, the \busybox~task shows a significant difference, while no significan
     \label{tab:edit-ops}
 \end{table}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics{figure/incl-exit-quantitative.pdf}
-    1: strongly disagree, 2: disagree, 3: neutral, 4: agree, 5: strongly agree
-    \caption{Post-experiment questionnaire opinions. Refer to Appendix \ref{a:questionnaires} for the full questions.}
-    \label{fig:maturity}
-\end{figure}
-
 \subsection{Defects}
-The number of completetely defect-free integrations is reported per program and editor in Figure \ref{fig:correct-ans}, corresponding to the zero bin in the histogram of number of defects of Figure \ref{fig:defects-hist}. For defects, we do not provide any statistical tests for significant difference between the two treatments, because of the many zero samples. Instead, we provide a graph of errors per participant in Figure \ref{fig:paricipant-errors}. \todo{Thorsten: statistical tests on number of defects, or argue from graphs that INCLINE is not worse than Eclipse?} Possibly negate hypothesis such that H3: \textit{\HC} becomes \bc Integration does NOT lead to more defects\ec.
+The number of completetely defect-free integrations is reported per program and editor in Figure \ref{fig:correct-ans}, corresponding to the zero bin in the histogram of number of defects of Figure \ref{fig:defects-hist}. For defects, we do not provide any statistical tests for significant difference between the two treatments, because of the many zero samples. Instead, we provide a graph of errors per participant in Figure \ref{fig:paricipant-errors}. In it, we note that participants E, F, and L have committed multiple mistakes, with both editors. From the Figures \ref{fig:defects-hist} and \ref{fig:paricipant-errors}, we infer that \tooln~does not perform worse than Eclipse CDT with respect to inserted defects, supporting H3: \textit{\HC}.
 
 \begin{figure}
     \centering
@@ -118,17 +110,23 @@ The number of completetely defect-free integrations is reported per program and 
 \end{figure}
 
 
-\section{\RQB}
-TODO: get back to this summary once hypotheses are under control.
+\subsection{Post-experiment Opinions}
+The quantitative results from post-experiment questionnaire with opinions of the benefit of \tooln~is shown in Figure \ref{fig:maturity}. \tooln~is perceived as faster and as facilitating the detection and correction of defects introduced in the integration. Intention-based integration is not viewed as complex, and \textit{all} intentions are perceived as intuitive.
 
-Recall that the overall benefit is the completion times, the edit operations, and the defects. 
+\begin{figure}[ht]
+    \centering
+    \includegraphics{figure/incl-exit-quantitative.pdf}
+    1: strongly disagree, 2: disagree, 3: neutral, 4: agree, 5: strongly agree
+    \caption{Post-experiment questionnaire opinions. Refer to Appendix \ref{a:questionnaires} for the full questions.}
+    \label{fig:maturity}
+\end{figure}
 
-There is no significant difference in the number of defects inserted between the two editors, meaning that \tooln~does not perform worse in that respect. There is however a significant difference in the required number of edit operations for one task, with a large effect size. For both tasks, there is a significant difference with respect to actual time required, with high effect sizes.
+\section{RQ2: \RQB}
+Recall that the overall benefit is the aggregate of completion time, the edit operations required, and the defects inserted. For both tasks, there is a significant difference with respect to actual \ctime, with high effect sizes. There is however a significant difference in the required number of \eops~for one task, with a large effect size, while for the other task it is lower, but not significantly so. There is no comparable difference in the number of \defx~inserted between the two editors, and \tooln~does not perform worse in that respect.
 
-TODO: analyze the perceptions in Figure \ref{fig:maturity}.
+\rqans{\textbf{RQ2.} Intention-based variant integration is beneficial with respect to edit operations, comparable in number of defects, but worse in total time, compared to manual integration with a two-way diff tool.}
 
-
-\section{\RQC}
+\section{RQ3: \RQC}
 This section identifies differences among \tooln~and Eclipse CDT, by analyzing the open questions of the post-experiment questionnaire, screen recordings, and quantitative data from the experiment. 
 
 \subsection{Editing}
@@ -136,18 +134,23 @@ This section identifies differences among \tooln~and Eclipse CDT, by analyzing t
 
 A repeated criticism (or encouragement) is to create keyboard shortcuts for intentions in \tooln, to increase the editing speed.
 
+\rqans{\textbf{RQ3.} The lack of free-text editing in \tooln~is not seen as a drawback.}
 
 \subsection{Intentions Semantics}
-There is a noticeable tendency among participants to overselect, selecting an entire ifdef-structure, rather than the nodes inside them when applying intentions. Note that this is related to the semantics of the intentions, as opposed to editing.
+There is a noticeable tendency among participants to overselect, selecting an entire \texttt{\#ifdef}-structure, rather than the nodes inside them when applying intentions. Note that this is related to the semantics of the intentions, as opposed to editing.
 
 Since the intentions are applied in a particular order, certain combinations of intentions will cancel out the effect completely, which leads to confusion: (eg., \textit{\bc hard to grasp how multiple conflicting intentions are prioritized\ec} [r3]). A recurring pattern is that developers apply both the \keep~and \keepasf~intentions on nodes, without any result, as the \keep~intention is an identity of the \keepasf~intention.
 
 Overall, the perceived drawback of using \tooln~is the learning curve of the intentions semantics over the well-known paradigm of free-text editing (eg., \textit{\bc Involves a learning curve that copy and paste does not.\ec} [r14]). Compare also proficiency in free-text editing contra structured projectional editing to Berger et al. \cite{berger2016mps}.
 
+\rqans{\textbf{RQ3.} Integration with intentions requires knowledge of the semantics. No similar knowledge is required in an unstructured editor.}
+
 \subsection{Integration Support}
 Variant integration is given explicit concern in \tooln. The perceived benefits noted are: a) that the developer has a concrete list of all variation points that need to be integrated, and can be sure that all have been handled (eg., \textit{\bc you wont forget part of the integration\ec} [r16], and \textit{\bc It offers a nice way to work through the variabilities while making it hard to make any stupid mistakes.\ec} [r8]), b) that the views and preview help to understand the integration (eg., \textit{\bc It gives a better overview and it is easier to know where the differences are.\ec} [r7], and \textit{\bc the preview [...] and the projections [are] hugely helpful\ec} [r11]).
 
 Participants conjecture that \tooln~is more beneficial than two-way merging in files larger than those in the tasks (eg., \textit{\bc Incline for longer periods of time and on larger projects. Manual for shorter statements.\ec} [r9], and \textit{\bc If it was a large scale project I would feel more comfortable with INCLINE.\ec} [r6]). Indeed, for future variant integration tasks, 12 respondents would prefer to use \tooln.
+
+\rqans{\textbf{RQ3.} A systematic integration approach is enabled by the fact that all variability is explicit in \tooln, aided by the preview and projection views. None of this is available in an unstructured editor.}
 
 %\subsection{Answers to open-ended q's}
 %Advantages  

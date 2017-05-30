@@ -1,23 +1,25 @@
 \chapter{Discussion}
-TODO: provide an intution of the results and some cool highlights
+This chapter provides selected inferences from the results, and reports on the validity threats to the completness evaluation and controlled experiment.
 
 \section{Inferences}
 \textbf{Editing efficiency.} Interestingly, no participant identifies the projectional editing node selection as a disadvantage of \tooln, and no participant struggles with it. This is in line with the findings of Berger et al. \cite{berger2016mps}, showing that users are proficient inside a projectional editor after a short training session.
 
-Completion times for tasks are categorically in favor of Eclipse CDT. Since a research prototype cannot compete with the user interface design capacities of a large project such as Eclipse, we argue that the required edit operations is a more interesting metric for comparison. However, all variability is made explicit in \tooln, meaning that actions such removing a chunk requires an explicit editing operation, whereas in an unstructured editor, it incurs no additional edit operation -- since the particular chunk is not copied over to the result at all. The two approaches are therefore not immediately comparable. To be sure, with better interface design, the completion times in \tooln~should decrease.
+Completion times for tasks are categorically in favor of Eclipse CDT. Since a research prototype cannot compete with the user interface design capacities of a large project such as Eclipse, we argue that the required edit operations is a more interesting metric for comparison. However, all variability is made explicit in \tooln, meaning that actions such removing a chunk requires an explicit editing operation, whereas in an unstructured editor, it incurs no additional edit operation -- since no action must be undertaken on the particular chunk at all. The two approaches are therefore not analogous in causes of editing operations. However, with larger samples, these differences should even out. To be sure, with better interface design, the completion times in \tooln~should decrease compared to Eclipse CDT.
 
-\textbf{Defects.} Even though the experiment is inconclusive, integration in \tooln~is seen as less error-prone, and the preview makes it possible to notice and correct any potential defects (cf. Figure \ref{fig:maturity}).
+\textbf{Defects.} Even though the experiment is inconclusive with respect to statistics regarding defects, integration in \tooln~is viewed as less error-prone among the participants (cf. Figure \ref{fig:maturity}). It is interesting that the participants are prefer support and find the structured approach favorable, rather than going in blind into an unstructured tool. Tools aside, there is also the aspect of the subject, and as seen in Figure \ref{fig:paricipant-errors}, three subjects introduce defects in both tools.
 
+\textbf{Benefit of intention-based approach.} Recall the internal evaluation performed by the three developers of \tooln, who must be said to be experts on the tool and its usage. For those, substantially larger tasks, fewer edit operations were required in \tooln~than in Eclipse CDT. Additionally, the opinions of the experiment participants, who were not experts, are pointing towards a perceived benefit in \tooln, with respondents conjecturing that the intention-based approach is more effective than the unstructured approach on larger files in realistic settings. To move away from conjectures, and further investigate the benefit of intention-based variant integration, the next step should be a user study replicating the controlled experiment, using subject developers that are familiar with the tool and SPL engineering.
 
+In the post-experiment questionnaire, the learning curve of \tooln~is a recurrently listed disadvantage, but in the same questionnaire the intentions are being judged as intuitive (Figure \ref{fig:maturity}). It therefore seems that the learning curve is quite short. None the less, participants in subsequent studies should be properly trained on the intentions formalization and the usage of \tooln.
 
 \section{Threats to Validity}
 % Shitty selection from BusyBox and Vim, but no traceability because they don't use pull requests.
-This section reports on the threats to validity in the study. In general, we recommend that replication studies should be carried out at a larger scale. 
+This section reports on the threats to validity in the study. No validity threats are reported for the internal evaluation, as it has only been used to guide the experiment design, and its results have not been used to answer the research questions. In general, we recommend that replication studies should be carried out at a larger scale, with practitioners. 
 
 \subsection{Internal Validity}
-\textbf{Choice of programs.} 
-Since no domain knowledge was required for conducting the integration tasks, having no previous knowledge of the projects or domains is not a disadvantage.
-%Schulze et al. show that the discipline of preprocessor annotations have no effect on program comprehension \cite{schulze2013discipline}.
+\textbf{Required knowledge.} 
+Since no domain knowledge was required for conducting the integration tasks, having no previous knowledge of the projects or domains is not a disadvantage. No previous knowledge of the editors was required, as all participants were shown the same introductory videos, explaining how to complete an example task in the editor they would use.
+%Participants were provided with a sample program and a desired result, and were asked to manipulate the sample until it was equal to the desired result. This activit
 
 \textbf{Selection bias.} The participants are randomly assigned to programs and treatments in the Latin square, minimizing selection bias. Additionally, each participant is exposed to both programs, and both treatments.
 
@@ -25,17 +27,14 @@ Since no domain knowledge was required for conducting the integration tasks, hav
 
 \textbf{Social desirability bias.} Students participating in the experiment may have been overly positive in their post-experiment questionnaire responses, since they want to encourage and commend the author. The possibility has however been decreased by making the questionnaire completely anonymous.
 
-%\textbf{Statistical tests.} In the experiment, \anova~is used to determine the statistical significance of the test groups. The impact of the competence of specific subjects is reduced, since \anova~compares group means. TODO: get back to
-
 \subsection{Conclusion Validity}
 
 \textbf{Carryover effects.} A counterbalanced design is used to diminish carryover effects -- but, there could still be effects of asymmetric skill transfer occurring in such a design -- meaning that a particular order of tasks or treatments yield carryover effects, while the other does not. This has not been taken into account in the statistical analysis.
 
 \subsection{External Validity}
-TODO: Finish writing paragraph
+\textbf{Choice of subject programs.} We chose Marlin, \busybox, and \vim~for the subject programs because they are well-known, highly configurable systems, and representative of industrial counterparts \cite{hunsen2016}. The completeness evaluation is made using all $N=35$ examples from Marlin, but could be expanded to other ecosystems that have the same level of traceability for integration commits. In the controlled experiment, we choose one integration scenario from \busybox~and \vim~each, to expand from the Marlin-centric view. 
 
-Larger programs?
-Real programs?
-Real programmers?
+\textbf{Larger programs.} In a real setting, files would naturally be larger than ca. 50 LOC, but since larger programs would take longer time to integrate, it would be harder to attract participants to the experiment. As such, the controlled experiment experiment is tailored towards internal validity, because of the tradeoff in experiment design between internal and external validity \cite{siegmund2015}. For integrating files beyond 50 LOC, there could be a different relationship between the effects observed in the controlled experiment.
 
-\textbf{Choice of subject programs.} We chose Marlin, \busybox, and \vim~for the subject programs because they are well-known, highly configurable systems, and representative of industrial counterparts \cite{hunsen2016}. To increase the generalizability of the completeness of the intentions language, which is validated on 35 commits in a single ecosystem, it could be beneficial to sample other suitable candidates that use integrated variability and a pull-based development model.
+\textbf{Students as subjects.} The participants in the controlled experiment were M.Sc. and Ph.D. students from Chalmers University of Technology, more than half with industrial experience. Previous studies have shown that graduate students can be used as proxies for professional developers \cite{buse2011}. In addition, all participants were familiar with integration techniques and tools.
+%However, understanding and appreciating the theory of SPL re-engineering is not the same as having first-hand knowledge from industry.

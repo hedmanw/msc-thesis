@@ -2,7 +2,7 @@
 This chapter describes the data collection of merge samples and the empirical evaluation of the intentions language and intention-based variant integration tool \tooln.
 
 \section{Data Collection}
-We choose Marlin as our initial source of merge examples, because previous work has identified important concepts in the Marlin ecosystem that we build upon, and because of access to the authors of \cite{stanciulescu2015}, \cite{stanciulescu2016concepts}. Two methods for collecting data from open-source ecosystems have been used: one for gathering a ground truth for how variant integration is achieved through merging, and one for procuring smaller scale authentic integration candidate scenarios. We denote the output of the former method \textit{merge examples} and the output of the latter method \textit{integration scenarios}. The merge examples are used for understanding the context and execution of the variant-integrating merge. They can also be replayed for validation, since they represent the ground truth outcome of the two merge parents. As such, the merge examples serve as an important validation tool. However, since the merge examples are extracted from a three-way merging tool, they are disadvantageous for replaying in \tooln, since three-way information is not available in that environment. To this end, we use the integration scenarios, which are free from three-way contamination, but are instead taken out of their context and are scaled down. They are now described in detail.
+We choose \marlin~as our initial source of merge examples, because previous work has identified important concepts in the \marlin~ecosystem that we build upon, and because of access to the authors of \cite{stanciulescu2015}, \cite{stanciulescu2016concepts}. Two methods for collecting data from open-source ecosystems have been used: one for gathering a ground truth for how variant integration is achieved through merging, and one for procuring smaller scale authentic integration candidate scenarios. We denote the output of the former method \textit{merge examples} and the output of the latter method \textit{integration scenarios}. The merge examples are used for understanding the context and execution of the variant-integrating merge. They can also be replayed for validation, since they represent the ground truth outcome of the two merge parents. As such, the merge examples serve as an important validation tool. However, since the merge examples are extracted from a three-way merging tool, they are disadvantageous for replaying in \tooln, since three-way information is not available in that environment. To this end, we use the integration scenarios, which are free from three-way contamination, but are instead taken out of their context and are scaled down. They are now described in detail.
 
 \subsection{Collecting Ground Truth Merge Examples}
 To identify and validate the integration intentions we analyze variant-related merges and extract common patterns. We begin by retrieving all merges and discard those that merged without conflicts. Merge instances with conflicts signify a syntactic conflict which is an indicator of potential feature integration. In order to investigate further, for each of these merges, we save the state of the entire source tree at the following revisions:  
@@ -47,17 +47,17 @@ a) all conflicts occurred in non-source-code artifacts, b) at least one artifact
 Since the merge examples discussed in the previous section would be replayed without three-way information, and are potentially very large, it is desirable to have a neutral and concentrated basis for task creation, referred to as \textit{integration scenarios}. The contents of integration scenarios are based on variant integration examples from the ecosystem (mainline and forks), with the diff chunks consolidated so that there is not an abundance of code with no changes. Additionally, changes may originate from several different source files, and can have syntax and semantics changed. The structure of the source chunks, and the conflict resolution ground truth is left intact. Since these scenarios are to be used in experiments, the goal is that the result should encompass ca. 50 LOC, as to minimize navigation overhead in the file for the experiment participants.
 
 \section{Completeness Evaluation}
-To verify the completeness of the intentions language, we replay all the identified integration commits, and apply intentions to resolve them. The criterion for a successful replay is that the result of the created intention-based resolution is semantically identical (with respect to the C preprocessor) to the ground truth merge resolution. As input to the completeness evaluation, we use the variability-related merge examples from Marlin, which are guaranteed to have well-formed syntax.
+To verify the completeness of the intentions language, we replay all the identified integration commits, and apply intentions to resolve them. The criterion for a successful replay is that the result of the created intention-based resolution is semantically identical (with respect to the C preprocessor) to the ground truth merge resolution. As input to the completeness evaluation, we use the variability-related merge examples from \marlin, which are guaranteed to have well-formed syntax. \change{The completeness evaluation is limited to examples from \marlin, but achieves generality because of the sampling across source-files and forks. This theoretical sampling of merges is employed, as it is impossible to ensure that the evaluated set is representative of the set of all variant integrating merges.}
 The objective is to answer the first research question:
 \begin{enumerate}[label={Q\arabic*}]
     \setcounter{enumi}{0}
     \item \RQA
 \end{enumerate}
 
-\section{Internal Evaluation}
-For the proof-of-concept internal evaluation using the three tool developers, we use code from Marlin. There are two types of tasks: to replay \textit{merge examples}, and to integrate actual forks with the mainline. The characteristics of these tasks are shown in Table \ref{tab:internalchar}, where Blocks denotes the number of changed chunks according to \texttt{diff}. The merge tasks are chosen from the set of merge examples in Marlin, and the forks are chosen based on the findings of St\u{a}nciulescu et al. \cite{stanciulescu2015}. It does not matter whether they are still actively maintained or not, because we set the task at the \head of the fork, and then compare with the latest common ancestor commit \texttt{\#ancestor} between fork and mainline, and devise a resolution strategy for the task.
+\section{Internal Evaluation} \label{m:internal}
+\change{As a prestudy for the controlled experiment, we perform an internal evaluation with the three tool developers, exploring how tooling and tasks should be set up for the experiment.} There are two types of tasks: to replay \textit{merge examples}, and to integrate actual forks with the mainline. The characteristics of these tasks are shown in Table \ref{tab:internalchar}. \change{All metrics relate to the inlined model of the programs \cite{lillack2017intentions} (cf. Figure \ref{fig:incline-ast}). \textit{Integrated LOC} signifies the LOC of the source code with inlined variants. \textit{Chunks} is the number of variation blocks from the variants. \textit{Variable LOC} (VLOC) is LOC count of lines under a presence condition containing the literal \texttt{FORK} -- i.e. the LOC count inside the chunks in the inlined model -- in particular, these are the lines that must be manipulated by the participants.} The merge tasks are chosen from the set of merge examples in \marlin, and the forks are chosen based on the findings of St\u{a}nciulescu et al. \cite{stanciulescu2015}. It does not matter whether they are still actively maintained or not, because we set the task at the \head of the fork, and then compare with the latest common ancestor commit \texttt{\#ancestor} between fork and mainline, and devise a resolution strategy for the task.
 
-Each developer performs 3-4 tasks, at least one of each kind. The integration task is performed once in the unstructured two-way merge tool of Eclipse CDT and once \tooln. The number of edit operations required per task in each editor is saved for analysis, as is the resulting output file. Each task consists of a number of input files from the two variants being integrated, together with a textual description of what the integration goal is. The output files are checked for syntax errors and defects introduced.
+Each developer performs 3-4 tasks, at least one of each kind. Each task consists of a number of input files from the two variants being integrated, together with a textual description of what the integration goal is. The integration task is performed once in the unstructured two-way merge tool of Eclipse CDT and once in \tooln. The number of edit operations required per task in each editor is saved for analysis, as is the resulting output file. \change{In \tooln, the edit operations are counted once for applying an intention, and for undoing an intention, regardless of the number of nodes selected. In Eclipse, the edit operations are counted once per completed action of insertion, cloning, deletion, and undoing (cf. Berger et al. \cite{berger2016mps}). The output files are compared to the ground truth, and checked for defects introduced. Syntactic differences are allowed, so long as the content is similar semantically with respect to the C preprocessor.}
 
 \begin{table}[ht]
     \centering
@@ -65,20 +65,20 @@ Each developer performs 3-4 tasks, at least one of each kind. The integration ta
     \label{tab:internalchar}
     \begin{tabular}{lll|lll}
 \hline\hline
-\textbf{Name} & \textbf{Type} & \textbf{Files} & \textbf{$\pm$ Blocks} & \textbf{$\pm$ \texttt{\#ifdef}s} & \textbf{$\pm$ Lines} \\
+\textbf{Name} & \textbf{Type} & \textbf{Files} & \textbf{Integ. LOC} & \textbf{\#chunks} & \textbf{VLOC} \\
 %Name & Type & Files& $\pm$ Blocks & $\pm$ \texttt{\#ifdef}s & $\pm$ Lines\\
 \hline
-08856d9      & Merge     & 1 & 17    & 4     & 263   \\
-17de96a      & Merge     & 1 & 34    & 18    & 256   \\
-2daa859      & Merge     & 2 & 141 & 79      & 889   \\
-3116271      & Merge     & 1 & 6     & 0     & 51    \\
-373f3ec      & Merge     & 1 & 108 & 60      & 718   \\
-46f80e8      & Merge     & 1 & 2     & 0     & 4     \\
-47c1ea7      & Merge     & 1 & 188   & 195   & 2,343 \\
+08856d9      & Merge     & 1 & 1029 & 16  & 312   \\
+17de96a      & Merge     & 1 & 929  & 33  & 392  \\
+2daa859      & Merge     & 2 & 4019 & 152 & 1107   \\
+3116271      & Merge     & 1 & 146  & 6   & 51    \\
+373f3ec      & Merge     & 1 & 2663 & 106 & 749   \\
+46f80e8      & Merge     & 1 & 130  & 2   & 2    \\
+47c1ea7      & Merge     & 1 & 3400 & 242 & 2391 \\
 \hline
-esenapaj     & Fork         & 3 & 98    & 118   & 734   \\
-jcrocholl    & Fork         & 1 & 39    & 27    & 290   \\
-STM32        & Fork         & 3 & 153   & 26    & 423   \\
+esenapaj     & Fork         & 3 & 14909 & 196   & 754   \\
+jcrocholl    & Fork         & 1 & 4803  & 40    & 364   \\
+STM32        & Fork         & 3 & 7670  & 159   & 966   \\
 \hline\hline
     \end{tabular}
 \end{table}
@@ -92,7 +92,7 @@ This sections describes the experimental design and setup, together with the \te
 \newcommand{\HC}{Integration in \tooln~does not lead to more defects than in Eclipse CDT}
 
 \subsection{Objective}
-To establish the beneficence of an intention-based integration strategy in general, and INCLINE in particular over two-way merging in Eclipse CDT, we evaluate the tool using subject programs from other sources than Marlin, since Marlin was used to elicit the set of intentions. The purpose of the controlled experiment is to answer the following two research questions. Additionally, we formulate hypotheses related to Q2:
+To establish the beneficence of an intention-based integration strategy in general, and INCLINE in particular over two-way merging in Eclipse CDT, we evaluate the tool using subject programs from other sources than \marlin, since \marlin~was used to elicit the set of intentions. The purpose of the controlled experiment is to answer the following two research questions. Additionally, we formulate hypotheses related to Q2:
 
 \begin{enumerate}[label={Q\arabic*}]
     \setcounter{enumi}{1}
@@ -114,7 +114,7 @@ In order to study the beneficence of intention-based integration, we let each pa
 \textbf{Participants.}
 The experiment is performed with $N=16$ participants: 15 graduate students, and one Ph.D. student. All participants had programming experience, and more than half had more than one year of industrial experience. Regarding integration, all participants were familiar with the Git version control system, and were familiar with ordinary software merging.
 
-\textbf{Programs.} Using the process for collecting authentic variant \textit{integration scenarios}, we prepare two sample programs to be used in the experiment: \po, based on \busybox, and \pt, based on \vim. These two programs are created as condensed versions of the changeset of a particular fork variant, for brevity and comprehension during the experiment. This should be understood as selecting the most suited changes across the files, and placing them in a single file, in order to not waste valuable time for the participants on long blocks without any changes, as to keep the programs brief. Table \ref{method:charac} lists the characteristics of the subject programs. All metrics relate to the inlined model of the programs \cite{lillack2017intentions} (cf. Figure \ref{fig:incline-ast}). \textit{Integrated LOC} signifies the LOC of the source code with inlined variants. \textit{Chunks} is the number of selected variation points from the full changeset to be in the program. \textit{Variable LOC} (VLOC) is LOC count of lines under a presence condition containing the literal \texttt{FORK} -- i.e. the LOC count in variant branches in the inlined model -- in particular, these are the lines that must be manipulated by the participants.
+\textbf{Programs.} Using the process for collecting authentic variant \textit{integration scenarios}, we prepare two sample programs to be used in the experiment: \po, based on \busybox, and \pt, based on \vim. These two programs are created as condensed versions of the changeset of a particular fork variant, for brevity and comprehension during the experiment. This should be understood as selecting the most suited changes across the files, and placing them in a single file, in order to not waste valuable time for the participants on long blocks without any changes, as to keep the programs brief. Table \ref{method:charac} lists the characteristics of the subject programs, \change{using the same metrics as in the prestudy described in Section \ref{m:internal}. \textit{Integrated LOC} is the line count after the variants have been inlined, \textit{Chunks} is the number of variability blocks, and \textit{Variable LOC (VLOC)} is the LOC count within the chunks.}
 
 We choose \busybox~ and \vim~ as representative subjects because they are highly-configurable open source systems, and have been subjects in previous studies \cite{berger2013study}, \cite{liebig2010preprocessor}, \cite{liebig2011discipline}, \cite{hunsen2016}.
 
@@ -126,8 +126,8 @@ We choose \busybox~ and \vim~ as representative subjects because they are highly
     \hline
     \hline
         \textbf{Prg} & \textbf{Origin} & \textbf{Integ. LOC} & \textbf{\#chunks} & \textbf{VLOC}\\\hline
-        \po & \busybox  & 73 & 8 & 36\\\hline
-        \pt & \vim      & 49 & 5 & 29\\
+        \po & \busybox  & 74 & 8 & 37\\\hline
+        \pt & \vim      & 50 & 5 & 32\\
         \hline
         \hline
     \end{tabular}
@@ -162,7 +162,7 @@ Since developers are assigned at random, no further permutation of the treatment
 
 Before the participants are given their tasks, we present a simple tutorial on integration and variability, and demonstrate how to solve a sample task in each editor. All of tutorials were prerecorded to ensure that all participants receive the same introduction, regardless of which session they attend. Before solving the \tooln~task, the participants are given a warmup task to understand navigation in a projectional editor, and the application of intentions inside the editor. A cheat sheet with examples of intentions is also provided. An instance of a task sheet is shown in Appendix \ref{a:sources}.
 
-During the tasks, the screens of the participants are recorded, which allows measurement of the task completion time. Both treatment tools are instrumented to output logs with information about keystrokes and menu usage, thereby measuring the required edit operations. Last, the resulting integrated source files created by the participants are collected, to measure the number of defects.
+During the tasks, the screens of the participants are recorded, which allows measurement of the task completion time. \change{Using the same measurements as in the prestudy, described in Section \ref{m:internal},} both treatment tools are instrumented to output logs with information about keystrokes and menu usage, thereby measuring the required edit operations. Last, the resulting integrated source files created by the participants are collected, to measure the number of defects.
 
 After the experiment, participants fill in a questionnaire with closed and open questions about their perceptions of \tooln~and intention-based integration compared to two-way unstructured integration in Eclipse CDT. The qualitative answers are categorized using open coding \cite{strauss}. The questions are listed in Appendix \ref{a:questionnaires}.
 

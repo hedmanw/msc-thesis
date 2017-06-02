@@ -34,13 +34,13 @@ Orthogonal to variability through clones stands integrated variability. By centr
 
 There is a tradeoff between time effort and maintainability with respect to the two variability strategies. Clone-and-own has low initial costs, but does not scale due to the inherent impact on the maintainability of a large number of clones, since each new variant requires a new clone \cite{antkiewicz2014flexible}. An integrated platform, on the other hand, requires significant up-front commitment and investment into architecture and infrastructure enabling systematic reuse \cite{antkiewicz2014flexible}.
 
-In the context of software ecosystems, a common manifestation of variants is forks, which are repository-scale clones of an original codebase, called the \textit{mainline}. For forked variants, the variability lies in an array of repository clones with minor changes in them, altering the desired behavior. Using pull requests, the features within forks can be propagated across the ecosystem, integrated or adapted by others or become part of the mainline \cite{stanciulescu2015}, using a pull-based development model \cite{gousios2014pullreq}. The open-source 3D-printer firmware project Marlin uses both forks (clone-and-own) and integrated variability (features using \texttt{\#ifdef}s) in parallel \cite{stanciulescu2015}, meaning that it can be used to study features originating in forks (cloned variants), being integrated into the mainline with variability.
+In the context of software ecosystems, a common manifestation of variants is forks, which are repository-scale clones of an original codebase, called the \textit{mainline}. For forked variants, the variability lies in an array of repository clones with minor changes in them, altering the desired behavior. Using pull requests, the features within forks can be propagated across the ecosystem, integrated or adapted by others or become part of the mainline \cite{stanciulescu2015}, using a pull-based development model \cite{gousios2014pullreq}. The open-source 3D-printer firmware project \marlin~uses both forks (clone-and-own) and integrated variability (features using \texttt{\#ifdef}s) in parallel \cite{stanciulescu2015}, meaning that it can be used to study features originating in forks (cloned variants), being integrated into the mainline with variability.
 
 \subsection{Platform Re-engineering}
 A recent mapping study on the topic of re-engineering legacy applications into SPLs by Assun{\c{c}}{\~a}o et al. identifies 119 publications in the field \cite{assuncao2017mapping}. Most of these focus on variant detection and analysis to facilitate feature identification and feature location within systems, which is a prerequisite for moving from clone-and-own to an integrated platform. Antkiewicz et al. \cite{antkiewicz2014flexible} propose a strategy for migration from clone-and-own with low-risk, step-by-step adaption of an integrated platform through what they call \textit{virtual platform}. 
 
 Using the terminology of Buckley et al. \cite{buckley2005}, cloned variants represent divergent changes being developed asynchronously in parallel \cite{mens2002}, \cite{stanciulescu2015}. Integrating forked variants back into an integrated mainline platform (analogue to migrating from clone-and-own to integrated platform) has the advantages of increased maintainability; features and bug-fixes being consolidated; and reducing unintentional code duplications \cite{schmorleiz2016similarity}, \cite{stanciulescu2015}. Since forks are inherently decentralized with respect to both organization and actual code base, knowledge and effort can be lost if they are not circulated back into the ecosystem \cite{stanciulescu2015}, \cite{gousios2015}.
-Currently, the process of integrating variants is based on manual unstructured merging, relying fully on the developer to create a semantically correct merge \cite{mens2002}, \cite{apel2011}. An open-source proxy for this is merging forks back into the mainline. In order to resolve an integration, the ambitions of the involved code must be interpreted and leveraged. Since the ambition is not always explicit, there is significant mental overhead involved in the activity.
+Currently, the process of integrating variants is based on manual unstructured merging, relying fully on the developer to create a semantically correct merge \cite{mens2002}, \cite{apel2011}. An open-source proxy for this is merging forks back into the mainline \change{in a pull-based development model \cite{gousios2014pullreq}, since the pull requests come from large scale-clones with small-scale changes.}
 
 %Schmorleiz and Lämmel \cite{schmorleiz2016similarity} realize a naïve virtual platform by introducing a tool that analyzes and annotates changes across cloned-and-owned variants. As a way to manage similarity, code fragments are annotated with invariants that propagate to across fragment clones in all variants. Adherence to the invariants is either performed manually or automatically by their tool. Santos and Kulesza \cite{santos} investigate conflicts that arise from integration of evolved clones. In their study of a web-based Java system, the most prominent conflict type is indirect -- changes in the source system are in the call graph of other changes in the target system -- which they find is in line with the motivation for semistructured merging \cite{apel2011}.
 
@@ -62,9 +62,11 @@ Currently, the process of integrating variants is based on manual unstructured m
 %\end{table}
 
 \section{Projectional Editing}
-A traditional (parser-based) editor operates on a text buffer, that is eventually parsed by a compiler, given that it contains well-formed syntax. A projectional editor, on the other hand, operates directly on an abstract syntax tree (AST), meaning that it does not have to be parsed \cite{voelter2014towards}. The benefit is that only legal tokens can be entered into a projectional editor -- it is impossible to achieve syntax errors, but the disadvantage is that navigation and manipulation of the AST structure can be unintuitive. 
+\change{Projectional editors differ from traditional parser-based editors in what is edited, and how.} A traditional editor operates on a text buffer, that is eventually parsed by a compiler, given that it contains well-formed syntax. A projectional editor, on the other hand, operates directly on an abstract syntax tree (AST), meaning that it does not have to be parsed \cite{voelter2014towards}. The benefit is that only legal tokens can be entered into a projectional editor -- it is impossible to achieve syntax errors, but the disadvantage is that navigation and manipulation of the AST structure can be unintuitive.
 
-The usability of projectional editors has long been questioned. Berger et al. \cite{berger2016mps} have previously conducted a controlled experiment using students and industrial developers, to determine their editing efficiency in the projectional editor Jetbrains MPS, compared to a traditional parser-based editor. The participants are given four simple programming tasks to complete by editing a provided program, transforming it into a solution. They find that with training, projectional text editing is more efficient than parser-based text editing.
+\change{When editing variational software, comprehension can be increased by viewing the source code of a subset of features, and filter out the source code of other features \cite{stanciulescu2016concepts}. In source code with annotated features (e.g., C preprocessor), issues with alignment arise because the hidden code still impacts the indentation hierarchy \cite{behringer2017peopl}. In a projectional editor, the rows can be placed with correct alignment, because there, the indentation is semantic rather than syntactic.}
+
+However, the usability of projectional editors has long been questioned. Berger et al. \cite{berger2016mps} have previously conducted a controlled experiment using students and industrial developers, to determine their editing efficiency in the projectional editor Jetbrains MPS, compared to a traditional parser-based editor. The participants are given four simple programming tasks to complete by editing a provided program, transforming it into a solution. They find that with training, projectional text editing is in fact more efficient than parser-based text editing.
 
 %St\u{a}nciulescu et al. \cite{stanciulescu2016concepts} demonstrate the benefit of a projection-based variation control system to alleviate the complexities of maintaining and evolving code with preprocessor annotations.
 
@@ -75,9 +77,9 @@ Today, a developer performing a feature-related merge in a revision control syst
 
 We propose to address the mismatch of abstraction levels by introducing a domain specific language (DSL) capturing the semantics of the feature integration. In particular, the language describes the outcome that the developer wants to achieve. Examples include ``keep this functionality'' or ``remove this functionality''. We subsequently refer to these concepts simply as the \textit{intentions} of the developer. Each intention carries a mapping to actual operations that are performed on the source code. The semantics of the intentions language ensures the integrity of the underlying code upon which operations are applied to. This intentions language is the basis for creating a tool to aid the integration process structurally \cite{mens2002}, \cite{apel2011}. With proper tool support, the integration process can become more efficient from time consumption, risk, and quality perspectives. Indeed, tool support has shown to reduce variability errors in previous studies \cite{ribeiro2014emergent}.
 
-The intentions and their underlying transformations can be described using choice calculus, a formal notation for variational software, independent of programming language \cite{erwig2011choice}, \cite{walkingshaw2012choice}. In the implementation, this can be realized as conditional compilation (C preprocessor) or design patterns (object-oriented languages). Intentions could also be mapped to the source-code operations identified by Stanciulescu et al. in \cite{stanciulescu2016concepts}.
+The intentions and their underlying transformations can be described using choice calculus, a formal notation for variational software, independent of programming language \cite{erwig2011choice}, \cite{walkingshaw2012choice}. In the implementation, this can be realized as conditional compilation (C preprocessor) or \todo{design patterns} design patterns (object-oriented languages). Intentions could also be mapped to the source-code operations identified by Stanciulescu et al. in \cite{stanciulescu2016concepts}.
 
-Gousios et al. point out that an important improvement for the merging process is tool support in terms of work prioritization and estimated time for merging \cite{gousios2015}. Tool support for proper variant-aware integration is also a prerequisite for the capability of migrating clone-and-own to an integrated platform through the virtual platform \cite{antkiewicz2014flexible}.
+Gousios et al. point out that an important improvement for the merging process is tool support in terms of work prioritization and estimated time for merging \cite{gousios2015}. Tool support for proper variant-aware integration is also a prerequisite for the capability of migrating cloned product lines to an integrated platform through the virtual platform approach \cite{antkiewicz2014flexible}.
 
 The work on the intentions language and the prototype tool \tooln, built on top of Jetbrains MPS, has been carried out jointly between Max Lillack, Ștefan St\u{a}nciulescu, Wilhelm Hedman, Thorsten Berger, and Andrzej W\k{a}sowski, and is described in \cite{lillack2017intentions}. The intentions language is designed as a DSL for variant integration, the key concept of which is intentions. Intentions are inplace transformations on a variational AST. The complete formal definition of the intentions language is given in \cite{lillack2017intentions}. A recapitulation with visual examples of the intentions and the effect of their associated AST transformation is given in Appendix \ref{a:intentions}. In \tooln, the two variants being integrated are inlined into a single variational AST, with the differences between them wrapped in the presence condition \texttt{FORK}. An example is shown in Figure \ref{fig:incline-ast}. Subsequently, this inlined notation is used.
 
@@ -96,7 +98,7 @@ Variant: Mainline
   #if !\colorbox{bluecolor}{PIN\_EXISTS(SD\_DETECT)}!
     !\colorbox{bluecolor}{uint8\_t lcd\_sd\_status;}!
   #endif
-#endif!\colorbox{bluecolor}{ // ULTIPANEL}!
+#endif
 
 menu_t cM = lcd_status_scrn;
 !\colorbox{bluecolor}{bool ignore\_click = false;}!
@@ -107,12 +109,12 @@ menu_t cM = lcd_status_scrn;
 Variant: Fork
 #ifdef ULTIPANEL
  uint8_t lastEncoderBits;
-!\colorbox{bluecolor}{ int8\_t encoderDiff;}!
+ !\colorbox{bluecolor}{int8\_t encoderDiff;}!
  uint32_t encoderPosition;
  #if !\colorbox{bluecolor}{(SDCARDDETECT > 0)}!
-!\colorbox{bluecolor}{  bool lcd\_oldcardstatus;}!
+  !\colorbox{bluecolor}{bool lcd\_oldcardstatus;}!
  #endif
-#endif!\colorbox{bluecolor}{//ULTIPANEL}!
+#endif
 
 menu_t cM = lcd_status_scrn;
 \end{lstlisting}

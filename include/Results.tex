@@ -1,12 +1,12 @@
 \chapter{A Dataset of Integration Examples}
-This chapter reports on the data collection from Marlin, demonstrates replayed integrations using intentions, and reports the completeness of the intentions language.
+This chapter reports on the data collection from \marlin, demonstrates replayed integrations using intentions, and reports the completeness of the intentions language.
 
 \section{Variability-related Merges from Marlin}\label{data-coll-res}
-In Marlin, we retrieve all 2065 merges, and extract those that were merged with conflicts, yielding 49 merges. We discard 2 merges that had conflicts only in non-source-code files (documentation), 2 that conflicted due to whitespace changes, 3 that conflicted due to configuration changes\footnote{While configuration management is indeed an important part of FOSD, in these cases, the developers have mistakenly committed their personal 3D-printer configurations into a configuration template file while committing other relevant changes, cf. Stanciulescu et al. \cite{stanciulescu2015}.}. Another 3 merges are discarded because some related artifact had syntax errors and could not be compiled. Additionally, 4 merges are discarded because they simply accept the mainline changes as evolution, i.e. empty changeset, and are therefore uninteresting. This is summarized in Table \ref{tab:marlinmerge}. The remaining 35 merge commits are used for subsequent analysis of integration scenarios and a subset are used for replaying in our internal tool evaluation.
+In \marlin, we retrieve all 2065 merges, and extract those that were merged with conflicts, yielding 49 merges. We discard 2 merges that had conflicts only in non-source-code files (documentation), 2 that conflicted due to whitespace changes, 3 that conflicted due to configuration changes\footnote{While configuration management is indeed an important part of FOSD, in these cases, the developers have mistakenly committed their personal 3D-printer configurations into a configuration template file while committing other relevant changes, cf. Stanciulescu et al. \cite{stanciulescu2015}.}. Another 3 merges are discarded because some related artifact had syntax errors and could not be compiled. Additionally, 4 merges are discarded because they simply accept the mainline changes as evolution, i.e. empty changeset, and are therefore uninteresting. This is summarized in Table \ref{tab:marlinmerge}. The remaining 35 merge commits are used for subsequent analysis of integration scenarios and a subset are used for replaying in our internal tool evaluation.
 
 \begin{table}[h]
     \centering
-    \caption{Marlin merge commit statistics}
+    \caption{\marlin~merge commit statistics}
     \label{tab:marlinmerge}
     \begin{tabular}{l r}
     \hline\hline
@@ -25,9 +25,9 @@ In Marlin, we retrieve all 2065 merges, and extract those that were merged with 
 \end{table}
 
 \section{Replaying Merges with Intentions}
-This section demonstrates the replaying of selected chunks from Marlin. We present examples of differences from both evolution and features being reconciled. Refer to Appendix \ref{a:intentions} for the recapitulation on the intentions DSL.
+This section demonstrates the replaying of selected chunks from \marlin. We present examples of differences from both evolution and features being reconciled. Refer to Appendix \ref{a:intentions} for the recapitulation on the intentions DSL.
 
-Figure \ref{fig:ex-keep} shows how a change from the mainline is accepted as evolution. Figure \ref{fig:ex-remove} shows how a change from the mainline is discarded as evolution. The snippet in Figure \ref{fig:keep-as-feature} accepts a change from the fork as a feature. In Figure \ref{fig:change-pc}, two mutually exclusive changes from the mainline and fork are integrated as a feature. Last, we show the composition of intentions in \ref{fig:keep-remove}.
+Figure \ref{fig:ex-keep} shows how a change from the mainline is accepted as evolution. Figure \ref{fig:ex-remove} shows how a change from the mainline is discarded as evolution. The snippet in Figure \ref{fig:keep-as-feature} accepts a change from the fork as a feature. In Figure \ref{fig:change-pc}, two mutually exclusive changes from the mainline and fork are integrated as a feature. Last, we show the composition of intentions in Figure \ref{fig:keep-remove}.
 
 \begin{figure}[ht]
     \centering
@@ -162,7 +162,7 @@ SERIAL_ECHOLN(MSG_PID_AUTOTUNE_START);
 \end{figure}
 
 \section{RQ1: \RQA}
-The intentions language can be used to replay all 35 variability-related merges in the Marlin mainline. From these, certain chunks were listed above to illustrate the use of intentions in real scenarios.
+The intentions language can be used to replay all 35 variability-related merges in the \marlin~mainline. From these, certain chunks were listed above to illustrate the use of intentions in real scenarios. 
 
 \rqans{\textbf{RQ1.} The proposed set of intentions indeed suffice for variant integration.}
 

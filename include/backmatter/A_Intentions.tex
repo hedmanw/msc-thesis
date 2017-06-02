@@ -10,7 +10,7 @@ Adapted from the examples in \cite{lillack2017intentions}. The left hand side of
 !\colorbox{shadecolor}{ int servo\_e2[] = SEA}!
 #else
  int16_t servo_e1 = SE
- int16_t servo_e2[] = SEA
+ int16_t servo_e2 = SEA
 #endif
 \end{lstlisting}
 \end{minipage}\qquad
@@ -37,7 +37,7 @@ int servo_e2[] = SEA
 !\colorbox{shadecolor}{ int servo\_e2[] = SEA}!
 #else
  int16_t servo_e1 = SE
- int16_t servo_e2[] = SEA
+ int16_t servo_e2 = SEA
 #endif
 \end{lstlisting}
 \end{minipage}\qquad
@@ -72,7 +72,7 @@ int servo_e2[] = SEA
  int servo_e2[] = SEA
 \end{lstlisting}
     \end{minipage}
-    \caption{\colorbox{shadecolor}{\keep}~intention with \textit{implicit} \colorbox{implcolor}{\remove}~intention (left) and result (right).}
+    \caption{\colorbox{shadecolor}{\keep}~intention with \textit{implicit} \colorbox{implcolor}{\remove}~intention (left) and result (right). Applying both intentions at once is user interface sugar offered in INCLINE, and is not a part of the original intentions DSL.}
     \label{fig:keep-impl}
 \end{figure}
 
@@ -95,7 +95,7 @@ int servo_e2[] = SEA
  int servo_e2[] = SEA
 \end{lstlisting}
     \end{minipage}
-    \caption{\colorbox{shadecolor}{\remove}~intention with \textit{implicit} \colorbox{implcolor}{\keep}~intention (left) and result (right).}
+    \caption{\colorbox{shadecolor}{\remove}~intention with \textit{implicit} \colorbox{implcolor}{\keep}~intention (left) and result (right). Applying both intentions at once is user interface sugar offered in INCLINE, and is not a part of the original intentions DSL.}
     \label{fig:remove-impl}
 \end{figure}
 

@@ -6,8 +6,11 @@
 			left=2.25 cm, right=2.25cm}	% Temporarily change margins		
 			
 % Cover page background 
-\AddToShipoutPicture*{\backgroundpic{-4}{56.7}{figure/auxiliary/frontpage_eng.pdf}}
-\addtolength{\voffset}{2cm}
+%\AddToShipoutPicture*{\backgroundpic{-4}{56.7}{figure/auxiliary/frontpage_gu_eng.pdf}}
+%\addtolength{\voffset}{2cm}
+\vspace*{-2cm}
+\noindent\makebox[\textwidth]{\includegraphics[width=0.78\paperwidth]{figure/auxiliary/Cha_GU_black_eng.pdf}}
+\noindent\makebox[\linewidth][l]{\rule{16.5cm}{0.1pt}}
 
 % Cover picture (replace with your own or delete)		
 \begin{figure}[H]
@@ -22,13 +25,15 @@
 \renewcommand{\familydefault}{\sfdefault} \normalfont % Set cover page font
 \textbf{{\Huge 	\toptitle 	\\[0.2cm] 
 				\bottomtitle}} 	\\[0.5cm]
-{\Large \subt}\\[0.5cm]
+%{\Large \subt}\\[0.5cm]
 Master's thesis in Information Technology\setlength{\parskip}{1cm}
 
 {\Large WILHELM HEDMAN} \setlength{\parskip}{2.9cm}
 
+\noindent\makebox[\linewidth][l]{\rule{16.5cm}{0.1pt}}
 Department of Computer Science and Engineering \\
-\textsc{Chalmers University of Technology and University of Gothenburg} \\
+\textsc{Chalmers University of Technology} \\
+\textsc{University of Gothenburg} \\
 Gothenburg, Sweden 2017
 
 \renewcommand{\familydefault}{\rmdefault} \normalfont % Reset standard font
@@ -46,9 +51,10 @@ Gothenburg, Sweden 2017
 \newpage
 \thispagestyle{empty}
 \begin{center}
-	\textsc{\large Master's thesis 2017:NN}\\[4cm]		% Report number given by department 
+%	\textsc{\large Master's thesis 2017:NN}\\[4cm]		% Report number given by department 
+\vspace*{4.5cm}
 	\textbf{\Large \toptitle\\ \bottomtitle} \\[1cm]
-	{\large \subt}\\[1cm]
+%	{\large \subt}\\[1cm]
 	{\large WILHELM HEDMAN}
 	
 	\vfill	
@@ -56,12 +62,13 @@ Gothenburg, Sweden 2017
 	\begin{figure}[H]
 	\centering
 	% Remove the following line to remove the titlepage logotype
-	\includegraphics[width=0.2\pdfpagewidth]{figure/auxiliary/logo_eng.pdf} \\	
+	\includegraphics[width=0.4\pdfpagewidth]{figure/auxiliary/logo_ch_gu.pdf}
+	%\includegraphics[width=0.2\pdfpagewidth]{figure/auxiliary/logo_eng.pdf} \\	
 	\end{figure}	\vspace{5mm}	
 	
 	Department of Computer Science and Engineering \\
-	\emph{Software Engineering Division}\\
-	\textsc{Chalmers University of Technology and University of Gothenburg} \\
+	\textsc{Chalmers University of Technology} \\
+	\textsc{University of Gothenburg} \\
 	Gothenburg, Sweden 2017 \\
 \end{center}
 
@@ -79,10 +86,9 @@ WILHELM HEDMAN \setlength{\parskip}{1cm}
 Supervisor: Thorsten Berger, Dept. of Computer Science and Engineering\\
 Examiner: Jan-Philipp Steghöfer, Dept. of Computer Science and Engineering \setlength{\parskip}{1cm}
 
-Master's Thesis 2017:NN\\	% Report number given by department 
 Department of Computer Science and Engineering\\
-Software Engineering Division\\
-Chalmers University of Technology and University of Gothenburg\\
+Chalmers University of Technology\\
+University of Gothenburg\\
 SE-412 96 Gothenburg\\
 Telephone +46 31 772 1000 \setlength{\parskip}{0.5cm}
 
@@ -91,6 +97,5 @@ Telephone +46 31 772 1000 \setlength{\parskip}{0.5cm}
 %Cover: Wind visualization constructed in Matlab showing a surface of constant wind speed along with streamlines of the flow. \setlength{\parskip}{0.5cm}
 
 
-Printed by [Name of printing company]\\
 Gothenburg, Sweden 2017
 
